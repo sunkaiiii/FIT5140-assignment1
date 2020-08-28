@@ -7,15 +7,25 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B100769624F8C9A3002C4ACC /* NetworkRequestTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100769524F8C9A3002C4ACC /* NetworkRequestTask.swift */; };
+		B100769824F8CA17002C4ACC /* RequestHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100769724F8CA17002C4ACC /* RequestHelper.swift */; };
+		B100769B24F8D3BE002C4ACC /* Plant.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100769A24F8D3BE002C4ACC /* Plant.swift */; };
+		B100769D24F8D4D0002C4ACC /* NetworkExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100769C24F8D4D0002C4ACC /* NetworkExtension.swift */; };
 		B1892A1524F7ABD800B55215 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1892A1424F7ABD800B55215 /* AppDelegate.swift */; };
 		B1892A1724F7ABD800B55215 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1892A1624F7ABD800B55215 /* SceneDelegate.swift */; };
 		B1892A1924F7ABD800B55215 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1892A1824F7ABD800B55215 /* ViewController.swift */; };
 		B1892A1C24F7ABD800B55215 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B1892A1A24F7ABD800B55215 /* Main.storyboard */; };
 		B1892A1E24F7ABDB00B55215 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B1892A1D24F7ABDB00B55215 /* Assets.xcassets */; };
 		B1892A2124F7ABDB00B55215 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B1892A1F24F7ABDB00B55215 /* LaunchScreen.storyboard */; };
+		B1892A2B24F7ACDA00B55215 /* RestfulAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1892A2A24F7ACDA00B55215 /* RestfulAPI.swift */; };
+		B1892A2D24F7ACEF00B55215 /* RestfulRequestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1892A2C24F7ACEF00B55215 /* RestfulRequestModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B100769524F8C9A3002C4ACC /* NetworkRequestTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRequestTask.swift; sourceTree = "<group>"; };
+		B100769724F8CA17002C4ACC /* RequestHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestHelper.swift; sourceTree = "<group>"; };
+		B100769A24F8D3BE002C4ACC /* Plant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Plant.swift; sourceTree = "<group>"; };
+		B100769C24F8D4D0002C4ACC /* NetworkExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkExtension.swift; sourceTree = "<group>"; };
 		B1892A1124F7ABD800B55215 /* FIT5140-assignment1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "FIT5140-assignment1.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B1892A1424F7ABD800B55215 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B1892A1624F7ABD800B55215 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -24,6 +34,8 @@
 		B1892A1D24F7ABDB00B55215 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B1892A2024F7ABDB00B55215 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B1892A2224F7ABDB00B55215 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B1892A2A24F7ACDA00B55215 /* RestfulAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestfulAPI.swift; sourceTree = "<group>"; };
+		B1892A2C24F7ACEF00B55215 /* RestfulRequestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestfulRequestModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -37,6 +49,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B100769924F8D3B1002C4ACC /* RequestModel */ = {
+			isa = PBXGroup;
+			children = (
+				B100769A24F8D3BE002C4ACC /* Plant.swift */,
+			);
+			path = RequestModel;
+			sourceTree = "<group>";
+		};
 		B1892A0824F7ABD800B55215 = {
 			isa = PBXGroup;
 			children = (
@@ -56,6 +76,7 @@
 		B1892A1324F7ABD800B55215 /* FIT5140-assignment1 */ = {
 			isa = PBXGroup;
 			children = (
+				B1892A2824F7AC0200B55215 /* Network */,
 				B1892A1424F7ABD800B55215 /* AppDelegate.swift */,
 				B1892A1624F7ABD800B55215 /* SceneDelegate.swift */,
 				B1892A1824F7ABD800B55215 /* ViewController.swift */,
@@ -65,6 +86,27 @@
 				B1892A2224F7ABDB00B55215 /* Info.plist */,
 			);
 			path = "FIT5140-assignment1";
+			sourceTree = "<group>";
+		};
+		B1892A2824F7AC0200B55215 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				B100769924F8D3B1002C4ACC /* RequestModel */,
+				B1892A2924F7AC6E00B55215 /* Protocols */,
+				B100769524F8C9A3002C4ACC /* NetworkRequestTask.swift */,
+				B100769724F8CA17002C4ACC /* RequestHelper.swift */,
+				B100769C24F8D4D0002C4ACC /* NetworkExtension.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		B1892A2924F7AC6E00B55215 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				B1892A2C24F7ACEF00B55215 /* RestfulRequestModel.swift */,
+				B1892A2A24F7ACDA00B55215 /* RestfulAPI.swift */,
+			);
+			path = Protocols;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -140,7 +182,13 @@
 			files = (
 				B1892A1924F7ABD800B55215 /* ViewController.swift in Sources */,
 				B1892A1524F7ABD800B55215 /* AppDelegate.swift in Sources */,
+				B100769D24F8D4D0002C4ACC /* NetworkExtension.swift in Sources */,
+				B1892A2B24F7ACDA00B55215 /* RestfulAPI.swift in Sources */,
+				B100769624F8C9A3002C4ACC /* NetworkRequestTask.swift in Sources */,
+				B1892A2D24F7ACEF00B55215 /* RestfulRequestModel.swift in Sources */,
+				B100769B24F8D3BE002C4ACC /* Plant.swift in Sources */,
 				B1892A1724F7ABD800B55215 /* SceneDelegate.swift in Sources */,
+				B100769824F8CA17002C4ACC /* RequestHelper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

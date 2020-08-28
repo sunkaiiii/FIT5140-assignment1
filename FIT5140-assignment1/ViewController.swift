@@ -8,13 +8,26 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController,HTTPRequestAction {
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        requestRestfulService(api: PlantRequestAPI.getPlant, model: Plant())
     }
-
+    
+    func beforeExecution(helper: RequestHelper) {
+            
+    }
+    
+    func executionFailed(helper: RequestHelper, message: String, error: Error) {
+        
+    }
+    
+    func afterExecution(helper: RequestHelper, response: String) {
+        
+    }
+    
 
 }
 
