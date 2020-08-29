@@ -24,10 +24,30 @@ class ViewController: UIViewController,HTTPRequestAction {
         
     }
     
-    func afterExecution(helper: RequestHelper, response: String) {
-        
+    func afterExecution(helper: RequestHelper, response: Data) {
+        switch helper.restfulAPI {
+        case is PlantRequestAPI:
+            switch helper.restfulAPI as! PlantRequestAPI {
+            case .getPlant:
+                handlePlant(data: response)
+            default:
+                 return
+            }
+        default:
+           return
+        }
     }
     
+    private func handlePlant(data:Data){
+        do{
+            let values = try getJsonDecoder().decode(PlantList.self, from: data)
+            for plant in values.data{
+                print(plant.toString())
+            }
+        }catch let error{
+            print(error)
+        }
+    }
 
 }
 

@@ -115,5 +115,5 @@ protocol RequestModel {
 protocol HTTPRequestAction {
     func beforeExecution(helper:RequestHelper)
     func executionFailed(helper:RequestHelper, message:String, error:Error)
-    func afterExecution(helper:RequestHelper, response:String)
+    func afterExecution(helper:RequestHelper, response:Data)
 }

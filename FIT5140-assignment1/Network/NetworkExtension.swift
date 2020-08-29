@@ -13,3 +13,15 @@ extension HTTPRequestAction{
         NetworkRequestTask(helper: RequestHelper(api: api, model: model), action: self).fetchDataFromSever()
     }
 }
+
+
+extension NSObject{
+    func getJsonDecoder()->JSONDecoder{
+        let jsonDecoder = JSONDecoder()
+        jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-mm-dd"
+        jsonDecoder.dateDecodingStrategy = .formatted(dateFormatter)
+        return jsonDecoder
+    }
+}

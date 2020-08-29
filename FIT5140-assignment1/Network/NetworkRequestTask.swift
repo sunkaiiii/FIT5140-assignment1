@@ -18,47 +18,55 @@ class NetworkRequestTask: NSObject {
     }
     
     func fetchDataFromSever(){
-        let url = buildRequestUrl()
+        guard let url = buildRequestUrl() else{
+            return
+        }
         requestAction.beforeExecution(helper: requestHelper)
         
-        URLSession.shared.dataTask(with:url){(data:Data?, response:URLResponse?,error:Error?) in
-            if let error = error{
-                self.requestAction.executionFailed(helper: self.requestHelper, message: error.localizedDescription, error: error)
-            }
-            if let data = data {
-                print(data.base64EncodedString())
-            }
-        }.resume()
+        URLSession.shared.dataTask(with: url, result: {(result) in
+            switch result{
+                case .success(let (response,data)):
+                    guard let statusCode = (response as? HTTPURLResponse)?.statusCode, 200..<299 ~= statusCode else {
+//                        self.requestAction.executionFailed(helper: requestHelper, message: "InvalidResponse", error: )
+                        return
+                }
+                    self.requestAction.afterExecution(helper: self.requestHelper, response: data)
+                case .failure(let error):
+                    self.requestAction.executionFailed(helper: self.requestHelper, message: "Error happened", error: error)
+                default:
+                    return
+                }
+            }).resume()
+//        URLSession.shared.dataTask(with:url){(data:Data?, response:URLResponse?,error:Error?) in
+//            if let error = error{
+//                self.requestAction.executionFailed(helper: self.requestHelper, message: error.localizedDescription, error: error)
+//            }
+//            if let data = data {
+//                print(data.base64EncodedString())
+//            }
+//        }.resume()
     }
     
-    private func buildRequestUrl()->URL{
+    private func buildRequestUrl()->URL?{
         let model = requestHelper.requestModel
         let api = requestHelper.restfulAPI
-        let pathParameter = model.getPathParameter()
         let host = api.getRequestHost()
-        var url = ""
-        url += host.getScheme()+"://"
-        url += host.getHostUrl()
-        url += ":\(host.getPort())"
-        url += api.getRoute()
+        var urlComponents = URLComponents()
+        urlComponents.scheme = host.getScheme()
+        urlComponents.host = host.getHostUrl()
+        urlComponents.port = host.getPort()
+        urlComponents.path = api.getRoute()
+        let pathParameter = model.getPathParameter()
         for path in pathParameter{
-            url += "/"+path
+            urlComponents.path += "/"+path
         }
-        let queryParameter = model.getQueryParameter()
-        if queryParameter.count>0{
-            var i = 0
-            for query in queryParameter {
-                if i==0 {
-                    url += "?"
-                }else{
-                    url += "&"
-                }
-                url += query.key + "=" + query.value
-                i = i+1
-            }
+        var queryItems:[URLQueryItem] = []
+        for query in model.getQueryParameter(){
+            queryItems.append(URLQueryItem(name: query.key, value: query.value))
         }
-        print(url)
-        return URL(string: url)!
+        urlComponents.queryItems = queryItems
+        print(urlComponents.url?.absoluteString ?? "")
+        return urlComponents.url!
     }
 }
 
