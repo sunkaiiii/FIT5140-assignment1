@@ -1,0 +1,30 @@
+//
+//  LocationAnnotation.swift
+//  FIT5140-assignment1
+//
+//  Created by sunkai on 4/9/20.
+//  Copyright © 2020 sunkai. All rights reserved.
+//
+
+import UIKit
+import MapKit
+class ExhibitsLocationAnnotation: NSObject, MKAnnotation {
+    var coordinate:CLLocationCoordinate2D
+    var title:String?
+    var subtitle: String?
+    var desc:String
+    
+    init(title:String, desc:String, latitude:Double, longitude: Double){
+        self.title = title
+        self.desc = desc
+        self.coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+    }
+}
+
+class ExhibitPlant{
+    var plantName:String
+    
+    init(name:String) {
+        self.plantName = name
+    }
+}
