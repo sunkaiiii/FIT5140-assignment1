@@ -8,39 +8,80 @@
 
 import UIKit
 
-class AllExhibitionTableViewController: UITableViewController {
+class AllExhibitionTableViewController: UITableViewController,ExhibitionDatabaseListener,UISearchResultsUpdating {
 
+    private let EXHIBITION_LIST_CELL = "exhibitionListCell"
+    
+    weak var exhibiitonDatabaseController:ExhibitionDatabaseProtocol?
+    var allExhibition:[Exhibition] = []
+    var filteredExhibition:[Exhibition] = []
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        exhibiitonDatabaseController = appDelegate.databaseController
+        filteredExhibition = allExhibition
+        
+        let searchController = UISearchController(searchResultsController: nil)
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Search Exhibitions"
+        navigationItem.searchController = searchController
+        definesPresentationContext = true
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        exhibiitonDatabaseController?.addListener(listener: self)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        exhibiitonDatabaseController?.removeListener(listener: self)
+    }
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        guard let searchText = searchController.searchBar.text else{
+            return
+        }
+        
+        if searchText.count > 0{
+            filteredExhibition = allExhibition.filter({(exhibition)->Bool in
+                guard let name = exhibition.name else{
+                    return false
+                }
+                return name.contains(searchText)
+            })
+        }else{
+            filteredExhibition = allExhibition
+        }
+        tableView.reloadData()
+    }
+    
+    func onExhibitionListChange(change: DatabaseChange, exhibitions: [Exhibition]) {
+        allExhibition = exhibitions
+        guard let searchController = navigationItem.searchController else {
+            return
+        }
+        updateSearchResults(for: searchController)
     }
 
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
+        return filteredExhibition.count
     }
 
-    /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
-
+        let cell = tableView.dequeueReusableCell(withIdentifier: EXHIBITION_LIST_CELL, for: indexPath) as! ExhibitionListTableViewCell
+        cell.initExhibitionInformation(exhibition: filteredExhibition[indexPath.row])
         return cell
     }
-    */
 
     /*
     // Override to support conditional editing of the table view.

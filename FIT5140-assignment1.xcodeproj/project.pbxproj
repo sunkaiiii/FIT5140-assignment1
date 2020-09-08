@@ -26,6 +26,8 @@
 		B1437B0F250710F600E9BC0E /* Plant+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1437B0B250710F600E9BC0E /* Plant+CoreDataProperties.swift */; };
 		B1437B112507123F00E9BC0E /* ExhibitionCoreDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1437B102507123F00E9BC0E /* ExhibitionCoreDataController.swift */; };
 		B1437B13250741C500E9BC0E /* MulticastDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1437B12250741C500E9BC0E /* MulticastDelegate.swift */; };
+		B1437B152507565B00E9BC0E /* AddExhibitionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1437B142507565B00E9BC0E /* AddExhibitionViewController.swift */; };
+		B1437B182507577000E9BC0E /* ExhibitionListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1437B172507577000E9BC0E /* ExhibitionListTableViewCell.swift */; };
 		B1892A1524F7ABD800B55215 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1892A1424F7ABD800B55215 /* AppDelegate.swift */; };
 		B1892A1724F7ABD800B55215 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1892A1624F7ABD800B55215 /* SceneDelegate.swift */; };
 		B1892A1C24F7ABD800B55215 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B1892A1A24F7ABD800B55215 /* Main.storyboard */; };
@@ -55,6 +57,8 @@
 		B1437B0B250710F600E9BC0E /* Plant+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Plant+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		B1437B102507123F00E9BC0E /* ExhibitionCoreDataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExhibitionCoreDataController.swift; sourceTree = "<group>"; };
 		B1437B12250741C500E9BC0E /* MulticastDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MulticastDelegate.swift; sourceTree = "<group>"; };
+		B1437B142507565B00E9BC0E /* AddExhibitionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddExhibitionViewController.swift; sourceTree = "<group>"; };
+		B1437B172507577000E9BC0E /* ExhibitionListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExhibitionListTableViewCell.swift; sourceTree = "<group>"; };
 		B1892A1124F7ABD800B55215 /* FIT5140-assignment1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "FIT5140-assignment1.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B1892A1424F7ABD800B55215 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B1892A1624F7ABD800B55215 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -130,6 +134,7 @@
 				B13D8AAA25020DFC006B9238 /* HomeViewController.swift */,
 				B1437B012507078700E9BC0E /* AllExhibitionTableViewController.swift */,
 				B1437B0325070DFD00E9BC0E /* ExhibitionDetailViewController.swift */,
+				B1437B142507565B00E9BC0E /* AddExhibitionViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -147,6 +152,14 @@
 				B1437AFF2507025300E9BC0E /* ImageHelper.swift */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		B1437B162507574300E9BC0E /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				B1437B172507577000E9BC0E /* ExhibitionListTableViewCell.swift */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 		B1892A0824F7ABD800B55215 = {
@@ -168,6 +181,7 @@
 		B1892A1324F7ABD800B55215 /* FIT5140-assignment1 */ = {
 			isa = PBXGroup;
 			children = (
+				B1437B162507574300E9BC0E /* Cell */,
 				B1437AFE2507023F00E9BC0E /* Helpers */,
 				B13D8AAF25021A3F006B9238 /* FIT5140-assignment1.entitlements */,
 				B13D8AAC2502108F006B9238 /* Views */,
@@ -286,6 +300,8 @@
 				B1437B0425070DFD00E9BC0E /* ExhibitionDetailViewController.swift in Sources */,
 				B1437B112507123F00E9BC0E /* ExhibitionCoreDataController.swift in Sources */,
 				B1437B0C250710F600E9BC0E /* Exhibition+CoreDataClass.swift in Sources */,
+				B1437B152507565B00E9BC0E /* AddExhibitionViewController.swift in Sources */,
+				B1437B182507577000E9BC0E /* ExhibitionListTableViewCell.swift in Sources */,
 				B100769B24F8D3BE002C4ACC /* PlantRequest.swift in Sources */,
 				B1437B022507078700E9BC0E /* AllExhibitionTableViewController.swift in Sources */,
 				B13D8AA82501EF58006B9238 /* ExhibitLocationHelper.swift in Sources */,

@@ -42,14 +42,16 @@ class HomeViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     func initExhibitions(exhibitions:[Exhibition]){
         exhibitionsAnnotations = convertExhibitionsToAnnotations(exhibitons: exhibitions)
         mapView.addAnnotations(exhibitionsAnnotations)
-        if exhibitions.count>0{
+        tableView.reloadData()
+        if exhibitionsAnnotations.count > 0{
             tableView.selectRow(at: IndexPath(row: 0, section: 0), animated: true, scrollPosition: .bottom)
             let annotation = exhibitionsAnnotations[0]
-            selectAnnotation(annotation: annotation)
+            selectAnnotation(mapView: mapView,annotation: annotation)
         }
     }
     
     func onExhibitionListChange(change: DatabaseChange, exhibitions: [Exhibition]) {
+        print(exhibitions.count)
         initExhibitions(exhibitions: exhibitions)
     }
     
@@ -80,18 +82,12 @@ class HomeViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if(indexPath.section == 0){
             let annotation = exhibitionsAnnotations[indexPath.row]
-            selectAnnotation(annotation: annotation)
+            selectAnnotation(mapView:mapView, annotation: annotation)
         }else{
             performSegue(withIdentifier: allListSegue, sender: nil)
         }
     }
     
-    private func selectAnnotation(annotation:MKAnnotation){
-        mapView.selectAnnotation(annotation, animated: true)
-        let zoomRegion = MKCoordinateRegion(center: annotation.coordinate, latitudinalMeters: 1000,longitudinalMeters: 1000)
-        mapView.setRegion(mapView.regionThatFits(zoomRegion), animated: true)
-        
-    }
 
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
@@ -128,7 +124,7 @@ class HomeViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         }else if segue.identifier == exhibitionDetail{
             let controller = segue.destination as! ExhibitionDetailViewController
             let annotationView = sender as! MKAnnotationView
-            controller.annotation = annotationView.annotation
+            controller.annotation = annotationView.annotation as! ExhibitsLocationAnnotation
         }
     }
 }
