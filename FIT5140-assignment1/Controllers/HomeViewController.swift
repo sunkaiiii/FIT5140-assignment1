@@ -8,7 +8,7 @@
 
 import UIKit
 import MapKit
-class HomeViewController: UIViewController,UITableViewDelegate, UITableViewDataSource,MKMapViewDelegate {
+class HomeViewController: UIViewController,UITableViewDelegate, UITableViewDataSource,MKMapViewDelegate,ExhibitionDatabaseListener {
     
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var tableView: UITableView!
@@ -16,8 +16,8 @@ class HomeViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     let allListSegue = "annotationToAllList"
     let exhibitionDetail = "exhibitionDetail"
     
-    var exhibitions:[ExhibitsLocationAnnotation] = []
-    
+    var exhibitionsAnnotations:[ExhibitsLocationAnnotation] = []
+    weak var exhibitionController:ExhibitionDatabaseProtocol?
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -25,17 +25,32 @@ class HomeViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.mapView.delegate = self
-        initExhibitions()
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        self.exhibitionController = appDelegate.databaseController
     }
     
-    func initExhibitions(){
-        exhibitions = loadExhibitions()
-        mapView.addAnnotations(exhibitions)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        exhibitionController?.addListener(listener: self)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        exhibitionController?.removeListener(listener: self)
+    }
+    
+    func initExhibitions(exhibitions:[Exhibition]){
+        exhibitionsAnnotations = convertExhibitionsToAnnotations(exhibitons: exhibitions)
+        mapView.addAnnotations(exhibitionsAnnotations)
         if exhibitions.count>0{
             tableView.selectRow(at: IndexPath(row: 0, section: 0), animated: true, scrollPosition: .bottom)
-            let annotation = exhibitions[0]
+            let annotation = exhibitionsAnnotations[0]
             selectAnnotation(annotation: annotation)
         }
+    }
+    
+    func onExhibitionListChange(change: DatabaseChange, exhibitions: [Exhibition]) {
+        initExhibitions(exhibitions: exhibitions)
     }
     
     
@@ -47,7 +62,7 @@ class HomeViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         if(section == 1){
             return 1
         }
-        return exhibitions.count
+        return exhibitionsAnnotations.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -55,7 +70,7 @@ class HomeViewController: UIViewController,UITableViewDelegate, UITableViewDataS
             return tableView.dequeueReusableCell(withIdentifier: "showAllCell", for: indexPath)
         }
         let cell = tableView.dequeueReusableCell(withIdentifier: "exhibitCell", for: indexPath)
-        let exhibit = exhibitions[indexPath.row]
+        let exhibit = exhibitionsAnnotations[indexPath.row]
         cell.textLabel?.text = exhibit.title
         cell.detailTextLabel?.text = "Lat:\(exhibit.coordinate.latitude) Long:\(exhibit.coordinate.longitude)\n\(exhibit.desc)"
         cell.detailTextLabel?.numberOfLines = 3
@@ -64,7 +79,7 @@ class HomeViewController: UIViewController,UITableViewDelegate, UITableViewDataS
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if(indexPath.section == 0){
-            let annotation = exhibitions[indexPath.row]
+            let annotation = exhibitionsAnnotations[indexPath.row]
             selectAnnotation(annotation: annotation)
         }else{
             performSegue(withIdentifier: allListSegue, sender: nil)

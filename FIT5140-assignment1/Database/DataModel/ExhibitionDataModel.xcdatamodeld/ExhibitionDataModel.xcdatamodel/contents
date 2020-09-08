@@ -5,6 +5,7 @@
         <attribute name="latitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="longitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="subtitle" optional="YES" attributeType="String"/>
         <relationship name="plants" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Plant" inverseName="exhibition" inverseEntity="Plant"/>
     </entity>
     <entity name="Plant" representedClassName="Plant" syncable="YES">
@@ -15,7 +16,7 @@
         <relationship name="exhibition" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Exhibition" inverseName="plants" inverseEntity="Exhibition"/>
     </entity>
     <elements>
-        <element name="Exhibition" positionX="-63" positionY="-18" width="128" height="118"/>
+        <element name="Exhibition" positionX="-63" positionY="-18" width="128" height="133"/>
         <element name="Plant" positionX="-54" positionY="18" width="128" height="118"/>
     </elements>
 </model>

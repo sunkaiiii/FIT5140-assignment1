@@ -12,12 +12,20 @@ class ExhibitsLocationAnnotation: NSObject, MKAnnotation {
     var coordinate:CLLocationCoordinate2D
     var title:String?
     var subtitle: String?
-    var desc:String
+    var desc:String?
     
-    init(title:String, desc:String, latitude:Double, longitude: Double){
+    init(title:String,subtitle:String, desc:String, latitude:Double, longitude: Double){
         self.title = title
         self.desc = desc
+        self.subtitle = subtitle
         self.coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+    }
+    
+    init(exhibition:Exhibition){
+        self.title = exhibition.name
+        self.desc = exhibition.desc
+        self.subtitle = exhibition.subtitle
+        self.coordinate = CLLocationCoordinate2DMake(exhibition.latitude, exhibition.longitude)
     }
 }
 
