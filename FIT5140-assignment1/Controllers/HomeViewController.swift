@@ -8,10 +8,13 @@
 
 import UIKit
 import MapKit
-class HomeViewController: UIViewController,UITableViewDelegate, UITableViewDataSource {
+class HomeViewController: UIViewController,UITableViewDelegate, UITableViewDataSource,MKMapViewDelegate {
     
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var tableView: UITableView!
+    
+    let allListSegue = "annotationToAllList"
+    let exhibitionDetail = "exhibitionDetail"
     
     var exhibitions:[ExhibitsLocationAnnotation] = []
     
@@ -21,11 +24,12 @@ class HomeViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         // Do any additional setup after loading the view.
         self.tableView.delegate = self
         self.tableView.dataSource = self
+        self.mapView.delegate = self
         initExhibitions()
     }
     
     func initExhibitions(){
-        exhibitions = createDefaultExhibits()
+        exhibitions = loadExhibitions()
         mapView.addAnnotations(exhibitions)
         if exhibitions.count>0{
             tableView.selectRow(at: IndexPath(row: 0, section: 0), animated: true, scrollPosition: .bottom)
@@ -36,14 +40,20 @@ class HomeViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return 2
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if(section == 1){
+            return 1
+        }
         return exhibitions.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if(indexPath.section == 1){
+            return tableView.dequeueReusableCell(withIdentifier: "showAllCell", for: indexPath)
+        }
         let cell = tableView.dequeueReusableCell(withIdentifier: "exhibitCell", for: indexPath)
         let exhibit = exhibitions[indexPath.row]
         cell.textLabel?.text = exhibit.title
@@ -53,23 +63,57 @@ class HomeViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let annotation = exhibitions[indexPath.row]
-        selectAnnotation(annotation: annotation)
+        if(indexPath.section == 0){
+            let annotation = exhibitions[indexPath.row]
+            selectAnnotation(annotation: annotation)
+        }else{
+            performSegue(withIdentifier: allListSegue, sender: nil)
+        }
     }
     
     private func selectAnnotation(annotation:MKAnnotation){
         mapView.selectAnnotation(annotation, animated: true)
         let zoomRegion = MKCoordinateRegion(center: annotation.coordinate, latitudinalMeters: 1000,longitudinalMeters: 1000)
         mapView.setRegion(mapView.regionThatFits(zoomRegion), animated: true)
+        
     }
-    /*
-    // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        guard !(annotation is MKUserLocation) else {
+            return nil
+        }
+        
+        let annotationIdentifier = "AnnotationIdentifier"
+        
+        var annotationView:MKAnnotationView?
+        if let dequeuedAnnotationView = mapView.dequeueReusableAnnotationView(withIdentifier: annotationIdentifier){
+            annotationView = dequeuedAnnotationView
+            annotationView?.annotation = annotation
+        }else{
+            annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: annotationIdentifier)
+            annotationView?.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
+        }
+        
+        if let annotationView = annotationView{
+            annotationView.canShowCallout = true
+            annotationView.image = UIImage(named: annotation.title!!)?.resizeImage(newWidth: 40)?.circleMasked
+        }
+        return annotationView
+    }
+    
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        if control == view.rightCalloutAccessoryView{
+            performSegue(withIdentifier: exhibitionDetail, sender: view)
+        }
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        if segue.identifier == allListSegue{
+        }else if segue.identifier == exhibitionDetail{
+            let controller = segue.destination as! ExhibitionDetailViewController
+            let annotationView = sender as! MKAnnotationView
+            controller.annotation = annotationView.annotation
+        }
     }
-    */
-
 }

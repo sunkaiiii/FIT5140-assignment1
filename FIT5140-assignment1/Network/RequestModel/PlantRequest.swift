@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Plant:RequestModel {
+struct PlantRequest:RequestModel {
     func getPathParameter() -> [String] {
         return []
     }

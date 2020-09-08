@@ -15,5 +15,5 @@ enum DatabaseChange{
 }
 
 protocol DatabaseProtocol:AnyObject{
-    
+    func addExhibition(name:String, desc:String, latitude:Double, longitude:Double)->Exhibition
 }
