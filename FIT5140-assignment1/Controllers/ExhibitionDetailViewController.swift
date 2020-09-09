@@ -16,6 +16,7 @@ class ExhibitionDetailViewController: UIViewController {
     @IBOutlet weak var exhibitionName: UILabel!
     @IBOutlet weak var exhibitionLocation: UILabel!
     @IBOutlet weak var exhibitionDescription: UITextView!
+    @IBOutlet weak var testLabel: UILabel!
     var annotation:ExhibitsLocationAnnotation?
     
     override func viewDidLoad() {
@@ -30,6 +31,8 @@ class ExhibitionDetailViewController: UIViewController {
         self.exhibitionName.text = annotation.title
         self.exhibitionImage.image = UIImage(named: annotation.title!)?.circleMasked?.addShadow(blurSize: 6)
         self.exhibitionDescription.text = annotation.desc
+        let plant = annotation.exhibition?.plants?.first(where: {(plant)->Bool in return true }) as? Plant
+        self.testLabel.text = plant?.name
         let location = CLLocation(latitude: annotation.coordinate.latitude, longitude: annotation.coordinate.longitude)
         convertCoordinateToCurrentLocation(location: location, completionHandler: {(placeMark) in
             guard let placeMark = placeMark else{
@@ -39,7 +42,6 @@ class ExhibitionDetailViewController: UIViewController {
         })
     }
     
-
     /*
     // MARK: - Navigation
 

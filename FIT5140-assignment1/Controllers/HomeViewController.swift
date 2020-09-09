@@ -9,7 +9,8 @@
 import UIKit
 import MapKit
 class HomeViewController: UIViewController,UITableViewDelegate, UITableViewDataSource,MKMapViewDelegate,ExhibitionDatabaseListener {
-    
+    var listnerType: ListenerType = .exhibition
+
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var tableView: UITableView!
     
@@ -54,6 +55,8 @@ class HomeViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         print(exhibitions.count)
         initExhibitions(exhibitions: exhibitions)
     }
+    
+    func onPlantListChange(change: DatabaseChange, plants: [Plant]) {}
     
     
     func numberOfSections(in tableView: UITableView) -> Int {

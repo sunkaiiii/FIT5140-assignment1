@@ -9,6 +9,9 @@
 import UIKit
 
 class AllExhibitionTableViewController: UITableViewController,ExhibitionDatabaseListener,UISearchResultsUpdating {
+    var listnerType: ListenerType = .exhibition
+    
+
 
     private let EXHIBITION_LIST_CELL = "exhibitionListCell"
     
@@ -66,7 +69,8 @@ class AllExhibitionTableViewController: UITableViewController,ExhibitionDatabase
         }
         updateSearchResults(for: searchController)
     }
-
+    func onPlantListChange(change: DatabaseChange, plants: [Plant]) {
+    }
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
