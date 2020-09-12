@@ -36,6 +36,8 @@
 		B1892A2B24F7ACDA00B55215 /* RestfulAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1892A2A24F7ACDA00B55215 /* RestfulAPI.swift */; };
 		B1B89318250C9CDE008E4D6F /* ExhibitionDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1B89317250C9CDE008E4D6F /* ExhibitionDetailTableViewCell.swift */; };
 		B1B8931A250C9EB1008E4D6F /* ExhibitionPlantTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1B89319250C9EB1008E4D6F /* ExhibitionPlantTableViewCell.swift */; };
+		B1B8931C250CB028008E4D6F /* PlantDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1B8931B250CB028008E4D6F /* PlantDetailViewController.swift */; };
+		B1B8931E250D0653008E4D6F /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1B8931D250D0653008E4D6F /* ImageLoader.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -71,6 +73,8 @@
 		B1892A2A24F7ACDA00B55215 /* RestfulAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestfulAPI.swift; sourceTree = "<group>"; };
 		B1B89317250C9CDE008E4D6F /* ExhibitionDetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExhibitionDetailTableViewCell.swift; sourceTree = "<group>"; };
 		B1B89319250C9EB1008E4D6F /* ExhibitionPlantTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExhibitionPlantTableViewCell.swift; sourceTree = "<group>"; };
+		B1B8931B250CB028008E4D6F /* PlantDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlantDetailViewController.swift; sourceTree = "<group>"; };
+		B1B8931D250D0653008E4D6F /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -139,6 +143,7 @@
 				B1437B012507078700E9BC0E /* AllExhibitionTableViewController.swift */,
 				B1437B0325070DFD00E9BC0E /* ExhibitionDetailViewController.swift */,
 				B1437B142507565B00E9BC0E /* AddExhibitionViewController.swift */,
+				B1B8931B250CB028008E4D6F /* PlantDetailViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -154,6 +159,7 @@
 			isa = PBXGroup;
 			children = (
 				B1437AFF2507025300E9BC0E /* ImageHelper.swift */,
+				B1B8931D250D0653008E4D6F /* ImageLoader.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -311,6 +317,8 @@
 				B1437B182507577000E9BC0E /* ExhibitionListTableViewCell.swift in Sources */,
 				B100769B24F8D3BE002C4ACC /* PlantRequest.swift in Sources */,
 				B1437B022507078700E9BC0E /* AllExhibitionTableViewController.swift in Sources */,
+				B1B8931E250D0653008E4D6F /* ImageLoader.swift in Sources */,
+				B1B8931C250CB028008E4D6F /* PlantDetailViewController.swift in Sources */,
 				B13D8AA82501EF58006B9238 /* ExhibitLocationHelper.swift in Sources */,
 				B1437B002507025300E9BC0E /* ImageHelper.swift in Sources */,
 				B1437B0D250710F600E9BC0E /* Exhibition+CoreDataProperties.swift in Sources */,
@@ -468,12 +476,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "FIT5140-assignment1/FIT5140-assignment1.entitlements";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = YNQ45Z475P;
 				INFOPLIST_FILE = "FIT5140-assignment1/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.datong.FIT5140-assignment1";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTS_MACCATALYST = YES;
@@ -488,12 +498,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "FIT5140-assignment1/FIT5140-assignment1.entitlements";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = YNQ45Z475P;
 				INFOPLIST_FILE = "FIT5140-assignment1/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.datong.FIT5140-assignment1";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTS_MACCATALYST = YES;

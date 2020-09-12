@@ -18,10 +18,11 @@ extension Plant {
     }
 
     @NSManaged public var family: String?
+    @NSManaged public var imageUrl: String?
     @NSManaged public var name: String?
     @NSManaged public var scientificName: String?
     @NSManaged public var yearDiscovered: Int32
-    @NSManaged public var imageUrl: String?
+    @NSManaged public var isLoadedFromServer: Bool
     @NSManaged public var exhibition: Exhibition?
 
 }

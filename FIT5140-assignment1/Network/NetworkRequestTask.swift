@@ -24,18 +24,20 @@ class NetworkRequestTask: NSObject {
         requestAction.beforeExecution(helper: requestHelper)
         
         URLSession.shared.dataTask(with: url, result: {(result) in
-            switch result{
+            DispatchQueue.main.async {
+                switch result{
                 case .success(let (response,data)):
                     guard let statusCode = (response as? HTTPURLResponse)?.statusCode, 200..<299 ~= statusCode else {
 //                        self.requestAction.executionFailed(helper: requestHelper, message: "InvalidResponse", error: )
                         return
-                }
+                    }
                     self.requestAction.afterExecution(helper: self.requestHelper, response: data)
                 case .failure(let error):
                     self.requestAction.executionFailed(helper: self.requestHelper, message: "Error happened", error: error)
                 default:
                     return
                 }
+            }
             }).resume()
 //        URLSession.shared.dataTask(with:url){(data:Data?, response:URLResponse?,error:Error?) in
 //            if let error = error{

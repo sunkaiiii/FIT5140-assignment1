@@ -15,6 +15,7 @@ class ExhibitionDetailViewController: UIViewController, UITableViewDelegate, UIT
     let EXHIBITION_PLANT = 1
     let EXHIBITION_INFORMATION_CELL = "exhibitionInformation"
     let EXHIBITION_PLANT_CELL = "exhibitionPlant"
+    let EXHIBITION_PLANT_DETAIL_SEGUE = "showPlantDetail"
     
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var exhibitionImage: UIImageView!
@@ -67,15 +68,20 @@ class ExhibitionDetailViewController: UIViewController, UITableViewDelegate, UIT
         }
         return cell
     }
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.section == EXHIBITION_PLANT, let plant = plants?[indexPath.row]{
+            performSegue(withIdentifier: EXHIBITION_PLANT_DETAIL_SEGUE, sender: plant)
+        }
     }
-    */
+
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == EXHIBITION_PLANT_DETAIL_SEGUE{
+            if let controller = segue.destination as? PlantDetailViewController, let plant = sender as? Plant{
+                controller.plant = plant
+            }
+        }
+    }
+
 
 }

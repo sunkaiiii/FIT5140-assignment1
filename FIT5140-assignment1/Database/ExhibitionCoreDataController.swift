@@ -22,7 +22,13 @@ class ExhibitionCoreDataController:NSObject,ExhibitionDatabaseProtocol, NSFetche
             }
         }
         super.init()
-        
+//        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "Exhibition")
+//        let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+//        do {
+//            try persistentContainer.persistentStoreCoordinator.execute(deleteRequest, with: persistentContainer.viewContext)
+//        } catch let error as NSError {
+//            // TODO: handle the error
+//        }
         if fecthAllExhibition().count == 0{
             createDefaultExhibits()
         }

@@ -14,6 +14,12 @@ func convertExhibitionsToAnnotations(exhibitons:[Exhibition])->[ExhibitsLocation
     }
 }
 
+extension Exhibition{
+    func toLocationAnnotation()->ExhibitsLocationAnnotation{
+        return ExhibitsLocationAnnotation(exhibition: self)
+    }
+}
+
 func selectAnnotation(mapView:MKMapView,annotation:MKAnnotation){
     mapView.selectAnnotation(annotation, animated: true)
     let zoomRegion = MKCoordinateRegion(center: annotation.coordinate, latitudinalMeters: 1000,longitudinalMeters: 1000)

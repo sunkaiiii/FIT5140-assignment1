@@ -11,6 +11,7 @@
     <entity name="Plant" representedClassName="Plant" syncable="YES">
         <attribute name="family" optional="YES" attributeType="String"/>
         <attribute name="imageUrl" optional="YES" attributeType="String"/>
+        <attribute name="isLoadedFromServer" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="scientificName" optional="YES" attributeType="String"/>
         <attribute name="yearDiscovered" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
@@ -18,6 +19,6 @@
     </entity>
     <elements>
         <element name="Exhibition" positionX="-63" positionY="-18" width="128" height="133"/>
-        <element name="Plant" positionX="-54" positionY="18" width="128" height="133"/>
+        <element name="Plant" positionX="-54" positionY="18" width="128" height="148"/>
     </elements>
 </model>
