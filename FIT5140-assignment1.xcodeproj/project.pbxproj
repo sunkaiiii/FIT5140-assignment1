@@ -34,6 +34,8 @@
 		B1892A1E24F7ABDB00B55215 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B1892A1D24F7ABDB00B55215 /* Assets.xcassets */; };
 		B1892A2124F7ABDB00B55215 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B1892A1F24F7ABDB00B55215 /* LaunchScreen.storyboard */; };
 		B1892A2B24F7ACDA00B55215 /* RestfulAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1892A2A24F7ACDA00B55215 /* RestfulAPI.swift */; };
+		B1B89318250C9CDE008E4D6F /* ExhibitionDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1B89317250C9CDE008E4D6F /* ExhibitionDetailTableViewCell.swift */; };
+		B1B8931A250C9EB1008E4D6F /* ExhibitionPlantTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1B89319250C9EB1008E4D6F /* ExhibitionPlantTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -67,6 +69,8 @@
 		B1892A2024F7ABDB00B55215 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B1892A2224F7ABDB00B55215 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B1892A2A24F7ACDA00B55215 /* RestfulAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestfulAPI.swift; sourceTree = "<group>"; };
+		B1B89317250C9CDE008E4D6F /* ExhibitionDetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExhibitionDetailTableViewCell.swift; sourceTree = "<group>"; };
+		B1B89319250C9EB1008E4D6F /* ExhibitionPlantTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExhibitionPlantTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -158,6 +162,8 @@
 			isa = PBXGroup;
 			children = (
 				B1437B172507577000E9BC0E /* ExhibitionListTableViewCell.swift */,
+				B1B89317250C9CDE008E4D6F /* ExhibitionDetailTableViewCell.swift */,
+				B1B89319250C9EB1008E4D6F /* ExhibitionPlantTableViewCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -291,6 +297,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B1B8931A250C9EB1008E4D6F /* ExhibitionPlantTableViewCell.swift in Sources */,
 				B10076A024FA4979002C4ACC /* PlantResponse.swift in Sources */,
 				B1892A1524F7ABD800B55215 /* AppDelegate.swift in Sources */,
 				B100769D24F8D4D0002C4ACC /* NetworkExtension.swift in Sources */,
@@ -311,6 +318,7 @@
 				B1437B0725070F1C00E9BC0E /* ExhibitionDataModel.xcdatamodeld in Sources */,
 				B1437B0F250710F600E9BC0E /* Plant+CoreDataProperties.swift in Sources */,
 				B13D8AA62501EE77006B9238 /* ExhibitsLocationAnnotation.swift in Sources */,
+				B1B89318250C9CDE008E4D6F /* ExhibitionDetailTableViewCell.swift in Sources */,
 				B100769824F8CA17002C4ACC /* RequestHelper.swift in Sources */,
 				B1437B13250741C500E9BC0E /* MulticastDelegate.swift in Sources */,
 				B1437B0E250710F600E9BC0E /* Plant+CoreDataClass.swift in Sources */,

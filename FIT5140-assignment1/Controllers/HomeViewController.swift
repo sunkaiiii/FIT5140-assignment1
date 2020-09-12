@@ -77,7 +77,7 @@ class HomeViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         let cell = tableView.dequeueReusableCell(withIdentifier: "exhibitCell", for: indexPath)
         let exhibit = exhibitionsAnnotations[indexPath.row]
         cell.textLabel?.text = exhibit.title
-        cell.detailTextLabel?.text = "Lat:\(exhibit.coordinate.latitude) Long:\(exhibit.coordinate.longitude)\n\(exhibit.desc)"
+        cell.detailTextLabel?.text = "Lat:\(exhibit.coordinate.latitude) Long:\(exhibit.coordinate.longitude)\n\(exhibit.desc ?? "")"
         cell.detailTextLabel?.numberOfLines = 3
         return cell
     }

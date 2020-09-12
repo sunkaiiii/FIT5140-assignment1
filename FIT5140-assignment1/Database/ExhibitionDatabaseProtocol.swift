@@ -29,7 +29,7 @@ protocol ExhibitionDatabaseListener:AnyObject{
 protocol ExhibitionDatabaseProtocol:AnyObject{
     func addExhibition(name:String, subtitle:String,desc:String, latitude:Double, longitude:Double)->Exhibition
     func addPlantToExhibition(plant:Plant,exhibition:Exhibition)->Bool
-    func addPlant(name:String, yearDiscovered:Int, family:String, scientificName:String)->Plant
+    func addPlant(name:String, yearDiscovered:Int, family:String, scientificName:String, imageUrl:String?)->Plant
     func deletePlant(plant:Plant)
     func deleteExhibition(exhibition:Exhibition)
     func deletePlantFromExhibition(plant:Plant, exhibiton:Exhibition)
