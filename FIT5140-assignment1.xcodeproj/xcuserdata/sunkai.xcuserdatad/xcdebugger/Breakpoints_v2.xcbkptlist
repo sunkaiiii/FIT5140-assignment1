@@ -14,8 +14,8 @@
             filePath = "FIT5140-assignment1/Controllers/HomeViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "70"
-            endingLineNumber = "70"
+            startingLineNumber = "71"
+            endingLineNumber = "71"
             landmarkName = "tableView(_:numberOfRowsInSection:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -30,8 +30,8 @@
             filePath = "FIT5140-assignment1/Controllers/HomeViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "71"
-            endingLineNumber = "71"
+            startingLineNumber = "72"
+            endingLineNumber = "72"
             landmarkName = "tableView(_:numberOfRowsInSection:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -46,8 +46,8 @@
             filePath = "FIT5140-assignment1/Controllers/HomeViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "121"
-            endingLineNumber = "121"
+            startingLineNumber = "122"
+            endingLineNumber = "122"
             landmarkName = "mapView(_:annotationView:calloutAccessoryControlTapped:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -62,8 +62,8 @@
             filePath = "FIT5140-assignment1/Controllers/HomeViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "120"
-            endingLineNumber = "120"
+            startingLineNumber = "121"
+            endingLineNumber = "121"
             landmarkName = "mapView(_:annotationView:calloutAccessoryControlTapped:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -142,8 +142,8 @@
             filePath = "FIT5140-assignment1/Controllers/HomeViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "45"
-            endingLineNumber = "45"
+            startingLineNumber = "46"
+            endingLineNumber = "46"
             landmarkName = "initExhibitions(exhibitions:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -158,8 +158,8 @@
             filePath = "FIT5140-assignment1/Controllers/HomeViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "54"
-            endingLineNumber = "54"
+            startingLineNumber = "55"
+            endingLineNumber = "55"
             landmarkName = "onExhibitionListChange(change:exhibitions:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -174,8 +174,8 @@
             filePath = "FIT5140-assignment1/Controllers/HomeViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "56"
-            endingLineNumber = "56"
+            startingLineNumber = "57"
+            endingLineNumber = "57"
             landmarkName = "onExhibitionListChange(change:exhibitions:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -194,6 +194,22 @@
             endingLineNumber = "26"
             landmarkName = "loadImage(_:onComplete:)"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "C4C70DB4-4F27-4741-92BB-6C18E1E94E48"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FIT5140-assignment1/Maps/ExhibitLocationHelper.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "26"
+            endingLineNumber = "26"
+            landmarkName = "selectAnnotationAndMoveToZoom(mapView:annotation:)"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

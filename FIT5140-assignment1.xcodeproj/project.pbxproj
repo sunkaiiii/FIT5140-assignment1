@@ -34,6 +34,8 @@
 		B1892A1E24F7ABDB00B55215 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B1892A1D24F7ABDB00B55215 /* Assets.xcassets */; };
 		B1892A2124F7ABDB00B55215 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B1892A1F24F7ABDB00B55215 /* LaunchScreen.storyboard */; };
 		B1892A2B24F7ACDA00B55215 /* RestfulAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1892A2A24F7ACDA00B55215 /* RestfulAPI.swift */; };
+		B1AB5605250E47CD000833D7 /* EditPlantViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1AB5604250E47CD000833D7 /* EditPlantViewController.swift */; };
+		B1AB5609250E5FA3000833D7 /* AddExhibitionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1AB5608250E5FA3000833D7 /* AddExhibitionProtocol.swift */; };
 		B1B89318250C9CDE008E4D6F /* ExhibitionDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1B89317250C9CDE008E4D6F /* ExhibitionDetailTableViewCell.swift */; };
 		B1B8931A250C9EB1008E4D6F /* ExhibitionPlantTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1B89319250C9EB1008E4D6F /* ExhibitionPlantTableViewCell.swift */; };
 		B1B8931C250CB028008E4D6F /* PlantDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1B8931B250CB028008E4D6F /* PlantDetailViewController.swift */; };
@@ -71,6 +73,8 @@
 		B1892A2024F7ABDB00B55215 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B1892A2224F7ABDB00B55215 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B1892A2A24F7ACDA00B55215 /* RestfulAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestfulAPI.swift; sourceTree = "<group>"; };
+		B1AB5604250E47CD000833D7 /* EditPlantViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPlantViewController.swift; sourceTree = "<group>"; };
+		B1AB5608250E5FA3000833D7 /* AddExhibitionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddExhibitionProtocol.swift; sourceTree = "<group>"; };
 		B1B89317250C9CDE008E4D6F /* ExhibitionDetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExhibitionDetailTableViewCell.swift; sourceTree = "<group>"; };
 		B1B89319250C9EB1008E4D6F /* ExhibitionPlantTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExhibitionPlantTableViewCell.swift; sourceTree = "<group>"; };
 		B1B8931B250CB028008E4D6F /* PlantDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlantDetailViewController.swift; sourceTree = "<group>"; };
@@ -144,6 +148,7 @@
 				B1437B0325070DFD00E9BC0E /* ExhibitionDetailViewController.swift */,
 				B1437B142507565B00E9BC0E /* AddExhibitionViewController.swift */,
 				B1B8931B250CB028008E4D6F /* PlantDetailViewController.swift */,
+				B1AB5604250E47CD000833D7 /* EditPlantViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -193,6 +198,7 @@
 		B1892A1324F7ABD800B55215 /* FIT5140-assignment1 */ = {
 			isa = PBXGroup;
 			children = (
+				B1AB5607250E5F95000833D7 /* Protocols */,
 				B1437B162507574300E9BC0E /* Cell */,
 				B1437AFE2507023F00E9BC0E /* Helpers */,
 				B13D8AAF25021A3F006B9238 /* FIT5140-assignment1.entitlements */,
@@ -228,6 +234,14 @@
 			isa = PBXGroup;
 			children = (
 				B1892A2A24F7ACDA00B55215 /* RestfulAPI.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
+		B1AB5607250E5F95000833D7 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				B1AB5608250E5FA3000833D7 /* AddExhibitionProtocol.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -309,9 +323,11 @@
 				B100769D24F8D4D0002C4ACC /* NetworkExtension.swift in Sources */,
 				B10076A324FB28BF002C4ACC /* ExhibitionDatabaseProtocol.swift in Sources */,
 				B1892A2B24F7ACDA00B55215 /* RestfulAPI.swift in Sources */,
+				B1AB5609250E5FA3000833D7 /* AddExhibitionProtocol.swift in Sources */,
 				B100769624F8C9A3002C4ACC /* NetworkRequestTask.swift in Sources */,
 				B1437B0425070DFD00E9BC0E /* ExhibitionDetailViewController.swift in Sources */,
 				B1437B112507123F00E9BC0E /* ExhibitionCoreDataController.swift in Sources */,
+				B1AB5605250E47CD000833D7 /* EditPlantViewController.swift in Sources */,
 				B1437B0C250710F600E9BC0E /* Exhibition+CoreDataClass.swift in Sources */,
 				B1437B152507565B00E9BC0E /* AddExhibitionViewController.swift in Sources */,
 				B1437B182507577000E9BC0E /* ExhibitionListTableViewCell.swift in Sources */,

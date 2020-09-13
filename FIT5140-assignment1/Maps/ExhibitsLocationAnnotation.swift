@@ -15,12 +15,12 @@ class ExhibitsLocationAnnotation: NSObject, MKAnnotation {
     var desc:String?
     var exhibition:Exhibition?
     
-//    init(title:String,subtitle:String, desc:String, latitude:Double, longitude: Double){
-//        self.title = title
-//        self.desc = desc
-//        self.subtitle = subtitle
-//        self.coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-//    }
+    init(title:String?,subtitle:String?, desc:String?, latitude:Double, longitude: Double){
+        self.title = title
+        self.desc = desc
+        self.subtitle = subtitle
+        self.coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+    }
     
     init(exhibition:Exhibition){
         self.title = exhibition.name

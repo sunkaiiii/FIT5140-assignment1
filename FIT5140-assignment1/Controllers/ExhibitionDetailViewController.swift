@@ -34,7 +34,7 @@ class ExhibitionDetailViewController: UIViewController, UITableViewDelegate, UIT
             return plant as! Plant
         })
         self.mapView.addAnnotation(annotation)
-        selectAnnotation(mapView:mapView, annotation: annotation)
+        selectAnnotationAndMoveToZoom(mapView:mapView, annotation: annotation)
         self.title = annotation.title
         self.exhibitionImage.image = UIImage(named: annotation.title!)?.circleMasked?.addShadow(blurSize: 6)
         self.tableView.dataSource = self
