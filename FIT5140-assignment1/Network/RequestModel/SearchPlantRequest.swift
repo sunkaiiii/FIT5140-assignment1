@@ -8,7 +8,11 @@
 
 import Foundation
 
-struct PlantRequest:RequestModel {
+struct SearchPlantRequest:RequestModel {
+    let searchText:String
+    init(searchText:String) {
+        self.searchText = searchText
+    }
     func getPathParameter() -> [String] {
         return []
     }
@@ -18,7 +22,7 @@ struct PlantRequest:RequestModel {
     }
     
     func getQueryParameter() -> [String : String] {
-        return ["token":"i9h6hy6ZYVZmTWuowG8g5a3ZWK3ffQ9LoRI6RhLiZCU"]
+        return ["token":"i9h6hy6ZYVZmTWuowG8g5a3ZWK3ffQ9LoRI6RhLiZCU","q":searchText]
     }
     
     func getBody() -> [String] {

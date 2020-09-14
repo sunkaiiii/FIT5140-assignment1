@@ -11,3 +11,8 @@ import Foundation
 protocol AddExhibitionProtocol:AnyObject{
     func addExhibition(name:String,subtitle:String,desc:String,latitude:Double,longitude:Double) -> Bool
 }
+
+
+protocol AddPlantProtocol:AnyObject{
+    func addPlant(plant:UIPlantProtocol)->Bool
+}

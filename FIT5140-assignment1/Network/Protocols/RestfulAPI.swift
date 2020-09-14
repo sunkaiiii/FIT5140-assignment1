@@ -50,11 +50,11 @@ enum RequestHost:Host{
 }
 
 enum PlantRequestAPI:RestfulAPI{
-    case getPlant
+    case searchPlant
     func getRequestName() -> String {
         switch self {
-        case .getPlant:
-            return "getPlant"
+        case .searchPlant:
+            return "searchPlant"
         default:
             return ""
         }
@@ -62,8 +62,8 @@ enum PlantRequestAPI:RestfulAPI{
     
     func getRoute() -> String {
         switch self {
-        case .getPlant:
-            return "/api/v1/plants"
+        case .searchPlant:
+            return "/api/v1/plants/search"
         default:
             return ""
         }
@@ -71,7 +71,7 @@ enum PlantRequestAPI:RestfulAPI{
     
     func getRequestType() -> RequestType {
         switch self {
-        case .getPlant:
+        case .searchPlant:
             return RequestType.GET
         default:
             return RequestType.GET
@@ -80,7 +80,7 @@ enum PlantRequestAPI:RestfulAPI{
     
     func getRequestHost() -> RequestHost {
         switch self {
-        case .getPlant:
+        case .searchPlant:
             return RequestHost.trefle
         default:
             return RequestHost.trefle

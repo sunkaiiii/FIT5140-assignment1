@@ -9,9 +9,8 @@
 /* Begin PBXBuildFile section */
 		B100769624F8C9A3002C4ACC /* NetworkRequestTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100769524F8C9A3002C4ACC /* NetworkRequestTask.swift */; };
 		B100769824F8CA17002C4ACC /* RequestHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100769724F8CA17002C4ACC /* RequestHelper.swift */; };
-		B100769B24F8D3BE002C4ACC /* PlantRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100769A24F8D3BE002C4ACC /* PlantRequest.swift */; };
+		B100769B24F8D3BE002C4ACC /* SearchPlantRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100769A24F8D3BE002C4ACC /* SearchPlantRequest.swift */; };
 		B100769D24F8D4D0002C4ACC /* NetworkExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100769C24F8D4D0002C4ACC /* NetworkExtension.swift */; };
-		B10076A024FA4979002C4ACC /* PlantResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100769F24FA4979002C4ACC /* PlantResponse.swift */; };
 		B10076A324FB28BF002C4ACC /* ExhibitionDatabaseProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10076A224FB28BE002C4ACC /* ExhibitionDatabaseProtocol.swift */; };
 		B13D8AA62501EE77006B9238 /* ExhibitsLocationAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13D8AA52501EE77006B9238 /* ExhibitsLocationAnnotation.swift */; };
 		B13D8AA82501EF58006B9238 /* ExhibitLocationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13D8AA72501EF58006B9238 /* ExhibitLocationHelper.swift */; };
@@ -28,6 +27,9 @@
 		B1437B13250741C500E9BC0E /* MulticastDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1437B12250741C500E9BC0E /* MulticastDelegate.swift */; };
 		B1437B152507565B00E9BC0E /* AddExhibitionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1437B142507565B00E9BC0E /* AddExhibitionViewController.swift */; };
 		B1437B182507577000E9BC0E /* ExhibitionListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1437B172507577000E9BC0E /* ExhibitionListTableViewCell.swift */; };
+		B146F2EE250F7DF200A3E332 /* AddPlantTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B146F2ED250F7DF200A3E332 /* AddPlantTableViewController.swift */; };
+		B146F2F1250F9BFF00A3E332 /* SearchPlantResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = B146F2F0250F9BFF00A3E332 /* SearchPlantResponse.swift */; };
+		B146F2F3250FB03D00A3E332 /* UIPlantProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B146F2F2250FB03D00A3E332 /* UIPlantProtocol.swift */; };
 		B1892A1524F7ABD800B55215 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1892A1424F7ABD800B55215 /* AppDelegate.swift */; };
 		B1892A1724F7ABD800B55215 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1892A1624F7ABD800B55215 /* SceneDelegate.swift */; };
 		B1892A1C24F7ABD800B55215 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B1892A1A24F7ABD800B55215 /* Main.storyboard */; };
@@ -45,9 +47,8 @@
 /* Begin PBXFileReference section */
 		B100769524F8C9A3002C4ACC /* NetworkRequestTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRequestTask.swift; sourceTree = "<group>"; };
 		B100769724F8CA17002C4ACC /* RequestHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestHelper.swift; sourceTree = "<group>"; };
-		B100769A24F8D3BE002C4ACC /* PlantRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlantRequest.swift; sourceTree = "<group>"; };
+		B100769A24F8D3BE002C4ACC /* SearchPlantRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPlantRequest.swift; sourceTree = "<group>"; };
 		B100769C24F8D4D0002C4ACC /* NetworkExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkExtension.swift; sourceTree = "<group>"; };
-		B100769F24FA4979002C4ACC /* PlantResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlantResponse.swift; sourceTree = "<group>"; };
 		B10076A224FB28BE002C4ACC /* ExhibitionDatabaseProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExhibitionDatabaseProtocol.swift; sourceTree = "<group>"; };
 		B13D8AA52501EE77006B9238 /* ExhibitsLocationAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExhibitsLocationAnnotation.swift; sourceTree = "<group>"; };
 		B13D8AA72501EF58006B9238 /* ExhibitLocationHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExhibitLocationHelper.swift; sourceTree = "<group>"; };
@@ -65,6 +66,9 @@
 		B1437B12250741C500E9BC0E /* MulticastDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MulticastDelegate.swift; sourceTree = "<group>"; };
 		B1437B142507565B00E9BC0E /* AddExhibitionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddExhibitionViewController.swift; sourceTree = "<group>"; };
 		B1437B172507577000E9BC0E /* ExhibitionListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExhibitionListTableViewCell.swift; sourceTree = "<group>"; };
+		B146F2ED250F7DF200A3E332 /* AddPlantTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPlantTableViewController.swift; sourceTree = "<group>"; };
+		B146F2F0250F9BFF00A3E332 /* SearchPlantResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPlantResponse.swift; sourceTree = "<group>"; };
+		B146F2F2250FB03D00A3E332 /* UIPlantProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIPlantProtocol.swift; sourceTree = "<group>"; };
 		B1892A1124F7ABD800B55215 /* FIT5140-assignment1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "FIT5140-assignment1.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B1892A1424F7ABD800B55215 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B1892A1624F7ABD800B55215 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -95,17 +99,9 @@
 		B100769924F8D3B1002C4ACC /* RequestModel */ = {
 			isa = PBXGroup;
 			children = (
-				B100769A24F8D3BE002C4ACC /* PlantRequest.swift */,
+				B100769A24F8D3BE002C4ACC /* SearchPlantRequest.swift */,
 			);
 			path = RequestModel;
-			sourceTree = "<group>";
-		};
-		B100769E24FA494B002C4ACC /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				B100769F24FA4979002C4ACC /* PlantResponse.swift */,
-			);
-			path = Model;
 			sourceTree = "<group>";
 		};
 		B10076A124FB2894002C4ACC /* Database */ = {
@@ -149,6 +145,7 @@
 				B1437B142507565B00E9BC0E /* AddExhibitionViewController.swift */,
 				B1B8931B250CB028008E4D6F /* PlantDetailViewController.swift */,
 				B1AB5604250E47CD000833D7 /* EditPlantViewController.swift */,
+				B146F2ED250F7DF200A3E332 /* AddPlantTableViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -177,6 +174,14 @@
 				B1B89319250C9EB1008E4D6F /* ExhibitionPlantTableViewCell.swift */,
 			);
 			path = Cell;
+			sourceTree = "<group>";
+		};
+		B146F2EF250F9A7100A3E332 /* ResponseModel */ = {
+			isa = PBXGroup;
+			children = (
+				B146F2F0250F9BFF00A3E332 /* SearchPlantResponse.swift */,
+			);
+			path = ResponseModel;
 			sourceTree = "<group>";
 		};
 		B1892A0824F7ABD800B55215 = {
@@ -220,7 +225,7 @@
 		B1892A2824F7AC0200B55215 /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				B100769E24FA494B002C4ACC /* Model */,
+				B146F2EF250F9A7100A3E332 /* ResponseModel */,
 				B100769924F8D3B1002C4ACC /* RequestModel */,
 				B1892A2924F7AC6E00B55215 /* Protocols */,
 				B100769524F8C9A3002C4ACC /* NetworkRequestTask.swift */,
@@ -242,6 +247,7 @@
 			isa = PBXGroup;
 			children = (
 				B1AB5608250E5FA3000833D7 /* AddExhibitionProtocol.swift */,
+				B146F2F2250FB03D00A3E332 /* UIPlantProtocol.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -317,8 +323,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B146F2EE250F7DF200A3E332 /* AddPlantTableViewController.swift in Sources */,
 				B1B8931A250C9EB1008E4D6F /* ExhibitionPlantTableViewCell.swift in Sources */,
-				B10076A024FA4979002C4ACC /* PlantResponse.swift in Sources */,
 				B1892A1524F7ABD800B55215 /* AppDelegate.swift in Sources */,
 				B100769D24F8D4D0002C4ACC /* NetworkExtension.swift in Sources */,
 				B10076A324FB28BF002C4ACC /* ExhibitionDatabaseProtocol.swift in Sources */,
@@ -331,7 +337,7 @@
 				B1437B0C250710F600E9BC0E /* Exhibition+CoreDataClass.swift in Sources */,
 				B1437B152507565B00E9BC0E /* AddExhibitionViewController.swift in Sources */,
 				B1437B182507577000E9BC0E /* ExhibitionListTableViewCell.swift in Sources */,
-				B100769B24F8D3BE002C4ACC /* PlantRequest.swift in Sources */,
+				B100769B24F8D3BE002C4ACC /* SearchPlantRequest.swift in Sources */,
 				B1437B022507078700E9BC0E /* AllExhibitionTableViewController.swift in Sources */,
 				B1B8931E250D0653008E4D6F /* ImageLoader.swift in Sources */,
 				B1B8931C250CB028008E4D6F /* PlantDetailViewController.swift in Sources */,
@@ -340,6 +346,7 @@
 				B1437B0D250710F600E9BC0E /* Exhibition+CoreDataProperties.swift in Sources */,
 				B1892A1724F7ABD800B55215 /* SceneDelegate.swift in Sources */,
 				B1437B0725070F1C00E9BC0E /* ExhibitionDataModel.xcdatamodeld in Sources */,
+				B146F2F1250F9BFF00A3E332 /* SearchPlantResponse.swift in Sources */,
 				B1437B0F250710F600E9BC0E /* Plant+CoreDataProperties.swift in Sources */,
 				B13D8AA62501EE77006B9238 /* ExhibitsLocationAnnotation.swift in Sources */,
 				B1B89318250C9CDE008E4D6F /* ExhibitionDetailTableViewCell.swift in Sources */,
@@ -347,6 +354,7 @@
 				B1437B13250741C500E9BC0E /* MulticastDelegate.swift in Sources */,
 				B1437B0E250710F600E9BC0E /* Plant+CoreDataClass.swift in Sources */,
 				B13D8AAB25020DFC006B9238 /* HomeViewController.swift in Sources */,
+				B146F2F3250FB03D00A3E332 /* UIPlantProtocol.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

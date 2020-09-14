@@ -10,6 +10,8 @@ import Foundation
 import CoreData
 
 class ExhibitionCoreDataController:NSObject,ExhibitionDatabaseProtocol, NSFetchedResultsControllerDelegate{
+
+    
     var persistentContainer:NSPersistentContainer
     var allExhibitionFetchedResultController:NSFetchedResultsController<Exhibition>?
     var listeners = MulticastDelegate<ExhibitionDatabaseListener>()
@@ -54,6 +56,20 @@ class ExhibitionCoreDataController:NSObject,ExhibitionDatabaseProtocol, NSFetche
         return exhibitions
     }
     
+    func searchPlantByName(plantName: String) -> [Plant]? {
+        let fetchRequest:NSFetchRequest<Plant> = Plant.fetchRequest()
+        let predicate = NSPredicate(format: "name CONTAINS[c] %@", plantName)
+        fetchRequest.predicate = predicate
+        do{
+            let result:[Plant]?
+            try result = persistentContainer.viewContext.fetch(fetchRequest) as [Plant]?
+            return result
+        }catch{
+            print("Fech Request Failed")
+        }
+        return nil
+    }
+    
     func addExhibition(name: String,subtitle:String, desc: String, latitude: Double, longitude: Double)->Exhibition {
         let exhibition = NSEntityDescription.insertNewObject(forEntityName: "Exhibition", into: persistentContainer.viewContext) as! Exhibition
         exhibition.name = name
@@ -76,7 +92,7 @@ class ExhibitionCoreDataController:NSObject,ExhibitionDatabaseProtocol, NSFetche
         exhibiton.removeFromPlants(plant)
     }
     
-    func addPlant(name: String, yearDiscovered: Int, family: String, scientificName: String,imageUrl:String?) -> Plant {
+    func addPlant(name: String?, yearDiscovered: Int, family: String?, scientificName: String?,imageUrl:String?) -> Plant {
         let plant = NSEntityDescription.insertNewObject(forEntityName: "Plant", into: persistentContainer.viewContext) as! Plant
         plant.name = name
         plant.yearDiscovered = Int32(yearDiscovered)

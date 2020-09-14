@@ -9,8 +9,7 @@
 import UIKit
 import MapKit
 
-class AddExhibitionViewController: UIViewController, UISearchBarDelegate,UITableViewDataSource, UITableViewDelegate {
-
+class AddExhibitionViewController: UIViewController, UISearchBarDelegate,UITableViewDataSource, UITableViewDelegate,AddPlantProtocol {
 
     @IBOutlet weak var exhibitionName: UITextField!
     @IBOutlet weak var exhibitionDescription: UITextField!
@@ -19,20 +18,29 @@ class AddExhibitionViewController: UIViewController, UISearchBarDelegate,UITable
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var selectImage: UIButton!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var plantTableView: UITableView!
     
     let LOCATION_CELL = "locationCell"
+    let ADD_PLANT_SEGUE = "addPlant"
     var locations = [CLPlacemark]()
-    
     var selectedExhibition:ExhibitsLocationAnnotation?
     weak var addExhibitionDelegate:AddExhibitionProtocol?
+    weak var exhibitionController:ExhibitionDatabaseProtocol?
+    var plantTableViewDelegate:PlantTableViewDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        self.exhibitionController = appDelegate.databaseController
 
         // Do any additional setup after loading the view.
         locationSearchBar.delegate = self
         tableView.dataSource = self
         tableView.delegate = self
+        plantTableViewDelegate = PlantTableViewDelegate()
+        plantTableView.delegate = plantTableViewDelegate
+        plantTableView.dataSource = plantTableViewDelegate
+        
     }
     
     
@@ -103,14 +111,65 @@ class AddExhibitionViewController: UIViewController, UISearchBarDelegate,UITable
         }
         return true
     }
-    /*
-    // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        if segue.identifier == ADD_PLANT_SEGUE{
+            let controller = segue.destination as! AddPlantTableViewController
+            controller.addPlantProtocol = self
+        }
     }
-    */
+    
+    func addPlant(plant: UIPlantProtocol) -> Bool {
+        if plantTableViewDelegate?.plants.contains(where: {(p)->Bool in
+            return plant.name == p.name && plant.scientificName == p.scientificName
+        }) ?? false {
+            return false
+        }
+        
+        if !(plant.isFromDatabase ?? false){
+            let newPlant = exhibitionController?.addPlant(name: plant.name!, yearDiscovered: Int(plant.yearDiscovered), family: plant.family, scientificName: plant.scientificName, imageUrl: plant.imageUrl)
+            if newPlant == nil{
+                return false
+            }
+        }
+        plantTableViewDelegate?.plants.append(plant)
+        plantTableView.reloadData()
+        return true
+    }
+}
 
+
+class PlantTableViewDelegate:NSObject,UITableViewDataSource,UITableViewDelegate{
+    var plants:[UIPlantProtocol] = []
+    let SUMMARY_CELL = "summeriseCell"
+    let PLANT_INFO_CELL = "plantInfoCell"
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
+    }
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if section == 0{
+            return 1
+        }else if section == 1{
+            return plants.count
+        }
+        else{
+            return 0
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell:UITableViewCell?
+        if indexPath.section == 0{
+            cell = tableView.dequeueReusableCell(withIdentifier: SUMMARY_CELL, for: indexPath)
+            cell?.textLabel?.text = "You have selected \(plants.count) plant(s)"
+        }else if indexPath.section == 1{
+            cell = tableView.dequeueReusableCell(withIdentifier: PLANT_INFO_CELL, for: indexPath)
+            let plant = plants[indexPath.row]
+            cell?.textLabel?.text = plant.name ?? ""
+            cell?.detailTextLabel?.text = plant.scientificName ?? ""
+        }else{
+            cell = nil
+        }
+        return cell!
+    }
 }
