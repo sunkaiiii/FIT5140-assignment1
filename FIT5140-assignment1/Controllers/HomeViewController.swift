@@ -95,26 +95,10 @@ class HomeViewController: UIViewController,UITableViewDelegate, UITableViewDataS
 
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        guard !(annotation is MKUserLocation) else {
-            return nil
+        if let annotation = annotation as? ExhibitsLocationAnnotation{
+            return MapViewHelper.generateCustomAnnotationView(mapView: mapView, annotation: annotation)
         }
-        
-        let annotationIdentifier = "AnnotationIdentifier"
-        
-        var annotationView:MKAnnotationView?
-        if let dequeuedAnnotationView = mapView.dequeueReusableAnnotationView(withIdentifier: annotationIdentifier){
-            annotationView = dequeuedAnnotationView
-            annotationView?.annotation = annotation
-        }else{
-            annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: annotationIdentifier)
-            annotationView?.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
-        }
-        
-        if let annotationView = annotationView{
-            annotationView.canShowCallout = true
-            annotationView.image = UIImage(named: annotation.title!!)?.resizeImage(newWidth: 40)?.circleMasked
-        }
-        return annotationView
+        return nil
     }
     
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
@@ -134,9 +118,21 @@ class HomeViewController: UIViewController,UITableViewDelegate, UITableViewDataS
             controller.addExhibitionDelegate = self
         }
     }
+
     
-    func addExhibition(name:String,subtitle:String,desc:String,latitude:Double,longitude:Double) -> Bool {
-        let exhibition = exhibitionController?.addExhibition(name: name, subtitle: subtitle, desc: desc, latitude: latitude, longitude: longitude)
-        return exhibition != nil
+    func addExhibition(name: String, subtitle: String, desc: String, latitude: Double, longitude: Double,imageUrl:String?) -> Exhibition? {
+        let exhibition = exhibitionController?.addExhibition(name: name, subtitle: subtitle, desc: desc, latitude: latitude, longitude: longitude, imageUrl: imageUrl)
+        return exhibition
     }
+    
+    func addPlantToExhibition(plant: Plant, exhibition: Exhibition) -> Bool {
+        return exhibitionController?.addPlantToExhibition(plant: plant, exhibition: exhibition) ?? false
+    }
+    
+    func afterAdd(needRefreshData: Bool) {
+        if needRefreshData{
+            tableView.reloadData()
+        }
+    }
+    
 }

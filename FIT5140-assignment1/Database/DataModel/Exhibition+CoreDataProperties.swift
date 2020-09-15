@@ -2,7 +2,7 @@
 //  Exhibition+CoreDataProperties.swift
 //  FIT5140-assignment1
 //
-//  Created by sunkai on 8/9/20.
+//  Created by sunkai on 15/9/20.
 //  Copyright © 2020 sunkai. All rights reserved.
 //
 //
@@ -17,11 +17,12 @@ extension Exhibition {
         return NSFetchRequest<Exhibition>(entityName: "Exhibition")
     }
 
-    @NSManaged public var name: String?
     @NSManaged public var desc: String?
     @NSManaged public var latitude: Double
     @NSManaged public var longitude: Double
+    @NSManaged public var name: String?
     @NSManaged public var subtitle: String?
+    @NSManaged public var imageUrl: String?
     @NSManaged public var plants: NSSet?
 
 }

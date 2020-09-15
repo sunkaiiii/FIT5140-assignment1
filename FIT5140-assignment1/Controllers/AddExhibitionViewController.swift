@@ -9,7 +9,7 @@
 import UIKit
 import MapKit
 
-class AddExhibitionViewController: UIViewController, UISearchBarDelegate,UITableViewDataSource, UITableViewDelegate,AddPlantProtocol {
+class AddExhibitionViewController: UIViewController, UISearchBarDelegate,UITableViewDataSource, UITableViewDelegate,AddPlantProtocol, ImagePickerDelegate,MKMapViewDelegate {
 
     @IBOutlet weak var exhibitionName: UITextField!
     @IBOutlet weak var exhibitionDescription: UITextField!
@@ -27,16 +27,22 @@ class AddExhibitionViewController: UIViewController, UISearchBarDelegate,UITable
     weak var addExhibitionDelegate:AddExhibitionProtocol?
     weak var exhibitionController:ExhibitionDatabaseProtocol?
     var plantTableViewDelegate:PlantTableViewDelegate?
+    var icon:UIImage?
+    var imageUrl:String?
+    var imagePicker:ImagePicker?
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         self.exhibitionController = appDelegate.databaseController
+        imagePicker = ImagePicker(presentationController: self, delegate: self)
 
         // Do any additional setup after loading the view.
         locationSearchBar.delegate = self
         tableView.dataSource = self
         tableView.delegate = self
+        mapView.delegate = self
         plantTableViewDelegate = PlantTableViewDelegate()
         plantTableView.delegate = plantTableViewDelegate
         plantTableView.dataSource = plantTableViewDelegate
@@ -68,7 +74,7 @@ class AddExhibitionViewController: UIViewController, UISearchBarDelegate,UITable
         let location = locations[indexPath.row]
         let coordinate = location.location?.coordinate
         if let coordinate = coordinate{
-            let annotation = ExhibitsLocationAnnotation(title: self.exhibitionName.text, subtitle: "\(location.name ?? "") \(location.thoroughfare ?? "")", desc: self.exhibitionDescription.text, latitude: coordinate.latitude, longitude: coordinate.longitude)
+            let annotation = ExhibitsLocationAnnotation(title: self.exhibitionName.text, subtitle: location.name ?? "", desc: self.exhibitionDescription.text, latitude: coordinate.latitude, longitude: coordinate.longitude)
             self.mapView.isHidden = false
             self.tableView.isHidden = true
             self.mapView.addAnnotation(annotation)
@@ -94,19 +100,47 @@ class AddExhibitionViewController: UIViewController, UISearchBarDelegate,UITable
         return cell
     }
     
-
+    @IBAction func addMapAnnotationIcon(_ sender: Any) {
+        imagePicker?.present(from: sender as! UIView)
+    }
+    
+    func didSelect(imageUrl: String, image: UIImage?) {
+        guard let image = image else {
+            return
+        }
+        self.imageUrl = imageUrl
+        self.icon = image
+        if let annotation = selectedExhibition{
+            mapView.removeAnnotation(annotation)
+            mapView.addAnnotation(annotation)
+            mapView.selectAnnotationAndMoveToFocus(annotation)
+        }
+    }
     @IBAction func addExhibition(_ sender: Any) {
         if !checkValid(){
             return
         }
         
-        if addExhibitionDelegate?.addExhibition(name: exhibitionName.text!, subtitle: exhibitionDescription.text!, desc: exhibitionDescription.text!, latitude: selectedExhibition!.coordinate.latitude, longitude: selectedExhibition!.coordinate.longitude) ?? false{
+        if let exhibition = addExhibitionDelegate?.addExhibition(name: exhibitionName.text!, subtitle: exhibitionDescription.text!, desc: exhibitionDescription.text!, latitude: selectedExhibition!.coordinate.latitude, longitude: selectedExhibition!.coordinate.longitude,imageUrl:imageUrl){
+            self.plantTableViewDelegate?.plants.forEach({(uiPlant) in
+                if uiPlant.isFromDatabase ?? false, let existedPlant = uiPlant as? Plant{
+                    let _ = self.addExhibitionDelegate?.addPlantToExhibition(plant: existedPlant, exhibition: exhibition)
+                }else{
+                    let newPlant = exhibitionController?.addPlant(name: uiPlant.name!, yearDiscovered: Int(uiPlant.yearDiscovered), family: uiPlant.family, scientificName: uiPlant.scientificName, imageUrl: uiPlant.imageUrl)
+                    if let newPlant = newPlant{
+                        let _ = self.addExhibitionDelegate?.addPlantToExhibition(plant: newPlant, exhibition: exhibition)
+                    }
+                }
+            })
+            self.addExhibitionDelegate?.afterAdd(needRefreshData: true)
             self.navigationController?.popViewController(animated: true)
+        }else{
+            //TODO altertController
         }
     }
     
     func checkValid()->Bool{
-        if exhibitionName.text?.count == 0 || exhibitionDescription.text?.count == 0 || selectedExhibition == nil{
+        if exhibitionName.text?.count == 0 || exhibitionDescription.text?.count == 0 || selectedExhibition == nil || plantTableViewDelegate?.plants.count ?? 0 < 3{
             return false
         }
         return true
@@ -125,16 +159,16 @@ class AddExhibitionViewController: UIViewController, UISearchBarDelegate,UITable
         }) ?? false {
             return false
         }
-        
-        if !(plant.isFromDatabase ?? false){
-            let newPlant = exhibitionController?.addPlant(name: plant.name!, yearDiscovered: Int(plant.yearDiscovered), family: plant.family, scientificName: plant.scientificName, imageUrl: plant.imageUrl)
-            if newPlant == nil{
-                return false
-            }
-        }
         plantTableViewDelegate?.plants.append(plant)
         plantTableView.reloadData()
         return true
+    }
+    
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        if let imageUrl = imageUrl{
+            return MapViewHelper.generateCustomAnnotation(mapView: mapView, annotation: annotation, imageUrl: imageUrl)
+        }
+        return nil
     }
 }
 

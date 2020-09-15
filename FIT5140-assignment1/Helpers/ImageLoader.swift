@@ -43,15 +43,22 @@ final class ImageLoader: NSObject {
             guard let session = session else {
                 return
             }
-              if let data = imageCache.object(forKey: imageUrl as AnyObject){
-                  onComplete(imageUrl,UIImage(data: data as! Data))
-                  return
-              }
-              let url = URL(string: imageUrl)
-              let task = session.downloadTask(with: url!)
-              taskMap[task] = ImageDownloadTask(imageUrl,onComplete: onComplete)
-              task.resume()
-          }
+            if let data = imageCache.object(forKey: imageUrl as AnyObject){
+                onComplete(imageUrl,UIImage(data: data as! Data))
+                return
+            }
+            
+            if let uiImage = retriveImage(forKey: imageUrl, inStorageType: .userDefaults){
+                onComplete(imageUrl, uiImage)
+                return
+            }
+            
+            let url = URL(string: imageUrl)
+            let task = session.downloadTask(with: url!)
+            taskMap[task] = ImageDownloadTask(imageUrl,onComplete: onComplete)
+            task.resume()
+        }
+        
         
         func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
             do{
@@ -59,6 +66,10 @@ final class ImageLoader: NSObject {
                 if let imageTask = taskMap[downloadTask]{
                     imageCache.setObject(data as AnyObject, forKey: imageTask.url as AnyObject)
                     taskMap.removeValue(forKey: downloadTask)
+                    let image = UIImage(data: data)
+                    if let image = image{
+                        storeImage(image: image, forKey: imageTask.url, wtihStorageType: .userDefaults)
+                    }
                     DispatchQueue.main.async {
                         imageTask.onComplete(imageTask.url, UIImage(data: data))
                     }
@@ -67,8 +78,37 @@ final class ImageLoader: NSObject {
                 print(error.localizedDescription)
             }
         }
+        
+        private func storeImage(image:UIImage, forKey key:String, wtihStorageType storageType: StorageType){
+            if let pngRepresentation = image.pngData(){
+                switch storageType {
+                case .fileSystem:
+                    break
+                case .userDefaults:
+                    UserDefaults.standard.set(pngRepresentation, forKey: key)
+                    break
+                }
+            }
+        }
+        
+        private func retriveImage(forKey key:String, inStorageType storageType: StorageType) -> UIImage? {
+            switch storageType {
+            case .fileSystem:
+                break
+            case .userDefaults:
+                if let imageData = UserDefaults.standard.object(forKey: key) as? Data{
+                    return UIImage(data: imageData)
+                }
+                break
+            }
+            return nil
+        }
     }
     
+    private enum StorageType{
+        case userDefaults
+        case fileSystem
+    }
     private class ImageDownloadTask{
         let url:String
         let onComplete:(String,UIImage?)->Void

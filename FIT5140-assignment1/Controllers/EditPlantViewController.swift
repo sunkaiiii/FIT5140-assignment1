@@ -8,7 +8,7 @@
 
 import UIKit
 
-class EditPlantViewController: UIViewController {
+class EditPlantViewController: UIViewController,ImagePickerDelegate {
 
     @IBOutlet weak var plantName: UITextField!
     @IBOutlet weak var plantScientificName: UITextField!
@@ -16,6 +16,7 @@ class EditPlantViewController: UIViewController {
     @IBOutlet weak var plantYearDiscovered: UITextField!
     @IBOutlet weak var plantImage: UIImageView!
     
+    var imagePicker:ImagePicker?
     var plant:UIPlant?
     weak var editPlantProtocol:EditPlantProtocol?
     
@@ -24,6 +25,7 @@ class EditPlantViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        imagePicker = ImagePicker(presentationController: self, delegate: self)
         if let plant = self.plant {
             plantName.text = plant.name
             plantScientificName.text = plant.scientificName
@@ -39,6 +41,9 @@ class EditPlantViewController: UIViewController {
     }
     
     @IBAction func saveChanges(_ sender: Any) {
+        if checkValid() == false{
+            return
+        }
         let newPlant = UIPlantImpl(name: plantName.text, yearDiscovered: Int32(plantYearDiscovered?.text ?? "0") ?? 0, imageUrl: imageUrl, scientificName: plant?.scientificName, family: plant?.family, isFromDatabase: true)
         let result = editPlantProtocol?.editPlant(newPlant: newPlant)
         if result ?? false{
@@ -46,6 +51,25 @@ class EditPlantViewController: UIViewController {
         }
     }
     
+    
+    @IBAction func changeImage(_ sender: Any) {
+        imagePicker?.present(from: sender as! UIView)
+    }
+    
+    private func checkValid()->Bool{
+        guard let name = plantName.text,let scientificName = plantScientificName.text, let family = plantFamily.text, let yearDiscovered = Int32(plantYearDiscovered.text ?? "-1"), let imageUrl = imageUrl, name.count>0, scientificName.count>0, family.count>0, imageUrl.count>0, yearDiscovered > 1230 else {
+            return false
+        }
+        return true
+    }
+    
+    func didSelect(imageUrl: String, image: UIImage?) {
+        guard let image = image else {
+            return
+        }
+        self.imageUrl = imageUrl
+        self.plantImage.image = image
+    }
     /*
     // MARK: - Navigation
 

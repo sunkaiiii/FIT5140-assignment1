@@ -9,7 +9,7 @@
 import UIKit
 import MapKit
 
-class ExhibitionDetailViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class ExhibitionDetailViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, MKMapViewDelegate {
 
     let EXHIBITION_INFORMATION = 0
     let EXHIBITION_PLANT = 1
@@ -33,6 +33,7 @@ class ExhibitionDetailViewController: UIViewController, UITableViewDelegate, UIT
         plants = exhibition?.plants?.map({(plant)->Plant in
             return plant as! Plant
         })
+        self.mapView.delegate = self
         self.mapView.addAnnotation(annotation)
         selectAnnotationAndMoveToZoom(mapView:mapView, annotation: annotation)
         self.title = annotation.title
@@ -83,5 +84,11 @@ class ExhibitionDetailViewController: UIViewController, UITableViewDelegate, UIT
         }
     }
 
-
+    
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        if let annotation = annotation as? ExhibitsLocationAnnotation{
+            return MapViewHelper.generateCustomAnnotationView(mapView: mapView, annotation: annotation)
+        }
+        return nil
+    }
 }
