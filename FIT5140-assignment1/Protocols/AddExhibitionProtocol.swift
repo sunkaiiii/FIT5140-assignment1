@@ -14,5 +14,5 @@ protocol AddExhibitionProtocol:AnyObject{
 
 
 protocol AddPlantProtocol:AnyObject{
-    func addPlant(plant:UIPlantProtocol)->Bool
+    func addPlant(plant:UIPlant)->Bool
 }

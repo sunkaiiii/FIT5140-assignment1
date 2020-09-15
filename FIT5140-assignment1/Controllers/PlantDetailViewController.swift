@@ -8,7 +8,8 @@
 
 import UIKit
 
-class PlantDetailViewController: UIViewController {
+class PlantDetailViewController: UIViewController, EditPlantProtocol {
+    let EDIT_PLANT_SEGUE = "editPlant"
 
     @IBOutlet weak var plantName: UILabel!
     @IBOutlet weak var plantScientificName: UILabel!
@@ -17,24 +18,32 @@ class PlantDetailViewController: UIViewController {
     @IBOutlet weak var plantImage: UIImageView!
     
     var plant:Plant?
+    weak var exhibitionController:ExhibitionDatabaseProtocol?
+    var isPlantEdited = false
     override func viewDidLoad() {
         super.viewDidLoad()
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        self.exhibitionController = appDelegate.databaseController
 
         if let plant = plant {
-            self.navigationController?.title = plant.name
-            self.plantName.text = plant.name
-            self.plantScientificName.text = plant.scientificName
-            self.plantYearDiscovered.text = "\(plant.yearDiscovered)"
-            self.plantFamily.text = plant.family
-            if let url = plant.imageUrl{
-                ImageLoader.shraed.loadImage(url, onComplete:{(url, image) in
-                    if let image = image {
-                        self.plantImage.image = image
-                    }
-                })
-            }
+            fillDataIntoView(plant: plant)
         }else{
             navigationController?.popViewController(animated: true)
+        }
+    }
+    
+    private func fillDataIntoView(plant:UIPlant){
+        self.navigationController?.title = plant.name
+        self.plantName.text = plant.name
+        self.plantScientificName.text = plant.scientificName
+        self.plantYearDiscovered.text = "\(plant.yearDiscovered)"
+        self.plantFamily.text = plant.family
+        if let url = plant.imageUrl{
+            ImageLoader.shraed.loadImage(url, onComplete:{(url, image) in
+                if let image = image {
+                    self.plantImage.image = image
+                }
+            })
         }
     }
     
@@ -44,14 +53,28 @@ class PlantDetailViewController: UIViewController {
         
     }
 
-    /*
-    // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        if segue.identifier == EDIT_PLANT_SEGUE{
+            guard let controller = segue.destination as? EditPlantViewController,let plant = plant else{
+                return
+            }
+            controller.plant = plant
+            controller.editPlantProtocol = self
+        }
     }
-    */
+    
+    func editPlant(newPlant: UIPlant) -> Bool {
+        guard let oldPlant = self.plant else{
+            return false
+        }
+        self.plant = self.exhibitionController?.updatePlant(oldPlant: oldPlant, newPlant: newPlant)
+        if let plant = self.plant{
+            isPlantEdited = true
+            fillDataIntoView(plant: plant)
+            return true
+        }
+        return false
+    }
 
 }

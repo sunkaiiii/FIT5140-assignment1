@@ -15,7 +15,7 @@ class AddPlantTableViewController: UITableViewController, UISearchBarDelegate,HT
     weak var exhibitionDatabaseController:ExhibitionDatabaseProtocol?
     weak var addPlantProtocol:AddPlantProtocol?
     
-    var allPlant = [UIPlantProtocol]()
+    var allPlant = [UIPlant]()
     var indicator = UIActivityIndicatorView()
 
     override func viewDidLoad() {

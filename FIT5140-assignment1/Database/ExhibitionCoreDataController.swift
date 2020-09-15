@@ -110,6 +110,15 @@ class ExhibitionCoreDataController:NSObject,ExhibitionDatabaseProtocol, NSFetche
         return true
     }
     
+    func updatePlant(oldPlant: Plant, newPlant: UIPlant) -> Plant {
+        oldPlant.name = newPlant.name
+        oldPlant.scientificName = newPlant.scientificName
+        oldPlant.imageUrl = newPlant.imageUrl
+        oldPlant.yearDiscovered = newPlant.yearDiscovered
+        oldPlant.family = newPlant.family
+        return oldPlant
+    }
+    
     
     func addListener(listener:ExhibitionDatabaseListener){
         listeners.addDelegate(listener)

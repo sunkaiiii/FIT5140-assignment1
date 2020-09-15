@@ -119,7 +119,7 @@ class AddExhibitionViewController: UIViewController, UISearchBarDelegate,UITable
         }
     }
     
-    func addPlant(plant: UIPlantProtocol) -> Bool {
+    func addPlant(plant: UIPlant) -> Bool {
         if plantTableViewDelegate?.plants.contains(where: {(p)->Bool in
             return plant.name == p.name && plant.scientificName == p.scientificName
         }) ?? false {
@@ -140,7 +140,7 @@ class AddExhibitionViewController: UIViewController, UISearchBarDelegate,UITable
 
 
 class PlantTableViewDelegate:NSObject,UITableViewDataSource,UITableViewDelegate{
-    var plants:[UIPlantProtocol] = []
+    var plants:[UIPlant] = []
     let SUMMARY_CELL = "summeriseCell"
     let PLANT_INFO_CELL = "plantInfoCell"
     func numberOfSections(in tableView: UITableView) -> Int {

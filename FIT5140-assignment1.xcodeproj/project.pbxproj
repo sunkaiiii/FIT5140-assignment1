@@ -29,7 +29,8 @@
 		B1437B182507577000E9BC0E /* ExhibitionListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1437B172507577000E9BC0E /* ExhibitionListTableViewCell.swift */; };
 		B146F2EE250F7DF200A3E332 /* AddPlantTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B146F2ED250F7DF200A3E332 /* AddPlantTableViewController.swift */; };
 		B146F2F1250F9BFF00A3E332 /* SearchPlantResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = B146F2F0250F9BFF00A3E332 /* SearchPlantResponse.swift */; };
-		B146F2F3250FB03D00A3E332 /* UIPlantProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B146F2F2250FB03D00A3E332 /* UIPlantProtocol.swift */; };
+		B146F2F3250FB03D00A3E332 /* UIPlant.swift in Sources */ = {isa = PBXBuildFile; fileRef = B146F2F2250FB03D00A3E332 /* UIPlant.swift */; };
+		B146F2F52510730900A3E332 /* EditPlantProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B146F2F42510730900A3E332 /* EditPlantProtocol.swift */; };
 		B1892A1524F7ABD800B55215 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1892A1424F7ABD800B55215 /* AppDelegate.swift */; };
 		B1892A1724F7ABD800B55215 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1892A1624F7ABD800B55215 /* SceneDelegate.swift */; };
 		B1892A1C24F7ABD800B55215 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B1892A1A24F7ABD800B55215 /* Main.storyboard */; };
@@ -68,7 +69,8 @@
 		B1437B172507577000E9BC0E /* ExhibitionListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExhibitionListTableViewCell.swift; sourceTree = "<group>"; };
 		B146F2ED250F7DF200A3E332 /* AddPlantTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPlantTableViewController.swift; sourceTree = "<group>"; };
 		B146F2F0250F9BFF00A3E332 /* SearchPlantResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPlantResponse.swift; sourceTree = "<group>"; };
-		B146F2F2250FB03D00A3E332 /* UIPlantProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIPlantProtocol.swift; sourceTree = "<group>"; };
+		B146F2F2250FB03D00A3E332 /* UIPlant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIPlant.swift; sourceTree = "<group>"; };
+		B146F2F42510730900A3E332 /* EditPlantProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPlantProtocol.swift; sourceTree = "<group>"; };
 		B1892A1124F7ABD800B55215 /* FIT5140-assignment1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "FIT5140-assignment1.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B1892A1424F7ABD800B55215 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B1892A1624F7ABD800B55215 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -247,7 +249,8 @@
 			isa = PBXGroup;
 			children = (
 				B1AB5608250E5FA3000833D7 /* AddExhibitionProtocol.swift */,
-				B146F2F2250FB03D00A3E332 /* UIPlantProtocol.swift */,
+				B146F2F2250FB03D00A3E332 /* UIPlant.swift */,
+				B146F2F42510730900A3E332 /* EditPlantProtocol.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -351,10 +354,11 @@
 				B13D8AA62501EE77006B9238 /* ExhibitsLocationAnnotation.swift in Sources */,
 				B1B89318250C9CDE008E4D6F /* ExhibitionDetailTableViewCell.swift in Sources */,
 				B100769824F8CA17002C4ACC /* RequestHelper.swift in Sources */,
+				B146F2F52510730900A3E332 /* EditPlantProtocol.swift in Sources */,
 				B1437B13250741C500E9BC0E /* MulticastDelegate.swift in Sources */,
 				B1437B0E250710F600E9BC0E /* Plant+CoreDataClass.swift in Sources */,
 				B13D8AAB25020DFC006B9238 /* HomeViewController.swift in Sources */,
-				B146F2F3250FB03D00A3E332 /* UIPlantProtocol.swift in Sources */,
+				B146F2F3250FB03D00A3E332 /* UIPlant.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

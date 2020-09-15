@@ -11,7 +11,7 @@ import Foundation
 import CoreData
 
 @objc(Plant)
-public class Plant: NSManagedObject,UIPlantProtocol {
+public class Plant: NSManagedObject,UIPlant {
 
     var isFromDatabase: Bool? = true
 

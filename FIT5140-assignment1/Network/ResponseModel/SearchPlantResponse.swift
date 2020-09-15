@@ -16,7 +16,7 @@ class SearchPlantResponse: Codable {
     }
 }
 
-class PlantResponse: Codable,UIPlantProtocol {
+class PlantResponse: Codable,UIPlant {
     var isFromDatabase: Bool?
     var name, slug, scientificName: String?
     var yearDiscovered: Int32
