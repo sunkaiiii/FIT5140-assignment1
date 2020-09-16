@@ -33,7 +33,7 @@ class EditPlantViewController: UIViewController,ImagePickerDelegate {
             plantYearDiscovered.text = "\(plant.yearDiscovered)"
             imageUrl = plant.imageUrl
             if let imageUrl = plant.imageUrl{
-                ImageLoader.shraed.loadImage(imageUrl, onComplete: {(url,image) in
+                ImageLoader.shared.loadImage(imageUrl, onComplete: {(url,image) in
                     self.plantImage.image = image
                 })
             }

@@ -11,11 +11,10 @@ import UIKit
 class AllExhibitionTableViewController: UITableViewController,ExhibitionDatabaseListener,UISearchResultsUpdating {
     var listnerType: ListenerType = .exhibition
     
-
-    private let EXHIBITION_SEGUE = "showExhibitionDetail"
     private let EXHIBITION_LIST_CELL = "exhibitionListCell"
     
     weak var exhibiitonDatabaseController:ExhibitionDatabaseProtocol?
+    weak var exhibitionSelectedProtocol:ExhibitionSelectedProtocol?
     var allExhibition:[Exhibition] = []
     var filteredExhibition:[Exhibition] = []
     
@@ -89,8 +88,10 @@ class AllExhibitionTableViewController: UITableViewController,ExhibitionDatabase
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let exhibition = filteredExhibition[indexPath.row]
-        let annotation = exhibition.toLocationAnnotation()
-        performSegue(withIdentifier: EXHIBITION_SEGUE, sender: annotation)
+        if let selectedProtocol = exhibitionSelectedProtocol{
+            selectedProtocol.didSelectExhibition(exhibition: exhibition)
+            self.navigationController?.popViewController(animated: true)
+        }
     }
     
     /*
@@ -129,13 +130,6 @@ class AllExhibitionTableViewController: UITableViewController,ExhibitionDatabase
     */
 
 
-
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == EXHIBITION_SEGUE, let annotation = sender as? ExhibitsLocationAnnotation {
-            let controller = segue.destination as! ExhibitionDetailViewController
-            controller.annotation = annotation
-        }
-    }
 
     
 }

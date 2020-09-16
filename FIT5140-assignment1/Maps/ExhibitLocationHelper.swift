@@ -20,10 +20,14 @@ extension Exhibition{
     }
 }
 
-func selectAnnotationAndMoveToZoom(mapView:MKMapView,annotation:MKAnnotation){
-    mapView.selectAnnotation(annotation, animated: true)
+func moveToZoom(mapView:MKMapView, annotation:MKAnnotation){
     let zoomRegion = MKCoordinateRegion(center: annotation.coordinate, latitudinalMeters: 1000,longitudinalMeters: 1000)
     mapView.setRegion(mapView.regionThatFits(zoomRegion), animated: true)
+}
+
+func selectAnnotationAndMoveToZoom(mapView:MKMapView,annotation:MKAnnotation){
+    mapView.selectAnnotation(annotation, animated: true)
+    moveToZoom(mapView: mapView, annotation: annotation)
 }
 
 extension MKMapView{

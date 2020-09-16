@@ -39,7 +39,7 @@ class PlantDetailViewController: UIViewController, EditPlantProtocol {
         self.plantYearDiscovered.text = "\(plant.yearDiscovered)"
         self.plantFamily.text = plant.family
         if let url = plant.imageUrl{
-            ImageLoader.shraed.loadImage(url, onComplete:{(url, image) in
+            ImageLoader.shared.loadImage(url, onComplete:{(url, image) in
                 if let image = image {
                     self.plantImage.image = image
                 }

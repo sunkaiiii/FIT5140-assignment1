@@ -118,6 +118,14 @@ class AddExhibitionViewController: UIViewController, UISearchBarDelegate,UITable
     }
     @IBAction func addExhibition(_ sender: Any) {
         if !checkValid(){
+            var message:String = ""
+            if selectedExhibition == nil{
+                message += "You need to choose a exhibition location\n"
+            }
+            if plantTableViewDelegate?.plants.count ?? 0 < 3{
+                message += "You need to choose at least 3 plants in the exhibition\n"
+            }
+            showAltert(title: "You need to fill all the requried information", message: message)
             return
         }
         

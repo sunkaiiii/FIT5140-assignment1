@@ -18,9 +18,17 @@ class ExhibitionListTableViewCell: UITableViewCell {
     }
     
     func initExhibitionInformation(exhibition:Exhibition){
-        exhibitionImage.image = UIImage(named: exhibition.name!)?.circleMasked
+        exhibitionImage.image = nil
         exhibitionTitle.text = exhibition.name
         exhibitionSubtitle.text = exhibition.subtitle
+        if let imageUrl = exhibition.imageUrl, let image = UIImage(named: imageUrl){
+            self.exhibitionImage.image = image
+        }else if let imageUrl = exhibition.imageUrl{
+            ImageLoader.shared.loadImage(imageUrl, onComplete: {(imageUrl,image) in
+                self.exhibitionImage.image = image
+            })
+        }
+        
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

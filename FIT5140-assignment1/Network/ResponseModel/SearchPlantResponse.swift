@@ -17,9 +17,11 @@ class SearchPlantResponse: Codable {
 }
 
 class PlantResponse: Codable,UIPlant {
+    
     var isFromDatabase: Bool?
     var name, slug, scientificName: String?
-    var yearDiscovered: Int32
+    var year: Int32?
+    var yearDiscovered: Int32 {get{year ?? 0}}
     var bibliography, author, rank, familyCommonName: String?
     var imageUrl: String?
     var synonyms: [String]?
@@ -29,7 +31,7 @@ class PlantResponse: Codable,UIPlant {
         case name = "common_name"
         case slug
         case scientificName = "scientific_name"
-        case yearDiscovered = "year"
+        case year
         case bibliography, author, rank
         case familyCommonName = "family_common_name"
         case imageUrl = "image_url"
@@ -41,7 +43,7 @@ class PlantResponse: Codable,UIPlant {
         self.name = commonName
         self.slug = slug
         self.scientificName = scientificName
-        self.yearDiscovered = Int32(yearDiscovered)
+        self.year = Int32(yearDiscovered)
         self.bibliography = bibliography
         self.author = author
         self.rank = rank
@@ -55,7 +57,7 @@ class PlantResponse: Codable,UIPlant {
     init(plant:Plant) {
         self.name = plant.name
         self.scientificName = plant.scientificName
-        self.yearDiscovered = plant.yearDiscovered
+        self.year = plant.yearDiscovered
         self.family = plant.family
         self.imageUrl = plant.imageUrl
     }

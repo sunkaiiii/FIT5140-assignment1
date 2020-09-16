@@ -8,17 +8,22 @@
 
 import UIKit
 import MapKit
-class HomeViewController: UIViewController,UITableViewDelegate, UITableViewDataSource,MKMapViewDelegate,ExhibitionDatabaseListener,AddExhibitionProtocol {
+class HomeViewController: UIViewController,UITableViewDelegate, UITableViewDataSource,MKMapViewDelegate,ExhibitionDatabaseListener,AddExhibitionProtocol, ExhibitionSelectedProtocol {
     var listnerType: ListenerType = .exhibition
 
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var tableView: UITableView!
     
+    var firstShow = true
+    
+    let SECTION_EXHIBITION_LIST = 1
+    let SECTION_ALL_EXHIBITION = 0
     let allListSegue = "annotationToAllList"
     let exhibitionDetail = "exhibitionDetail"
     let addExhibitionSegue = "addExhibitionSegue"
-    
     var exhibitionsAnnotations:[ExhibitsLocationAnnotation] = []
+    var exhibitions = [Exhibition]()
+    var selectIndex:Array<ExhibitsLocationAnnotation>.Index?
     weak var exhibitionController:ExhibitionDatabaseProtocol?
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,7 +35,7 @@ class HomeViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         self.exhibitionController = appDelegate.databaseController
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         exhibitionController?.addListener(listener: self)
@@ -41,20 +46,33 @@ class HomeViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         exhibitionController?.removeListener(listener: self)
     }
     
-    func initExhibitions(exhibitions:[Exhibition]){
+    func initExhibitions(){
+        if exhibitionsAnnotations.count > 0 {
+            mapView.removeAnnotations(exhibitionsAnnotations)
+        }
         exhibitionsAnnotations = convertExhibitionsToAnnotations(exhibitons: exhibitions)
         mapView.addAnnotations(exhibitionsAnnotations)
         tableView.reloadData()
-        if exhibitionsAnnotations.count > 0{
-            tableView.selectRow(at: IndexPath(row: 0, section: 0), animated: true, scrollPosition: .bottom)
+        if exhibitionsAnnotations.count > 0 && firstShow{
+            self.selectIndex = 0
+            firstShow = false
             let annotation = exhibitionsAnnotations[0]
-            selectAnnotationAndMoveToZoom(mapView: mapView,annotation: annotation)
+            selectAnnotationAndMoveToZoom(mapView: mapView, annotation: annotation)
+            tableView.selectRow(at: IndexPath(row: 0, section: SECTION_EXHIBITION_LIST), animated: false, scrollPosition: .none)
+            tableView.scrollToRow(at: IndexPath(item: 0, section: SECTION_ALL_EXHIBITION), at: .top, animated: true)
+        }else if let index = selectIndex{
+            let indexPath = IndexPath(row: index, section: SECTION_EXHIBITION_LIST)
+            selectAnnotationAndMoveToZoom(mapView: mapView,annotation: exhibitionsAnnotations[indexPath.row])
         }
     }
     
     func onExhibitionListChange(change: DatabaseChange, exhibitions: [Exhibition]) {
         print(exhibitions.count)
-        initExhibitions(exhibitions: exhibitions)
+        if exhibitions.count != self.exhibitions.count || !exhibitions.elementsEqual(self.exhibitions){
+            self.exhibitions = exhibitions
+            initExhibitions()
+        }
+        
     }
     
     func onPlantListChange(change: DatabaseChange, plants: [Plant]) {}
@@ -65,14 +83,14 @@ class HomeViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if(section == 1){
+        if(section == SECTION_ALL_EXHIBITION){
             return 1
         }
         return exhibitionsAnnotations.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if(indexPath.section == 1){
+        if(indexPath.section == SECTION_ALL_EXHIBITION){
             return tableView.dequeueReusableCell(withIdentifier: "showAllCell", for: indexPath)
         }
         let cell = tableView.dequeueReusableCell(withIdentifier: "exhibitCell", for: indexPath)
@@ -84,7 +102,7 @@ class HomeViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if(indexPath.section == 0){
+        if(indexPath.section == SECTION_EXHIBITION_LIST){
             let annotation = exhibitionsAnnotations[indexPath.row]
             selectAnnotationAndMoveToZoom(mapView:mapView, annotation: annotation)
         }else{
@@ -92,6 +110,16 @@ class HomeViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         }
     }
     
+    
+    func didSelectExhibition(exhibition: Exhibition) {
+        if let index = exhibitionsAnnotations.firstIndex(where: {(annotation) in
+            exhibition == annotation.exhibition
+        }){
+            selectIndex = index
+            tableView.selectRow(at: IndexPath(item: index, section: SECTION_EXHIBITION_LIST), animated: true, scrollPosition: .top)
+            selectAnnotationAndMoveToZoom(mapView: mapView,annotation: exhibitionsAnnotations[index])
+        }
+    }
 
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
@@ -107,12 +135,22 @@ class HomeViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         }
     }
     
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        if let selectAnnotation = view.annotation as? ExhibitsLocationAnnotation,let index = exhibitionsAnnotations.firstIndex(where: {(annotation) in
+            annotation == selectAnnotation
+        }){
+            tableView.selectRow(at: IndexPath(item: index, section: SECTION_EXHIBITION_LIST), animated: true, scrollPosition: .top)
+        }
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == allListSegue{
+            let controller = segue.destination as! AllExhibitionTableViewController
+            controller.exhibitionSelectedProtocol = self
         }else if segue.identifier == exhibitionDetail{
             let controller = segue.destination as! ExhibitionDetailViewController
             let annotationView = sender as! MKAnnotationView
-            controller.annotation = annotationView.annotation as! ExhibitsLocationAnnotation
+            controller.annotation = annotationView.annotation as? ExhibitsLocationAnnotation
         }else if segue.identifier == addExhibitionSegue{
             let controller = segue.destination as! AddExhibitionViewController
             controller.addExhibitionDelegate = self

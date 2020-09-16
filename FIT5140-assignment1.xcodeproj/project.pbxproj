@@ -12,6 +12,9 @@
 		B100769B24F8D3BE002C4ACC /* SearchPlantRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100769A24F8D3BE002C4ACC /* SearchPlantRequest.swift */; };
 		B100769D24F8D4D0002C4ACC /* NetworkExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100769C24F8D4D0002C4ACC /* NetworkExtension.swift */; };
 		B10076A324FB28BF002C4ACC /* ExhibitionDatabaseProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10076A224FB28BE002C4ACC /* ExhibitionDatabaseProtocol.swift */; };
+		B101DC652512438700322303 /* SearchPlantTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B101DC642512438700322303 /* SearchPlantTableViewCell.swift */; };
+		B101DC69251248CC00322303 /* AltertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B101DC68251248CC00322303 /* AltertController.swift */; };
+		B101DC6B25124C3600322303 /* ExhibitionSelectedProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B101DC6A25124C3600322303 /* ExhibitionSelectedProtocol.swift */; };
 		B13D8AA62501EE77006B9238 /* ExhibitsLocationAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13D8AA52501EE77006B9238 /* ExhibitsLocationAnnotation.swift */; };
 		B13D8AA82501EF58006B9238 /* ExhibitLocationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13D8AA72501EF58006B9238 /* ExhibitLocationHelper.swift */; };
 		B13D8AAB25020DFC006B9238 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13D8AAA25020DFC006B9238 /* HomeViewController.swift */; };
@@ -53,6 +56,9 @@
 		B100769A24F8D3BE002C4ACC /* SearchPlantRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPlantRequest.swift; sourceTree = "<group>"; };
 		B100769C24F8D4D0002C4ACC /* NetworkExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkExtension.swift; sourceTree = "<group>"; };
 		B10076A224FB28BE002C4ACC /* ExhibitionDatabaseProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExhibitionDatabaseProtocol.swift; sourceTree = "<group>"; };
+		B101DC642512438700322303 /* SearchPlantTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPlantTableViewCell.swift; sourceTree = "<group>"; };
+		B101DC68251248CC00322303 /* AltertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AltertController.swift; sourceTree = "<group>"; };
+		B101DC6A25124C3600322303 /* ExhibitionSelectedProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExhibitionSelectedProtocol.swift; sourceTree = "<group>"; };
 		B13D8AA52501EE77006B9238 /* ExhibitsLocationAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExhibitsLocationAnnotation.swift; sourceTree = "<group>"; };
 		B13D8AA72501EF58006B9238 /* ExhibitLocationHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExhibitLocationHelper.swift; sourceTree = "<group>"; };
 		B13D8AAA25020DFC006B9238 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
@@ -170,6 +176,7 @@
 				B1B8931D250D0653008E4D6F /* ImageLoader.swift */,
 				B146F2F625108F1C00A3E332 /* ImagePicker.swift */,
 				B146F2F82510EE0600A3E332 /* MapViewHelpter.swift */,
+				B101DC68251248CC00322303 /* AltertController.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -180,6 +187,7 @@
 				B1437B172507577000E9BC0E /* ExhibitionListTableViewCell.swift */,
 				B1B89317250C9CDE008E4D6F /* ExhibitionDetailTableViewCell.swift */,
 				B1B89319250C9EB1008E4D6F /* ExhibitionPlantTableViewCell.swift */,
+				B101DC642512438700322303 /* SearchPlantTableViewCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -257,6 +265,7 @@
 				B1AB5608250E5FA3000833D7 /* AddExhibitionProtocol.swift */,
 				B146F2F2250FB03D00A3E332 /* UIPlant.swift */,
 				B146F2F42510730900A3E332 /* EditPlantProtocol.swift */,
+				B101DC6A25124C3600322303 /* ExhibitionSelectedProtocol.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -333,6 +342,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B146F2EE250F7DF200A3E332 /* AddPlantTableViewController.swift in Sources */,
+				B101DC652512438700322303 /* SearchPlantTableViewCell.swift in Sources */,
 				B1B8931A250C9EB1008E4D6F /* ExhibitionPlantTableViewCell.swift in Sources */,
 				B1892A1524F7ABD800B55215 /* AppDelegate.swift in Sources */,
 				B146F2F725108F1C00A3E332 /* ImagePicker.swift in Sources */,
@@ -357,6 +367,7 @@
 				B1437B0D250710F600E9BC0E /* Exhibition+CoreDataProperties.swift in Sources */,
 				B1892A1724F7ABD800B55215 /* SceneDelegate.swift in Sources */,
 				B1437B0725070F1C00E9BC0E /* ExhibitionDataModel.xcdatamodeld in Sources */,
+				B101DC6B25124C3600322303 /* ExhibitionSelectedProtocol.swift in Sources */,
 				B146F2F1250F9BFF00A3E332 /* SearchPlantResponse.swift in Sources */,
 				B1437B0F250710F600E9BC0E /* Plant+CoreDataProperties.swift in Sources */,
 				B13D8AA62501EE77006B9238 /* ExhibitsLocationAnnotation.swift in Sources */,
@@ -367,6 +378,7 @@
 				B1437B0E250710F600E9BC0E /* Plant+CoreDataClass.swift in Sources */,
 				B13D8AAB25020DFC006B9238 /* HomeViewController.swift in Sources */,
 				B146F2F3250FB03D00A3E332 /* UIPlant.swift in Sources */,
+				B101DC69251248CC00322303 /* AltertController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

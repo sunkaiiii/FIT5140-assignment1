@@ -14,7 +14,7 @@ final class ImageLoader: NSObject {
     
     private let loaderDelegate = ImageLoaderDelegate()
     
-    static let shraed:ImageLoader = ImageLoader()
+    static let shared:ImageLoader = ImageLoader()
     
     private override init() {
         
@@ -53,8 +53,11 @@ final class ImageLoader: NSObject {
                 return
             }
             
-            let url = URL(string: imageUrl)
-            let task = session.downloadTask(with: url!)
+            guard let url = URL(string: imageUrl) else {
+                return
+            }
+            
+            let task = session.downloadTask(with: url)
             taskMap[task] = ImageDownloadTask(imageUrl,onComplete: onComplete)
             task.resume()
         }

@@ -48,10 +48,9 @@ class AddPlantTableViewController: UITableViewController, UISearchBarDelegate,HT
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: PLANT_CELL)!
+        let cell = tableView.dequeueReusableCell(withIdentifier: PLANT_CELL) as! SearchPlantTableViewCell
         let plant = allPlant[indexPath.row]
-        cell.textLabel?.text = plant.name
-        cell.detailTextLabel?.text = plant.scientificName
+        cell.fillDataIntoView(plant: plant)
         return cell
     }
     
@@ -60,6 +59,8 @@ class AddPlantTableViewController: UITableViewController, UISearchBarDelegate,HT
         let result = self.addPlantProtocol?.addPlant(plant: plant)
         if result ?? false{
             self.navigationController?.popViewController(animated: true)
+        }else{
+            showAltert(title: "Duplicated plant", message: "You have chosen duplicated plant")
         }
     }
 

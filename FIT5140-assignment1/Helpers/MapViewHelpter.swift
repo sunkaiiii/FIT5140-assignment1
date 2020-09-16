@@ -31,7 +31,7 @@ class MapViewHelper{
             if let image = UIImage(named: imageUrl){
                 annotationView.image = image.resizeImage(newWidth: 40)?.circleMasked
             }else{
-                ImageLoader.shraed.loadImage(imageUrl, onComplete: {(imageUrl,image) in
+                ImageLoader.shared.loadImage(imageUrl, onComplete: {(imageUrl,image) in
                     annotationView.image = image?.resizeImage(newWidth: 40)?.circleMasked
                 })
             }
