@@ -27,7 +27,7 @@ protocol ExhibitionDatabaseListener:AnyObject{
 }
 
 protocol ExhibitionDatabaseProtocol:AnyObject{
-    func addExhibition(name:String, subtitle:String,desc:String, latitude:Double, longitude:Double, imageUrl:String?)->Exhibition
+    func addExhibition(name:String, subtitle:String,desc:String, latitude:Double, longitude:Double, imageUrl:String?, isGeoFenced:Bool)->Exhibition
     func addPlantToExhibition(plant:Plant,exhibition:Exhibition)->Bool
     func addPlant(name:String?, yearDiscovered:Int, family:String?, scientificName:String?, imageUrl:String?)->Plant
     func searchPlantByName(plantName:String)->[Plant]?

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="16119" systemVersion="19G2021" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17192" systemVersion="19G2021" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Exhibition" representedClassName="Exhibition" syncable="YES">
         <attribute name="desc" optional="YES" attributeType="String"/>
         <attribute name="imageUrl" optional="YES" attributeType="String"/>
+        <attribute name="isGeoFenced" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="latitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="longitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="name" optional="YES" attributeType="String"/>
@@ -19,7 +20,7 @@
         <relationship name="exhibition" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Exhibition" inverseName="plants" inverseEntity="Exhibition"/>
     </entity>
     <elements>
-        <element name="Exhibition" positionX="-63" positionY="-18" width="128" height="148"/>
+        <element name="Exhibition" positionX="-63" positionY="-18" width="128" height="163"/>
         <element name="Plant" positionX="-54" positionY="18" width="128" height="148"/>
     </elements>
 </model>

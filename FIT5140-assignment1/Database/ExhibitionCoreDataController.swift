@@ -11,9 +11,6 @@ import CoreData
 
 class ExhibitionCoreDataController:NSObject,ExhibitionDatabaseProtocol, NSFetchedResultsControllerDelegate{
 
-    
-
-    
     var persistentContainer:NSPersistentContainer
     var allExhibitionFetchedResultController:NSFetchedResultsController<Exhibition>?
     var listeners = MulticastDelegate<ExhibitionDatabaseListener>()
@@ -72,7 +69,7 @@ class ExhibitionCoreDataController:NSObject,ExhibitionDatabaseProtocol, NSFetche
         return nil
     }
     
-    func addExhibition(name: String,subtitle:String, desc: String, latitude: Double, longitude: Double, imageUrl:String?)->Exhibition {
+    func addExhibition(name: String,subtitle:String, desc: String, latitude: Double, longitude: Double, imageUrl:String?, isGeoFenced isGeofenced:Bool = true)->Exhibition {
         let exhibition = NSEntityDescription.insertNewObject(forEntityName: "Exhibition", into: persistentContainer.viewContext) as! Exhibition
         exhibition.name = name
         exhibition.desc = desc
@@ -80,6 +77,7 @@ class ExhibitionCoreDataController:NSObject,ExhibitionDatabaseProtocol, NSFetche
         exhibition.longitude = longitude
         exhibition.subtitle = subtitle
         exhibition.imageUrl = imageUrl
+        exhibition.isGeoFenced = isGeofenced
         return exhibition
     }
     

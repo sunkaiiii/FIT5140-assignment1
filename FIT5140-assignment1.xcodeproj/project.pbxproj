@@ -42,6 +42,9 @@
 		B1892A1E24F7ABDB00B55215 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B1892A1D24F7ABDB00B55215 /* Assets.xcassets */; };
 		B1892A2124F7ABDB00B55215 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B1892A1F24F7ABDB00B55215 /* LaunchScreen.storyboard */; };
 		B1892A2B24F7ACDA00B55215 /* RestfulAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1892A2A24F7ACDA00B55215 /* RestfulAPI.swift */; };
+		B191CA9A25135CD100418D32 /* UITextFieldHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B191CA9925135CD100418D32 /* UITextFieldHelper.swift */; };
+		B191CA9D2513652F00418D32 /* ToastHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B191CA9C2513652F00418D32 /* ToastHelper.swift */; };
+		B191CAA125138B9800418D32 /* NotificationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B191CAA025138B9800418D32 /* NotificationHelper.swift */; };
 		B1AB5605250E47CD000833D7 /* EditPlantViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1AB5604250E47CD000833D7 /* EditPlantViewController.swift */; };
 		B1AB5609250E5FA3000833D7 /* AddExhibitionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1AB5608250E5FA3000833D7 /* AddExhibitionProtocol.swift */; };
 		B1B89318250C9CDE008E4D6F /* ExhibitionDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1B89317250C9CDE008E4D6F /* ExhibitionDetailTableViewCell.swift */; };
@@ -89,6 +92,9 @@
 		B1892A2024F7ABDB00B55215 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B1892A2224F7ABDB00B55215 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B1892A2A24F7ACDA00B55215 /* RestfulAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestfulAPI.swift; sourceTree = "<group>"; };
+		B191CA9925135CD100418D32 /* UITextFieldHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextFieldHelper.swift; sourceTree = "<group>"; };
+		B191CA9C2513652F00418D32 /* ToastHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastHelper.swift; sourceTree = "<group>"; };
+		B191CAA025138B9800418D32 /* NotificationHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationHelper.swift; sourceTree = "<group>"; };
 		B1AB5604250E47CD000833D7 /* EditPlantViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPlantViewController.swift; sourceTree = "<group>"; };
 		B1AB5608250E5FA3000833D7 /* AddExhibitionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddExhibitionProtocol.swift; sourceTree = "<group>"; };
 		B1B89317250C9CDE008E4D6F /* ExhibitionDetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExhibitionDetailTableViewCell.swift; sourceTree = "<group>"; };
@@ -162,13 +168,6 @@
 			path = Controllers;
 			sourceTree = "<group>";
 		};
-		B13D8AAC2502108F006B9238 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
 		B1437AFE2507023F00E9BC0E /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
@@ -177,6 +176,9 @@
 				B146F2F625108F1C00A3E332 /* ImagePicker.swift */,
 				B146F2F82510EE0600A3E332 /* MapViewHelpter.swift */,
 				B101DC68251248CC00322303 /* AltertController.swift */,
+				B191CA9925135CD100418D32 /* UITextFieldHelper.swift */,
+				B191CA9C2513652F00418D32 /* ToastHelper.swift */,
+				B191CAA025138B9800418D32 /* NotificationHelper.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -223,7 +225,6 @@
 				B1437B162507574300E9BC0E /* Cell */,
 				B1437AFE2507023F00E9BC0E /* Helpers */,
 				B13D8AAF25021A3F006B9238 /* FIT5140-assignment1.entitlements */,
-				B13D8AAC2502108F006B9238 /* Views */,
 				B13D8AA925020B4E006B9238 /* Controllers */,
 				B13D8AA42501EE45006B9238 /* Maps */,
 				B10076A124FB2894002C4ACC /* Database */,
@@ -348,6 +349,7 @@
 				B146F2F725108F1C00A3E332 /* ImagePicker.swift in Sources */,
 				B100769D24F8D4D0002C4ACC /* NetworkExtension.swift in Sources */,
 				B10076A324FB28BF002C4ACC /* ExhibitionDatabaseProtocol.swift in Sources */,
+				B191CA9D2513652F00418D32 /* ToastHelper.swift in Sources */,
 				B1892A2B24F7ACDA00B55215 /* RestfulAPI.swift in Sources */,
 				B1AB5609250E5FA3000833D7 /* AddExhibitionProtocol.swift in Sources */,
 				B100769624F8C9A3002C4ACC /* NetworkRequestTask.swift in Sources */,
@@ -360,6 +362,7 @@
 				B1437B182507577000E9BC0E /* ExhibitionListTableViewCell.swift in Sources */,
 				B100769B24F8D3BE002C4ACC /* SearchPlantRequest.swift in Sources */,
 				B1437B022507078700E9BC0E /* AllExhibitionTableViewController.swift in Sources */,
+				B191CA9A25135CD100418D32 /* UITextFieldHelper.swift in Sources */,
 				B1B8931E250D0653008E4D6F /* ImageLoader.swift in Sources */,
 				B1B8931C250CB028008E4D6F /* PlantDetailViewController.swift in Sources */,
 				B13D8AA82501EF58006B9238 /* ExhibitLocationHelper.swift in Sources */,
@@ -378,6 +381,7 @@
 				B1437B0E250710F600E9BC0E /* Plant+CoreDataClass.swift in Sources */,
 				B13D8AAB25020DFC006B9238 /* HomeViewController.swift in Sources */,
 				B146F2F3250FB03D00A3E332 /* UIPlant.swift in Sources */,
+				B191CAA125138B9800418D32 /* NotificationHelper.swift in Sources */,
 				B101DC69251248CC00322303 /* AltertController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

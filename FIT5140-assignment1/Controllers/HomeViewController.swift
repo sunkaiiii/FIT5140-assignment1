@@ -13,9 +13,12 @@ class HomeViewController: UIViewController,UITableViewDelegate, UITableViewDataS
 
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var backgroundLocating: UISwitch!
     
     var firstShow = true
+    var locationManager = CLLocationManager()
     
+    let BACKGROUND_LOCATING_KEY = "background_location"
     let SECTION_EXHIBITION_LIST = 1
     let SECTION_ALL_EXHIBITION = 0
     let allListSegue = "annotationToAllList"
@@ -32,6 +35,7 @@ class HomeViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.mapView.delegate = self
+        self.backgroundLocating.isOn = UserDefaults.standard.bool(forKey: BACKGROUND_LOCATING_KEY)
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         self.exhibitionController = appDelegate.databaseController
     }
@@ -52,6 +56,7 @@ class HomeViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         }
         exhibitionsAnnotations = convertExhibitionsToAnnotations(exhibitons: exhibitions)
         mapView.addAnnotations(exhibitionsAnnotations)
+        initGeofences(annotations: exhibitionsAnnotations)
         tableView.reloadData()
         if exhibitionsAnnotations.count > 0 && firstShow{
             self.selectIndex = 0
@@ -60,9 +65,41 @@ class HomeViewController: UIViewController,UITableViewDelegate, UITableViewDataS
             selectAnnotationAndMoveToZoom(mapView: mapView, annotation: annotation)
             tableView.selectRow(at: IndexPath(row: 0, section: SECTION_EXHIBITION_LIST), animated: false, scrollPosition: .none)
             tableView.scrollToRow(at: IndexPath(item: 0, section: SECTION_ALL_EXHIBITION), at: .top, animated: true)
-        }else if let index = selectIndex{
+        }else if exhibitionsAnnotations.count > 0, let index = selectIndex{
             let indexPath = IndexPath(row: index, section: SECTION_EXHIBITION_LIST)
             selectAnnotationAndMoveToZoom(mapView: mapView,annotation: exhibitionsAnnotations[indexPath.row])
+        }
+    
+    }
+    
+    private func initGeofences(annotations:[ExhibitsLocationAnnotation]){
+        let status = CLLocationManager.authorizationStatus()
+        if status == .denied{
+            return
+        }
+        let backgroundLocating = UserDefaults.standard.bool(forKey: BACKGROUND_LOCATING_KEY)
+        if (status == .notDetermined || status == .authorizedWhenInUse) && backgroundLocating{
+            locationManager.requestAlwaysAuthorization()
+        }else if status == .notDetermined{
+            locationManager.requestWhenInUseAuthorization()
+        }
+        if status == .authorizedAlways{
+            NotificationHelper.requestNotificationPermission()
+        }
+        for annotation in annotations{
+            if let oldGeofence = annotation.geofence {
+                locationManager.stopMonitoring(for: oldGeofence)
+                annotation.geofence = nil
+            }
+            
+            if !(annotation.exhibition?.isGeoFenced ?? false){
+                continue
+            }
+            let geofence = CLCircularRegion(center: annotation.coordinate, radius: 500, identifier: "\(annotation.title ?? "gofence") \(annotation.coordinate.latitude)")
+            geofence.notifyOnEntry = true
+            geofence.notifyOnEntry = true
+            locationManager.startMonitoring(for: geofence)
+            annotation.geofence = geofence
         }
     }
     
@@ -101,8 +138,32 @@ class HomeViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         return cell
     }
 
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        if indexPath.section == SECTION_EXHIBITION_LIST{
+            return true
+        }
+        return false
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete && indexPath.section == SECTION_EXHIBITION_LIST{
+            let deleteIndex = indexPath.row
+            if deleteIndex < selectIndex ?? -1{
+                selectIndex! -= 1
+            }else if deleteIndex == selectIndex ?? -1{
+                selectIndex = 0
+            }
+            let exhibition = exhibitions[indexPath.row]
+            if let annotation = findAnnotationByExhibition(exhibition: exhibition), let geofence = annotation.geofence{
+                locationManager.stopMonitoring(for: geofence)
+            }
+            exhibitionController?.deleteExhibition(exhibition: exhibition)
+        }
+    }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if(indexPath.section == SECTION_EXHIBITION_LIST){
+            selectIndex = indexPath.row
             let annotation = exhibitionsAnnotations[indexPath.row]
             selectAnnotationAndMoveToZoom(mapView:mapView, annotation: annotation)
         }else{
@@ -139,6 +200,7 @@ class HomeViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         if let selectAnnotation = view.annotation as? ExhibitsLocationAnnotation,let index = exhibitionsAnnotations.firstIndex(where: {(annotation) in
             annotation == selectAnnotation
         }){
+            selectIndex = index
             tableView.selectRow(at: IndexPath(item: index, section: SECTION_EXHIBITION_LIST), animated: true, scrollPosition: .top)
         }
     }
@@ -159,7 +221,7 @@ class HomeViewController: UIViewController,UITableViewDelegate, UITableViewDataS
 
     
     func addExhibition(name: String, subtitle: String, desc: String, latitude: Double, longitude: Double,imageUrl:String?) -> Exhibition? {
-        let exhibition = exhibitionController?.addExhibition(name: name, subtitle: subtitle, desc: desc, latitude: latitude, longitude: longitude, imageUrl: imageUrl)
+        let exhibition = exhibitionController?.addExhibition(name: name, subtitle: subtitle, desc: desc, latitude: latitude, longitude: longitude, imageUrl: imageUrl,isGeoFenced: true)
         return exhibition
     }
     
@@ -169,8 +231,19 @@ class HomeViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     
     func afterAdd(needRefreshData: Bool) {
         if needRefreshData{
+            showToast(message: "Successfully added ")
             tableView.reloadData()
         }
     }
     
+    private func findAnnotationByExhibition(exhibition:Exhibition)->ExhibitsLocationAnnotation?{
+        return exhibitionsAnnotations.first(where: {(annotation) in
+            exhibition == annotation.exhibition
+        })
+    }
+    
+    @IBAction func OnSwitchValueChanged(_ sender: Any) {
+        UserDefaults.standard.setValue(backgroundLocating.isOn, forKey: BACKGROUND_LOCATING_KEY)
+        initGeofences(annotations: exhibitionsAnnotations)
+    }
 }

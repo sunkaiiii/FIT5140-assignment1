@@ -68,8 +68,7 @@ class AddPlantTableViewController: UITableViewController, UISearchBarDelegate,HT
         guard let searchText = searchBar.text, searchText.count>0 else {
             return
         }
-
-        
+        searchBar.resignFirstResponder()
         let result:[Plant]? = exhibitionDatabaseController?.searchPlantByName(plantName: searchText)
         guard let plants = result, plants.count > 0  else{
             requestRestfulService(api: PlantRequestAPI.searchPlant, model: SearchPlantRequest(searchText: searchText))

@@ -9,7 +9,7 @@
 import UIKit
 import MapKit
 
-class AddExhibitionViewController: UIViewController, UISearchBarDelegate,UITableViewDataSource, UITableViewDelegate,AddPlantProtocol, ImagePickerDelegate,MKMapViewDelegate {
+class AddExhibitionViewController: UIViewController, UISearchBarDelegate,UITableViewDataSource, UITableViewDelegate,AddPlantProtocol, ImagePickerDelegate,MKMapViewDelegate,CLLocationManagerDelegate {
 
     @IBOutlet weak var exhibitionName: UITextField!
     @IBOutlet weak var exhibitionDescription: UITextField!
@@ -19,6 +19,9 @@ class AddExhibitionViewController: UIViewController, UISearchBarDelegate,UITable
     @IBOutlet weak var selectImage: UIButton!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var plantTableView: UITableView!
+    @IBOutlet weak var useCurrentLocationButton: UIButton!
+    var locationManager = CLLocationManager()
+    var currentLocation:CLLocationCoordinate2D?
     
     let LOCATION_CELL = "locationCell"
     let ADD_PLANT_SEGUE = "addPlant"
@@ -43,15 +46,28 @@ class AddExhibitionViewController: UIViewController, UISearchBarDelegate,UITable
         tableView.dataSource = self
         tableView.delegate = self
         mapView.delegate = self
+        exhibitionName.delegate  = self
+        exhibitionDescription.delegate = self
+        locationManager.delegate = self
         plantTableViewDelegate = PlantTableViewDelegate()
         plantTableView.delegate = plantTableViewDelegate
         plantTableView.dataSource = plantTableViewDelegate
         
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        locationManager.startUpdatingLocation()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        locationManager.stopUpdatingLocation()
+    }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         if let searchText = locationSearchBar.text{
+            searchBar.resignFirstResponder()
             searchBar.isUserInteractionEnabled = false
             mapView.removeAnnotations(mapView.annotations)
             mapView.isHidden = true
@@ -70,17 +86,47 @@ class AddExhibitionViewController: UIViewController, UISearchBarDelegate,UITable
             })
         }
     }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        useCurrentLocationButton.isHidden = searchBar.text?.count ?? 0 > 0
+    }
+    
+    @IBAction func useCurrentLocation(_ sender: Any) {
+        
+        let status = CLLocationManager.authorizationStatus()
+        if status == .notDetermined {
+            locationManager.requestWhenInUseAuthorization()
+        }else if status == .denied{
+            showToast(message: "Location permission is denied, faied to get the current location")
+            return
+        }
+        
+        if let location = currentLocation{
+            convertCoordinateToCurrentLocation(location: CLLocation(latitude: location.latitude, longitude: location.longitude), completionHandler: {(placeMark) in
+                if let placeMark = placeMark{
+                    self.locationSearchBar.text = "\(placeMark.locality ?? "") \(placeMark.country ?? "")"
+                    self.useCurrentLocationButton.isHidden = true
+                    self.setAnnotationToMapView(location: placeMark)
+                }
+            })
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let location = locations.last{
+            currentLocation = location.coordinate
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        if status == .denied{
+            useCurrentLocationButton.isHidden = true
+        }
+    }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let location = locations[indexPath.row]
-        let coordinate = location.location?.coordinate
-        if let coordinate = coordinate{
-            let annotation = ExhibitsLocationAnnotation(title: self.exhibitionName.text, subtitle: location.name ?? "", desc: self.exhibitionDescription.text, latitude: coordinate.latitude, longitude: coordinate.longitude)
-            self.mapView.isHidden = false
-            self.tableView.isHidden = true
-            self.mapView.addAnnotation(annotation)
-            self.selectedExhibition = annotation
-            self.mapView.selectAnnotationAndMoveToFocus(annotation)
-        }
+        setAnnotationToMapView(location: location)
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -158,6 +204,17 @@ class AddExhibitionViewController: UIViewController, UISearchBarDelegate,UITable
         if segue.identifier == ADD_PLANT_SEGUE{
             let controller = segue.destination as! AddPlantTableViewController
             controller.addPlantProtocol = self
+        }
+    }
+    
+    private func setAnnotationToMapView(location:CLPlacemark?){
+        if let location = location, let coordinate = location.location?.coordinate{
+            let annotation = ExhibitsLocationAnnotation(title: self.exhibitionName.text, subtitle: location.name ?? "", desc: self.exhibitionDescription.text, latitude: coordinate.latitude, longitude: coordinate.longitude)
+            self.mapView.isHidden = false
+            self.tableView.isHidden = true
+            self.mapView.addAnnotation(annotation)
+            self.selectedExhibition = annotation
+            self.mapView.selectAnnotationAndMoveToFocus(annotation)
         }
     }
     

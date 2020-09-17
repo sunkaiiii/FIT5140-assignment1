@@ -2,7 +2,7 @@
 //  Exhibition+CoreDataProperties.swift
 //  FIT5140-assignment1
 //
-//  Created by sunkai on 15/9/20.
+//  Created by sunkai on 17/9/20.
 //  Copyright © 2020 sunkai. All rights reserved.
 //
 //
@@ -18,11 +18,12 @@ extension Exhibition {
     }
 
     @NSManaged public var desc: String?
+    @NSManaged public var imageUrl: String?
     @NSManaged public var latitude: Double
     @NSManaged public var longitude: Double
     @NSManaged public var name: String?
     @NSManaged public var subtitle: String?
-    @NSManaged public var imageUrl: String?
+    @NSManaged public var isGeoFenced: Bool
     @NSManaged public var plants: NSSet?
 
 }
@@ -41,5 +42,9 @@ extension Exhibition {
 
     @objc(removePlants:)
     @NSManaged public func removeFromPlants(_ values: NSSet)
+
+}
+
+extension Exhibition : Identifiable {
 
 }
