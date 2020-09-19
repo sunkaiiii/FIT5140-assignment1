@@ -11,6 +11,14 @@ import Foundation
 import CoreData
 
 @objc(Exhibition)
-public class Exhibition: NSManagedObject {
-
+public class Exhibition: NSManagedObject,UIExhibition {
+    var exhibitionPlants: [UIPlant] {
+        var result = [UIPlant]()
+        plants?.forEach({(plant) in
+            if let plant = plant as? UIPlant{
+                result.append(plant)
+            }
+        })
+        return result
+    }
 }

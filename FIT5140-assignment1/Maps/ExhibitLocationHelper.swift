@@ -60,3 +60,21 @@ func converAddressStringToCoordinate(addressString:String, completionHandler:@es
         completionHandler([],error as NSError?)
     })
 }
+
+extension CLPlacemark{
+    func getFullAdress()->String{
+        return "\(self.name ?? "") \(self.locality ?? "") \(self.administrativeArea ?? "") \(self.postalCode ?? "") \(self.country ?? "")"
+    }
+    
+    func getCompatAddressWithState()->String{
+        return "\(self.name ?? "") \(self.locality ?? "") \(self.administrativeArea ?? "")"
+    }
+    
+    func getCompatAddress()->String{
+        return "\(self.name ?? "") \(self.locality ?? "")"
+    }
+    
+    func getStateAndCountry()->String{
+        return "\(self.administrativeArea ?? "") \(self.postalCode ?? "") \(self.country ?? "")"
+    }
+}

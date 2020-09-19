@@ -51,6 +51,9 @@
 		B1B8931A250C9EB1008E4D6F /* ExhibitionPlantTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1B89319250C9EB1008E4D6F /* ExhibitionPlantTableViewCell.swift */; };
 		B1B8931C250CB028008E4D6F /* PlantDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1B8931B250CB028008E4D6F /* PlantDetailViewController.swift */; };
 		B1B8931E250D0653008E4D6F /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1B8931D250D0653008E4D6F /* ImageLoader.swift */; };
+		B1C44C932516259D008EE21D /* EditExhibitionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C44C922516259D008EE21D /* EditExhibitionViewController.swift */; };
+		B1C44C9625164FC7008EE21D /* EditExhibitionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C44C9525164FC7008EE21D /* EditExhibitionProtocol.swift */; };
+		B1C44C992516533B008EE21D /* UIExhibition.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C44C982516533B008EE21D /* UIExhibition.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -101,6 +104,9 @@
 		B1B89319250C9EB1008E4D6F /* ExhibitionPlantTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExhibitionPlantTableViewCell.swift; sourceTree = "<group>"; };
 		B1B8931B250CB028008E4D6F /* PlantDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlantDetailViewController.swift; sourceTree = "<group>"; };
 		B1B8931D250D0653008E4D6F /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
+		B1C44C922516259D008EE21D /* EditExhibitionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditExhibitionViewController.swift; sourceTree = "<group>"; };
+		B1C44C9525164FC7008EE21D /* EditExhibitionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditExhibitionProtocol.swift; sourceTree = "<group>"; };
+		B1C44C982516533B008EE21D /* UIExhibition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIExhibition.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -164,6 +170,7 @@
 				B1B8931B250CB028008E4D6F /* PlantDetailViewController.swift */,
 				B1AB5604250E47CD000833D7 /* EditPlantViewController.swift */,
 				B146F2ED250F7DF200A3E332 /* AddPlantTableViewController.swift */,
+				B1C44C922516259D008EE21D /* EditExhibitionViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -267,6 +274,8 @@
 				B146F2F2250FB03D00A3E332 /* UIPlant.swift */,
 				B146F2F42510730900A3E332 /* EditPlantProtocol.swift */,
 				B101DC6A25124C3600322303 /* ExhibitionSelectedProtocol.swift */,
+				B1C44C9525164FC7008EE21D /* EditExhibitionProtocol.swift */,
+				B1C44C982516533B008EE21D /* UIExhibition.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -351,6 +360,7 @@
 				B10076A324FB28BF002C4ACC /* ExhibitionDatabaseProtocol.swift in Sources */,
 				B191CA9D2513652F00418D32 /* ToastHelper.swift in Sources */,
 				B1892A2B24F7ACDA00B55215 /* RestfulAPI.swift in Sources */,
+				B1C44C9625164FC7008EE21D /* EditExhibitionProtocol.swift in Sources */,
 				B1AB5609250E5FA3000833D7 /* AddExhibitionProtocol.swift in Sources */,
 				B100769624F8C9A3002C4ACC /* NetworkRequestTask.swift in Sources */,
 				B1437B0425070DFD00E9BC0E /* ExhibitionDetailViewController.swift in Sources */,
@@ -363,6 +373,7 @@
 				B100769B24F8D3BE002C4ACC /* SearchPlantRequest.swift in Sources */,
 				B1437B022507078700E9BC0E /* AllExhibitionTableViewController.swift in Sources */,
 				B191CA9A25135CD100418D32 /* UITextFieldHelper.swift in Sources */,
+				B1C44C992516533B008EE21D /* UIExhibition.swift in Sources */,
 				B1B8931E250D0653008E4D6F /* ImageLoader.swift in Sources */,
 				B1B8931C250CB028008E4D6F /* PlantDetailViewController.swift in Sources */,
 				B13D8AA82501EF58006B9238 /* ExhibitLocationHelper.swift in Sources */,
@@ -371,6 +382,7 @@
 				B1892A1724F7ABD800B55215 /* SceneDelegate.swift in Sources */,
 				B1437B0725070F1C00E9BC0E /* ExhibitionDataModel.xcdatamodeld in Sources */,
 				B101DC6B25124C3600322303 /* ExhibitionSelectedProtocol.swift in Sources */,
+				B1C44C932516259D008EE21D /* EditExhibitionViewController.swift in Sources */,
 				B146F2F1250F9BFF00A3E332 /* SearchPlantResponse.swift in Sources */,
 				B1437B0F250710F600E9BC0E /* Plant+CoreDataProperties.swift in Sources */,
 				B13D8AA62501EE77006B9238 /* ExhibitsLocationAnnotation.swift in Sources */,

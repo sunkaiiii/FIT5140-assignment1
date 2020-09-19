@@ -16,11 +16,11 @@ class ExhibitionDetailViewController: UIViewController, UITableViewDelegate, UIT
     let EXHIBITION_INFORMATION_CELL = "exhibitionInformation"
     let EXHIBITION_PLANT_CELL = "exhibitionPlant"
     let EXHIBITION_PLANT_DETAIL_SEGUE = "showPlantDetail"
+    let EDIT_EXHIBITION_SEGUE = "editExhibition"
     
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var exhibitionImage: UIImageView!
     var annotation:ExhibitsLocationAnnotation?
-    var exhibition:Exhibition?
     var plants:[Plant]?
     @IBOutlet weak var tableView: UITableView!
     override func viewDidLoad() {
@@ -29,8 +29,7 @@ class ExhibitionDetailViewController: UIViewController, UITableViewDelegate, UIT
         guard let annotation = annotation else {
             return
         }
-        exhibition = annotation.exhibition
-        plants = exhibition?.plants?.map({(plant)->Plant in
+        plants = annotation.exhibition?.exhibitionPlants.map({(plant)->Plant in
             return plant as! Plant
         })
         self.mapView.delegate = self
@@ -80,6 +79,10 @@ class ExhibitionDetailViewController: UIViewController, UITableViewDelegate, UIT
         if segue.identifier == EXHIBITION_PLANT_DETAIL_SEGUE{
             if let controller = segue.destination as? PlantDetailViewController, let plant = sender as? Plant{
                 controller.plant = plant
+            }
+        }else if segue.identifier == EDIT_EXHIBITION_SEGUE{
+            if let controller = segue.destination as? EditExhibitionViewController, let exhibition = annotation{
+                controller.exhibitionLocationAnnotation = annotation
             }
         }
     }

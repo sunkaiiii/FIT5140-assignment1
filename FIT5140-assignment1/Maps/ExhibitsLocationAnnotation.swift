@@ -13,7 +13,7 @@ class ExhibitsLocationAnnotation: NSObject, MKAnnotation {
     var title:String?
     var subtitle: String?
     var desc:String?
-    var exhibition:Exhibition?
+    var exhibition:UIExhibition?
     var geofence:CLCircularRegion?
     
     init(title:String?,subtitle:String?, desc:String?, latitude:Double, longitude: Double){

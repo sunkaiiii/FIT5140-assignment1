@@ -141,8 +141,8 @@ class AddExhibitionViewController: UIViewController, UISearchBarDelegate,UITable
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: LOCATION_CELL)!
         let location = locations[indexPath.row]
-        cell.textLabel?.text = "\(location.name ?? "") \(location.thoroughfare ?? "")"
-        cell.detailTextLabel?.text = "\(location.locality ?? "") \(location.postalCode ?? "") \(location.country ?? "")"
+        cell.textLabel?.text = location.getCompatAddress()
+        cell.detailTextLabel?.text = location.getStateAndCountry()
         return cell
     }
     

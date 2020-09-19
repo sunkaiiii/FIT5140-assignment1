@@ -48,9 +48,20 @@ final class ImageLoader: NSObject {
                 return
             }
             
+            
             if let uiImage = retriveImage(forKey: imageUrl, inStorageType: .userDefaults){
+                if let data = uiImage.pngData(){
+                    imageCache.setObject(data as AnyObject, forKey: imageUrl as AnyObject)
+                }
                 onComplete(imageUrl, uiImage)
                 return
+            }
+            
+            if let uiImage = UIImage(named: imageUrl){
+                if let data = uiImage.pngData(){
+                    imageCache.setObject(data as AnyObject, forKey: imageUrl as AnyObject)
+                }
+                onComplete(imageUrl, uiImage)
             }
             
             guard let url = URL(string: imageUrl) else {

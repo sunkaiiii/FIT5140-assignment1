@@ -174,7 +174,10 @@ class HomeViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     
     func didSelectExhibition(exhibition: Exhibition) {
         if let index = exhibitionsAnnotations.firstIndex(where: {(annotation) in
-            exhibition == annotation.exhibition
+            if let ex = annotation.exhibition as? Exhibition{
+                return exhibition == ex
+            }
+            return false
         }){
             selectIndex = index
             tableView.selectRow(at: IndexPath(item: index, section: SECTION_EXHIBITION_LIST), animated: true, scrollPosition: .top)
@@ -238,7 +241,10 @@ class HomeViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     
     private func findAnnotationByExhibition(exhibition:Exhibition)->ExhibitsLocationAnnotation?{
         return exhibitionsAnnotations.first(where: {(annotation) in
-            exhibition == annotation.exhibition
+            if let ex = annotation.exhibition as? Exhibition{
+                return exhibition == ex
+            }
+            return false
         })
     }
     
