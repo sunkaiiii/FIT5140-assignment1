@@ -8,11 +8,16 @@
 
 import UIKit
 
-class AllExhibitionTableViewController: UITableViewController,ExhibitionDatabaseListener,UISearchResultsUpdating {
+class AllExhibitionTableViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,ExhibitionDatabaseListener,UISearchResultsUpdating {
     var listnerType: ListenerType = .exhibition
     
     private let EXHIBITION_LIST_CELL = "exhibitionListCell"
+    private let INDEX_ACENDING = 0
+    private let INDEX_DECENDING = 1
+    private let SELECT_INDEX = "all_exhibition_controller_selected_index"
     
+    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var segmentControl: UISegmentedControl!
     weak var exhibiitonDatabaseController:ExhibitionDatabaseProtocol?
     weak var exhibitionSelectedProtocol:ExhibitionSelectedProtocol?
     var allExhibition:[Exhibition] = []
@@ -29,6 +34,14 @@ class AllExhibitionTableViewController: UITableViewController,ExhibitionDatabase
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "Search Exhibitions"
+        let index = UserDefaults.standard.integer(forKey: SELECT_INDEX)
+        if index == INDEX_DECENDING || index == INDEX_ACENDING{
+            segmentControl.selectedSegmentIndex = index
+        }else{
+            segmentControl.selectedSegmentIndex = 1
+        }
+        tableView.delegate = self
+        tableView.dataSource = self
         navigationItem.searchController = searchController
         definesPresentationContext = true
     }
@@ -72,21 +85,21 @@ class AllExhibitionTableViewController: UITableViewController,ExhibitionDatabase
     }
     // MARK: - Table view data source
 
-    override func numberOfSections(in tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return filteredExhibition.count
     }
 
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: EXHIBITION_LIST_CELL, for: indexPath) as! ExhibitionListTableViewCell
         cell.initExhibitionInformation(exhibition: filteredExhibition[indexPath.row])
         return cell
     }
 
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let exhibition = filteredExhibition[indexPath.row]
         if let selectedProtocol = exhibitionSelectedProtocol{
             selectedProtocol.didSelectExhibition(exhibition: exhibition)
@@ -94,6 +107,25 @@ class AllExhibitionTableViewController: UITableViewController,ExhibitionDatabase
         }
     }
     
+    @IBAction func onValueChanged(_ sender: Any) {
+        let index = segmentControl.selectedSegmentIndex
+        UserDefaults.standard.set(index, forKey: SELECT_INDEX)
+        sortList(index: index)
+    }
+    
+    private func sortList(index:Int){
+        if index == INDEX_ACENDING{
+            filteredExhibition.sort(by:{(e1,e2) in
+                return e1.name?.lowercased() ?? "" < e2.name?.lowercased() ?? ""
+            })
+        }else if index == INDEX_DECENDING{
+            filteredExhibition.sort(by:{(e1,e2) in
+                return e1.name?.lowercased() ?? "" > e2.name?.lowercased() ?? ""
+            })
+        }
+
+        tableView.reloadData()
+    }
     /*
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {

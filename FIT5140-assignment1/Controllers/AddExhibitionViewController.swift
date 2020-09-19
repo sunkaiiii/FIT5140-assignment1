@@ -104,7 +104,7 @@ class AddExhibitionViewController: UIViewController, UISearchBarDelegate,UITable
         if let location = currentLocation{
             convertCoordinateToCurrentLocation(location: CLLocation(latitude: location.latitude, longitude: location.longitude), completionHandler: {(placeMark) in
                 if let placeMark = placeMark{
-                    self.locationSearchBar.text = "\(placeMark.locality ?? "") \(placeMark.country ?? "")"
+                    self.locationSearchBar.text = "\(placeMark.name ?? "") \(placeMark.locality ?? "") \(placeMark.country ?? "")"
                     self.useCurrentLocationButton.isHidden = true
                     self.setAnnotationToMapView(location: placeMark)
                 }
