@@ -26,6 +26,9 @@ class EditExhibitionViewController: UIViewController, ImagePickerDelegate,MKMapV
     var imagePicker:ImagePicker?
     var searchLocationDelegateImpl:SearchLocationDelegateImpl?
     
+    
+    weak var editExhibitionDelegate:EditExhibitionProtocol?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -108,6 +111,20 @@ class EditExhibitionViewController: UIViewController, ImagePickerDelegate,MKMapV
     @IBAction func onSaveChanges(_ sender: Any) {
         if checkValidate() == false{
             return
+        }
+        guard let text = exhibitionDescription.text, let imageUrl = selectedImageUrl,
+              let latitude = exhibitionLocationAnnotation?.coordinate.latitude,
+              let longitude = exhibitionLocationAnnotation?.coordinate.longitude,
+              let name = exhibitionName.text, let subtite = exhibitionLocationAnnotation?.subtitle, let isGeofenced = exhibitionLocationAnnotation?.exhibition?.isGeoFenced,
+              let plants = exhibitionLocationAnnotation?.exhibition?.exhibitionPlants else {
+            showAltert(title: "You need to fill all the fields", message: "Please try again")
+            return
+        }
+        let exhibitionSource = UIExhibitionImpl(desc: text, imageUrl: imageUrl, latitude: latitude, longitude: longitude, name: name, subtitle: subtite, isGeoFenced: isGeofenced, exhibitionPlants: plants)
+        if let result = editExhibitionDelegate?.editExhibition(source: exhibitionSource){
+            self.navigationController?.popViewController(animated: true)
+        }else{
+            showAltert(title: "Update exhibition error", message: "Please try again")
         }
     }
     

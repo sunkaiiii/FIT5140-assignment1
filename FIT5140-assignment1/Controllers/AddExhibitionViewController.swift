@@ -189,7 +189,7 @@ class AddExhibitionViewController: UIViewController, UISearchBarDelegate,UITable
             self.addExhibitionDelegate?.afterAdd(needRefreshData: true)
             self.navigationController?.popViewController(animated: true)
         }else{
-            //TODO altertController
+            showAltert(title: "Add exhibition error", message: "Please try again")
         }
     }
     

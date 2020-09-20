@@ -19,3 +19,23 @@ protocol UIExhibition {
     var isGeoFenced: Bool {get}
     var exhibitionPlants: [UIPlant] {get}
 }
+
+
+struct UIExhibitionImpl:UIExhibition {
+    var desc: String?
+    
+    var imageUrl: String?
+    
+    var latitude: Double
+    
+    var longitude: Double
+    
+    var name: String?
+    
+    var subtitle: String?
+    
+    var isGeoFenced: Bool
+    
+    var exhibitionPlants: [UIPlant]
+    
+}

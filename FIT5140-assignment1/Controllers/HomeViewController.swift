@@ -57,7 +57,7 @@ class HomeViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         exhibitionsAnnotations = convertExhibitionsToAnnotations(exhibitons: exhibitions)
         mapView.addAnnotations(exhibitionsAnnotations)
         initGeofences(annotations: exhibitionsAnnotations)
-        tableView.reloadData()
+        tableView.reloadSections([SECTION_EXHIBITION_LIST], with: .automatic)
         if exhibitionsAnnotations.count > 0 && firstShow{
             self.selectIndex = 0
             firstShow = false
@@ -105,11 +105,9 @@ class HomeViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     
     func onExhibitionListChange(change: DatabaseChange, exhibitions: [Exhibition]) {
         print(exhibitions.count)
-        if exhibitions.count != self.exhibitions.count || !exhibitions.elementsEqual(self.exhibitions){
-            self.exhibitions = exhibitions
-            initExhibitions()
-        }
-        
+        self.exhibitions = exhibitions
+        initExhibitions()
+ 
     }
     
     func onPlantListChange(change: DatabaseChange, plants: [Plant]) {}

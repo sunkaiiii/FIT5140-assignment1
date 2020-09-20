@@ -9,14 +9,14 @@
 import UIKit
 import MapKit
 
-class ExhibitionDetailViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, MKMapViewDelegate {
-
+class ExhibitionDetailViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, MKMapViewDelegate,EditExhibitionProtocol {
     let EXHIBITION_INFORMATION = 0
     let EXHIBITION_PLANT = 1
     let EXHIBITION_INFORMATION_CELL = "exhibitionInformation"
     let EXHIBITION_PLANT_CELL = "exhibitionPlant"
     let EXHIBITION_PLANT_DETAIL_SEGUE = "showPlantDetail"
     let EDIT_EXHIBITION_SEGUE = "editExhibition"
+    weak var exhibitionController:ExhibitionDatabaseProtocol?
     
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var exhibitionImage: UIImageView!
@@ -25,7 +25,15 @@ class ExhibitionDetailViewController: UIViewController, UITableViewDelegate, UIT
     @IBOutlet weak var tableView: UITableView!
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        self.exhibitionController = appDelegate.databaseController
+        self.tableView.dataSource = self
+        self.tableView.delegate = self
+        fillDataToView()
+    }
+    
+    private func fillDataToView(){
         guard let annotation = annotation else {
             return
         }
@@ -33,13 +41,18 @@ class ExhibitionDetailViewController: UIViewController, UITableViewDelegate, UIT
             return plant as! Plant
         })
         self.mapView.delegate = self
+        self.mapView.removeAnnotation(annotation)
         self.mapView.addAnnotation(annotation)
         selectAnnotationAndMoveToZoom(mapView:mapView, annotation: annotation)
         self.title = annotation.title
-        self.exhibitionImage.image = UIImage(named: annotation.title!)?.circleMasked?.addShadow(blurSize: 6)
-        self.tableView.dataSource = self
-        self.tableView.delegate = self
+        if let imageUrl = annotation.exhibition?.imageUrl{
+            ImageLoader.shared.loadImage(imageUrl, onComplete: {(imageUrl, image) in
+                self.exhibitionImage.image = image?.circleMasked?.addShadow()
+            })
+        }
+        tableView.reloadSections([EXHIBITION_INFORMATION], with: .automatic)
     }
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         return 2
     }
@@ -55,8 +68,8 @@ class ExhibitionDetailViewController: UIViewController, UITableViewDelegate, UIT
         let cell:UITableViewCell
         if indexPath.section == EXHIBITION_INFORMATION{
             let reuseCell = tableView.dequeueReusableCell(withIdentifier: EXHIBITION_INFORMATION_CELL,for: indexPath) as! ExhibitionDetailTableViewCell
-            if let annotation = annotation {
-                reuseCell.showExhibitionDetail(annotation)
+            if let exhibition = annotation?.exhibition {
+                reuseCell.showExhibitionDetail(exhibition)
             }
             cell = reuseCell
         }else{
@@ -82,7 +95,8 @@ class ExhibitionDetailViewController: UIViewController, UITableViewDelegate, UIT
             }
         }else if segue.identifier == EDIT_EXHIBITION_SEGUE{
             if let controller = segue.destination as? EditExhibitionViewController, let exhibition = annotation{
-                controller.exhibitionLocationAnnotation = annotation
+                controller.exhibitionLocationAnnotation = exhibition
+                controller.editExhibitionDelegate = self
             }
         }
     }
@@ -94,4 +108,18 @@ class ExhibitionDetailViewController: UIViewController, UITableViewDelegate, UIT
         }
         return nil
     }
+    
+    func editExhibition(source: UIExhibition)->Bool {
+        if let exhibition = annotation?.exhibition as? Exhibition{
+            let result = self.exhibitionController?.updateExhibition(source: source, targetExhibition: exhibition)
+            if result != nil{
+                self.annotation = exhibition.toLocationAnnotation()
+                showToast(message: "Update Successfully")
+                fillDataToView()
+            }
+            return result != nil
+        }
+        return false
+    }
+    
 }

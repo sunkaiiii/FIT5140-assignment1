@@ -25,15 +25,15 @@ class ExhibitionDetailTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
-    func showExhibitionDetail(_ annotation:ExhibitsLocationAnnotation){
-        let location = CLLocation(latitude: annotation.coordinate.latitude, longitude: annotation.coordinate.longitude)
+    func showExhibitionDetail(_ exhibition:UIExhibition){
+        let location = CLLocation(latitude: exhibition.latitude, longitude: exhibition.longitude)
         convertCoordinateToCurrentLocation(location: location, completionHandler: {(placeMark) in
             guard let placeMark = placeMark else{
                 return
             }
             self.exhibitionLocation.text = "\(placeMark.name ?? "") \(placeMark.thoroughfare ?? "") \(placeMark.locality ?? "") \(placeMark.postalCode ?? "") \(placeMark.country ?? "")"
         })
-        self.exhibitionDescription.text = annotation.desc
-        self.exhibitionName.text = annotation.title
+        self.exhibitionDescription.text = exhibition.desc
+        self.exhibitionName.text = exhibition.name
     }
 }

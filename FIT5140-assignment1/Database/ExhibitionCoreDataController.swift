@@ -11,6 +11,8 @@ import CoreData
 
 class ExhibitionCoreDataController:NSObject,ExhibitionDatabaseProtocol, NSFetchedResultsControllerDelegate{
 
+    
+
     var persistentContainer:NSPersistentContainer
     var allExhibitionFetchedResultController:NSFetchedResultsController<Exhibition>?
     var listeners = MulticastDelegate<ExhibitionDatabaseListener>()
@@ -28,7 +30,7 @@ class ExhibitionCoreDataController:NSObject,ExhibitionDatabaseProtocol, NSFetche
 //        do {
 //            try persistentContainer.persistentStoreCoordinator.execute(deleteRequest, with: persistentContainer.viewContext)
 //        } catch let error as NSError {
-//            // TODO: handle the error
+//            
 //        }
         if fecthAllExhibition().count == 0{
             createDefaultExhibits()
@@ -111,7 +113,7 @@ class ExhibitionCoreDataController:NSObject,ExhibitionDatabaseProtocol, NSFetche
         return true
     }
     
-    func updatePlant(oldPlant: Plant, newPlant: UIPlant) -> Plant {
+    func updatePlant(oldPlant: Plant, newPlant: UIPlant) -> Plant? {
         oldPlant.name = newPlant.name
         oldPlant.scientificName = newPlant.scientificName
         oldPlant.imageUrl = newPlant.imageUrl
@@ -120,6 +122,16 @@ class ExhibitionCoreDataController:NSObject,ExhibitionDatabaseProtocol, NSFetche
         return oldPlant
     }
     
+    func updateExhibition(source: UIExhibition, targetExhibition: Exhibition)->Exhibition? {
+        targetExhibition.name = source.name
+        targetExhibition.desc = source.desc
+        targetExhibition.subtitle = source.subtitle
+        targetExhibition.imageUrl = source.imageUrl
+        targetExhibition.latitude = source.latitude
+        targetExhibition.longitude = source.longitude
+        targetExhibition.isGeoFenced = source.isGeoFenced
+        return targetExhibition
+    }
     
     func addListener(listener:ExhibitionDatabaseListener){
         listeners.addDelegate(listener)

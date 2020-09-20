@@ -21,7 +21,7 @@ final class ImageLoader: NSObject {
     }
     
 
-    //TODO Fix http request not handled by the task
+
     func loadImage(_ imageUrl:String, onComplete: @escaping(String, UIImage?)->Void){
         loaderDelegate.loadImage(imageUrl, onComplete: onComplete)
     }

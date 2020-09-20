@@ -10,5 +10,5 @@ import Foundation
 
 
 protocol EditExhibitionProtocol:AnyObject {
-    func editExhibition(exhibition:Exhibition)
+    func editExhibition(source:UIExhibition)->Bool
 }

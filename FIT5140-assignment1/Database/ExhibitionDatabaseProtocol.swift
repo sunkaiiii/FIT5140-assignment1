@@ -31,7 +31,8 @@ protocol ExhibitionDatabaseProtocol:AnyObject{
     func addPlantToExhibition(plant:Plant,exhibition:Exhibition)->Bool
     func addPlant(name:String?, yearDiscovered:Int, family:String?, scientificName:String?, imageUrl:String?)->Plant
     func searchPlantByName(plantName:String)->[Plant]?
-    func updatePlant(oldPlant:Plant, newPlant:UIPlant)->Plant
+    func updatePlant(oldPlant:Plant, newPlant:UIPlant)->Plant?
+    func updateExhibition(source:UIExhibition,targetExhibition:Exhibition)->Exhibition?
     func deletePlant(plant:Plant)
     func deleteExhibition(exhibition:Exhibition)
     func deletePlantFromExhibition(plant:Plant, exhibiton:Exhibition)
