@@ -12,6 +12,8 @@ class NetworkRequestTask: NSObject {
     let requestHelper:RequestHelper
     let requestAction:HTTPRequestAction
     
+    //references on https://learnappmaking.com/codable-json-swift-how-to/
+    //references on https://medium.com/@alfianlosari/building-simple-async-api-request-with-swift-5-result-type-alfian-losari-e92f4e9ab412
     init(helper:RequestHelper, action:HTTPRequestAction){
         self.requestHelper = helper
         self.requestAction = action

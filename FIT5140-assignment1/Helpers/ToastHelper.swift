@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 
 extension UIViewController{
+    //references on https://www.xspdf.com/help/50710991.html
     func showToast(message : String, font: UIFont = .systemFont(ofSize: 12.0)) {
 
         let toastLabel = UILabel(frame: CGRect(x: self.view.frame.size.width/2 - 150, y: self.view.frame.size.height-100, width: 300, height: 35))

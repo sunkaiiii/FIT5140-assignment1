@@ -13,6 +13,7 @@ protocol ImagePickerDelegate:AnyObject{
     func didSelect(imageUrl:String,image:UIImage?)
 }
 
+//references on https://theswiftdev.com/picking-images-with-uiimagepickercontroller-in-swift-5/
 class ImagePicker:NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate{
     private let pickerController:UIImagePickerController
     private weak var presentationController:UIViewController?
