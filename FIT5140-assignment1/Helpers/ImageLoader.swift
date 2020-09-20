@@ -40,31 +40,34 @@ final class ImageLoader: NSObject {
         }
         
         func loadImage(_ imageUrl:String, onComplete: @escaping(String, UIImage?)->Void){
-            guard let session = session else {
-                return
-            }
-            if let data = imageCache.object(forKey: imageUrl as AnyObject){
-                onComplete(imageUrl,UIImage(data: data as! Data))
+            //TODO more string filter
+            let renamedUrl =  imageUrl.replacingOccurrences(of: "/", with: "_")
+            if let data = imageCache.object(forKey: renamedUrl as AnyObject){
+                onComplete(renamedUrl,UIImage(data: data as! Data))
                 return
             }
             
             
-            if let uiImage = retriveImage(forKey: imageUrl, inStorageType: .fileSystem){
+            if let uiImage = retriveImage(forKey: renamedUrl, inStorageType: .fileSystem){
                 if let data = uiImage.pngData(){
-                    imageCache.setObject(data as AnyObject, forKey: imageUrl as AnyObject)
+                    imageCache.setObject(data as AnyObject, forKey: renamedUrl as AnyObject)
                 }
-                onComplete(imageUrl, uiImage)
+                onComplete(renamedUrl, uiImage)
                 return
             }
             
             if let uiImage = UIImage(named: imageUrl){
                 if let data = uiImage.pngData(){
-                    imageCache.setObject(data as AnyObject, forKey: imageUrl as AnyObject)
+                    imageCache.setObject(data as AnyObject, forKey: renamedUrl as AnyObject)
                 }
-                onComplete(imageUrl, uiImage)
+                onComplete(renamedUrl, uiImage)
             }
             
             guard let url = URL(string: imageUrl) else {
+                return
+            }
+            
+            guard let session = session else {
                 return
             }
             
@@ -78,14 +81,15 @@ final class ImageLoader: NSObject {
             do{
                 let data = try Data(contentsOf: location)
                 if let imageTask = taskMap[downloadTask]{
-                    imageCache.setObject(data as AnyObject, forKey: imageTask.url as AnyObject)
+                    let renamedUrl =  imageTask.url.replacingOccurrences(of: "/", with: "_")
+                    imageCache.setObject(data as AnyObject, forKey: renamedUrl as AnyObject)
                     taskMap.removeValue(forKey: downloadTask)
                     let image = UIImage(data: data)
                     if let image = image{
-                        storeImage(image: image, forKey: imageTask.url, wtihStorageType: .fileSystem)
+                        storeImage(image: image, forKey: renamedUrl, wtihStorageType: .fileSystem)
                     }
                     DispatchQueue.main.async {
-                        imageTask.onComplete(imageTask.url, UIImage(data: data))
+                        imageTask.onComplete(renamedUrl, UIImage(data: data))
                     }
                 }
             }catch let error{
