@@ -49,7 +49,7 @@ final class ImageLoader: NSObject {
             }
             
             
-            if let uiImage = retriveImage(forKey: imageUrl, inStorageType: .userDefaults){
+            if let uiImage = retriveImage(forKey: imageUrl, inStorageType: .fileSystem){
                 if let data = uiImage.pngData(){
                     imageCache.setObject(data as AnyObject, forKey: imageUrl as AnyObject)
                 }
@@ -82,7 +82,7 @@ final class ImageLoader: NSObject {
                     taskMap.removeValue(forKey: downloadTask)
                     let image = UIImage(data: data)
                     if let image = image{
-                        storeImage(image: image, forKey: imageTask.url, wtihStorageType: .userDefaults)
+                        storeImage(image: image, forKey: imageTask.url, wtihStorageType: .fileSystem)
                     }
                     DispatchQueue.main.async {
                         imageTask.onComplete(imageTask.url, UIImage(data: data))
@@ -97,6 +97,14 @@ final class ImageLoader: NSObject {
             if let pngRepresentation = image.pngData(){
                 switch storageType {
                 case .fileSystem:
+                    let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+                    let documentDirecotry = paths[0]
+                    let fileUrl = documentDirecotry.appendingPathComponent(key)
+                    do{
+                        try pngRepresentation.write(to: fileUrl)
+                    }catch{
+                        return
+                    }
                     break
                 case .userDefaults:
                     UserDefaults.standard.set(pngRepresentation, forKey: key)
@@ -108,7 +116,11 @@ final class ImageLoader: NSObject {
         private func retriveImage(forKey key:String, inStorageType storageType: StorageType) -> UIImage? {
             switch storageType {
             case .fileSystem:
-                break
+                let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+                let documentsDirectory = paths[0]
+                let imageUrl = documentsDirectory.appendingPathComponent(key)
+                let image = UIImage(contentsOfFile: imageUrl.path)
+                return image
             case .userDefaults:
                 if let imageData = UserDefaults.standard.object(forKey: key) as? Data{
                     return UIImage(data: imageData)

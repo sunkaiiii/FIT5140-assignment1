@@ -67,7 +67,13 @@ class ImagePicker:NSObject, UIImagePickerControllerDelegate, UINavigationControl
         controller.dismiss(animated: true, completion: nil)
         let url = UUID().uuidString
         if let data = image?.pngData(){
-            UserDefaults.standard.set(data, forKey: url)
+            let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+            let documentDirectory = paths[0]
+            let fileUrl = documentDirectory.appendingPathComponent(url)
+            do{
+                try data.write(to: fileUrl)
+            }catch{}
+
         }
         self.delegate?.didSelect(imageUrl: url, image: image)
     }

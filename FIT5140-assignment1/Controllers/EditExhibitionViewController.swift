@@ -31,7 +31,6 @@ class EditExhibitionViewController: UIViewController, ImagePickerDelegate,MKMapV
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         self.blurView.layer.cornerRadius = 12
         self.searchBlurView.layer.cornerRadius = 12
         self.selectedImageUrl = exhibitionLocationAnnotation?.exhibition?.imageUrl
@@ -77,12 +76,15 @@ class EditExhibitionViewController: UIViewController, ImagePickerDelegate,MKMapV
         if let image = image{
             self.selectedImageUrl = imageUrl
             self.exhibitionImage.image = image.circleMasked?.addShadow()
+            if let exhibition = exhibitionLocationAnnotation?.exhibition{
+                let newExhibition = generateNewUIExhibitionFromCurrent(desc: exhibition.desc, imageUrl: selectedImageUrl, latitude: exhibition.latitude, longitude: exhibition.longitude, name: exhibition.name, subtitle: exhibition.subtitle, isGeoFenced: exhibition.isGeoFenced, exhibitionPlants: exhibition.exhibitionPlants)
+                exhibitionLocationAnnotation?.exhibition = newExhibition
+            }
             reloadMapView()
         }
     }
     
     private func reloadMapView(){
-        //TODO 创建一个新的数据类来传递exhibition
         if let annotation = exhibitionLocationAnnotation{
             mapView.removeAnnotation(annotation)
             mapView.addAnnotation(annotation)
@@ -121,11 +123,17 @@ class EditExhibitionViewController: UIViewController, ImagePickerDelegate,MKMapV
             return
         }
         let exhibitionSource = UIExhibitionImpl(desc: text, imageUrl: imageUrl, latitude: latitude, longitude: longitude, name: name, subtitle: subtite, isGeoFenced: isGeofenced, exhibitionPlants: plants)
-        if let result = editExhibitionDelegate?.editExhibition(source: exhibitionSource){
+        if let result = editExhibitionDelegate?.editExhibition(source: exhibitionSource), result == true{
             self.navigationController?.popViewController(animated: true)
         }else{
             showAltert(title: "Update exhibition error", message: "Please try again")
         }
+    }
+    
+    private func generateNewUIExhibitionFromCurrent(desc:String?, imageUrl:String?, latitude:Double, longitude:Double, name:String?,subtitle:String?, isGeoFenced:Bool, exhibitionPlants:[UIPlant])->UIExhibition{
+        let exhibitionSource = UIExhibitionImpl(desc: desc, imageUrl: imageUrl, latitude: latitude, longitude: longitude, name: name, subtitle: subtitle, isGeoFenced: isGeoFenced, exhibitionPlants: exhibitionPlants)
+        return exhibitionSource
+        
     }
     
     private func checkValidate()->Bool{

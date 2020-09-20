@@ -23,7 +23,7 @@ class ExhibitsLocationAnnotation: NSObject, MKAnnotation {
         self.coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
     }
     
-    init(exhibition:Exhibition){
+    init(exhibition:UIExhibition){
         self.title = exhibition.name
         self.desc = exhibition.desc
         self.subtitle = exhibition.subtitle

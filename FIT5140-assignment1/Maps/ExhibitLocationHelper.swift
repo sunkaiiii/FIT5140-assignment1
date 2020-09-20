@@ -8,6 +8,7 @@
 
 import Foundation
 import MapKit
+
 func convertExhibitionsToAnnotations(exhibitons:[Exhibition])->[ExhibitsLocationAnnotation]{
     return exhibitons.map{(exhibition) in
         return ExhibitsLocationAnnotation(exhibition: exhibition)

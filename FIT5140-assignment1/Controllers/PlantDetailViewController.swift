@@ -19,6 +19,7 @@ class PlantDetailViewController: UIViewController, EditPlantProtocol {
     
     var plant:Plant?
     weak var exhibitionController:ExhibitionDatabaseProtocol?
+    weak var plantChangeListener:PlantListChangeListener?
     var isPlantEdited = false
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -72,6 +73,7 @@ class PlantDetailViewController: UIViewController, EditPlantProtocol {
         if let plant = self.plant{
             isPlantEdited = true
             fillDataIntoView(plant: plant)
+            plantChangeListener?.onPlantListChanged()
             return true
         }
         return false

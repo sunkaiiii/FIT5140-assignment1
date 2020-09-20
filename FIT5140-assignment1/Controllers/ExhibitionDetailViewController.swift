@@ -9,7 +9,7 @@
 import UIKit
 import MapKit
 
-class ExhibitionDetailViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, MKMapViewDelegate,EditExhibitionProtocol {
+class ExhibitionDetailViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, MKMapViewDelegate,EditExhibitionProtocol,PlantListChangeListener {
     let EXHIBITION_INFORMATION = 0
     let EXHIBITION_PLANT = 1
     let EXHIBITION_INFORMATION_CELL = "exhibitionInformation"
@@ -39,6 +39,9 @@ class ExhibitionDetailViewController: UIViewController, UITableViewDelegate, UIT
         }
         plants = annotation.exhibition?.exhibitionPlants.map({(plant)->Plant in
             return plant as! Plant
+        })
+        plants?.sort(by: {(p1,p2)->Bool in
+            p1.name?.lowercased() ?? "" < p2.name?.lowercased() ?? ""
         })
         self.mapView.delegate = self
         self.mapView.removeAnnotation(annotation)
@@ -92,10 +95,11 @@ class ExhibitionDetailViewController: UIViewController, UITableViewDelegate, UIT
         if segue.identifier == EXHIBITION_PLANT_DETAIL_SEGUE{
             if let controller = segue.destination as? PlantDetailViewController, let plant = sender as? Plant{
                 controller.plant = plant
+                controller.plantChangeListener = self
             }
         }else if segue.identifier == EDIT_EXHIBITION_SEGUE{
             if let controller = segue.destination as? EditExhibitionViewController, let exhibition = annotation{
-                controller.exhibitionLocationAnnotation = exhibition
+                controller.exhibitionLocationAnnotation = exhibition.exhibition?.toLocationAnnotation()
                 controller.editExhibitionDelegate = self
             }
         }
@@ -122,4 +126,7 @@ class ExhibitionDetailViewController: UIViewController, UITableViewDelegate, UIT
         return false
     }
     
+    func onPlantListChanged() {
+        tableView.reloadSections([EXHIBITION_PLANT], with: .automatic)
+    }
 }

@@ -18,10 +18,13 @@ protocol UIExhibition {
     var subtitle: String? {get}
     var isGeoFenced: Bool {get}
     var exhibitionPlants: [UIPlant] {get}
+    func toLocationAnnotation()->ExhibitsLocationAnnotation
 }
 
 
 struct UIExhibitionImpl:UIExhibition {
+
+    
     var desc: String?
     
     var imageUrl: String?
@@ -37,5 +40,9 @@ struct UIExhibitionImpl:UIExhibition {
     var isGeoFenced: Bool
     
     var exhibitionPlants: [UIPlant]
+    
+    func toLocationAnnotation() -> ExhibitsLocationAnnotation {
+        return ExhibitsLocationAnnotation(exhibition: self)
+    }
     
 }

@@ -154,8 +154,8 @@
 		B13D8AA42501EE45006B9238 /* Maps */ = {
 			isa = PBXGroup;
 			children = (
-				B13D8AA52501EE77006B9238 /* ExhibitsLocationAnnotation.swift */,
 				B13D8AA72501EF58006B9238 /* ExhibitLocationHelper.swift */,
+				B13D8AA52501EE77006B9238 /* ExhibitsLocationAnnotation.swift */,
 			);
 			path = Maps;
 			sourceTree = "<group>";
