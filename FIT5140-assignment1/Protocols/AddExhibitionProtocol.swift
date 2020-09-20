@@ -9,7 +9,7 @@
 import Foundation
 
 protocol AddExhibitionProtocol:AnyObject{
-    func addExhibition(name:String,subtitle:String,desc:String,latitude:Double,longitude:Double, imageUrl:String?) -> Exhibition?
+    func addExhibition(name:String,subtitle:String,desc:String,latitude:Double,longitude:Double, imageUrl:String?, isGeofenced:Bool) -> Exhibition?
     func addPlantToExhibition(plant:Plant, exhibition:Exhibition)->Bool
     func afterAdd(needRefreshData:Bool)
 }

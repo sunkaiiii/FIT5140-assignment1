@@ -31,11 +31,3 @@ class ExhibitsLocationAnnotation: NSObject, MKAnnotation {
         self.exhibition = exhibition
     }
 }
-
-class ExhibitPlant{
-    var plantName:String
-    
-    init(name:String) {
-        self.plantName = name
-    }
-}

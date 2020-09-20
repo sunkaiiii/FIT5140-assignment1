@@ -8,15 +8,21 @@
 
 import UIKit
 
-class AddPlantTableViewController: UITableViewController, UISearchBarDelegate,HTTPRequestAction {
+class AddPlantTableViewController: UIViewController,UITableViewDataSource,UITableViewDelegate, UISearchBarDelegate,HTTPRequestAction {
 
     private let PLANT_CELL = "plantCell"
     
+    @IBOutlet weak var tableView: UITableView!
     weak var exhibitionDatabaseController:ExhibitionDatabaseProtocol?
     weak var addPlantProtocol:AddPlantProtocol?
     
     var allPlant = [UIPlant]()
     var indicator = UIActivityIndicatorView()
+    var response:SearchPlantResponse?
+    var request:SearchPlantRequest?
+    var page = 1
+    var isLoading = false
+    var last:String?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,9 +35,13 @@ class AddPlantTableViewController: UITableViewController, UISearchBarDelegate,HT
         searchController.searchBar.placeholder = "Search Plants"
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
+        
+        tableView.delegate = self
+        tableView.dataSource = self
         indicator.style = UIActivityIndicatorView.Style.medium
         indicator.center = self.view.center
         self.view.addSubview(indicator)
+        
         definesPresentationContext = true
         
     }
@@ -39,22 +49,29 @@ class AddPlantTableViewController: UITableViewController, UISearchBarDelegate,HT
 
     // MARK: - Table view data source
 
-    override func numberOfSections(in tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return allPlant.count
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: PLANT_CELL) as! SearchPlantTableViewCell
         let plant = allPlant[indexPath.row]
         cell.fillDataIntoView(plant: plant)
+        if indexPath.row + 3 > allPlant.count && response != nil{
+            self.request?.page = page+1
+            page += 1
+            if let request = request, !isLoading {
+                requestRestfulService(api: PlantRequestAPI.searchPlant, model: request)
+            }
+        }
         return cell
     }
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let plant = allPlant[indexPath.row]
         let result = self.addPlantProtocol?.addPlant(plant: plant)
         if result ?? false{
@@ -68,29 +85,38 @@ class AddPlantTableViewController: UITableViewController, UISearchBarDelegate,HT
         guard let searchText = searchBar.text, searchText.count>0 else {
             return
         }
+        response = nil
+        page = 1
         searchBar.resignFirstResponder()
         let result:[Plant]? = exhibitionDatabaseController?.searchPlantByName(plantName: searchText)
-        guard let plants = result, plants.count > 0  else{
-            requestRestfulService(api: PlantRequestAPI.searchPlant, model: SearchPlantRequest(searchText: searchText))
+        guard let plants = result, plants.count > 0 && searchText != last  else{
+            last = searchText
+            request = SearchPlantRequest(searchText: searchText,page: page)
+            requestRestfulService(api: PlantRequestAPI.searchPlant, model: request!)
+            page+=1
             return
         }
-        
+        last = searchText
         allPlant = plants.map({(plant)->PlantResponse in plant.toPlantResponseModel()})
         tableView.reloadData()
+        showToast(message: "Seach locally, Press Search Again to see the online result")
     }
     
     func beforeExecution(helper: RequestHelper) {
         guard let api = helper.restfulAPI as? PlantRequestAPI else{
             return
         }
+        
+        isLoading = true
         switch api {
         case .searchPlant:
-            indicator.startAnimating()
-            indicator.backgroundColor = UIColor.clear
-            allPlant.removeAll()
-            tableView.reloadData()
-        default:
-            return
+            if page == 1{
+                indicator.startAnimating()
+                indicator.backgroundColor = UIColor.clear
+                allPlant.removeAll()
+            }
+            tableView.reloadSections([0], with: .automatic)
+            break
         }
     }
     
@@ -98,15 +124,15 @@ class AddPlantTableViewController: UITableViewController, UISearchBarDelegate,HT
         print(error)
     }
     
-    func afterExecution(helper: RequestHelper, response: Data) {
+    func afterExecution(helper: RequestHelper,url:URLComponents, response: Data) {
+        isLoading = false
         guard let api = helper.restfulAPI as? PlantRequestAPI else {
             return
         }
         switch api {
         case .searchPlant:
             fillTableView(response)
-        default:
-            return
+            break
         }
     }
     
@@ -115,6 +141,7 @@ class AddPlantTableViewController: UITableViewController, UISearchBarDelegate,HT
             let decoder = JSONDecoder()
             let plantData = try decoder.decode(SearchPlantResponse.self, from: response)
             let plants = plantData
+            self.response = plantData
             self.allPlant.append(contentsOf: plants.data)
             self.indicator.stopAnimating()
             self.indicator.hidesWhenStopped = true

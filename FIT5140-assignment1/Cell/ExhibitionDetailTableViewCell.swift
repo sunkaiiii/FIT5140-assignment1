@@ -27,11 +27,12 @@ class ExhibitionDetailTableViewCell: UITableViewCell {
 
     func showExhibitionDetail(_ exhibition:UIExhibition){
         let location = CLLocation(latitude: exhibition.latitude, longitude: exhibition.longitude)
+        //convert latitude and longitude into a user friendly representation
         convertCoordinateToCurrentLocation(location: location, completionHandler: {(placeMark) in
             guard let placeMark = placeMark else{
                 return
             }
-            self.exhibitionLocation.text = "\(placeMark.name ?? "") \(placeMark.thoroughfare ?? "") \(placeMark.locality ?? "") \(placeMark.postalCode ?? "") \(placeMark.country ?? "")"
+            self.exhibitionLocation.text = placeMark.getFullAdress()
         })
         self.exhibitionDescription.text = exhibition.desc
         self.exhibitionName.text = exhibition.name

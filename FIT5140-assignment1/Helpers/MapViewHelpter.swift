@@ -10,11 +10,13 @@ import Foundation
 import MapKit
 
 class MapViewHelper{
-    static func generateCustomAnnotationView(mapView:MKMapView,annotation:ExhibitsLocationAnnotation)->MKAnnotationView?{
-        return generateCustomAnnotation(mapView: mapView, annotation: annotation, imageUrl: annotation.exhibition?.imageUrl ?? "")
+    
+    static func generateCustomAnnotationView(mapView:MKMapView,annotation:ExhibitsLocationAnnotation, showRightIcon:Bool = false)->MKAnnotationView?{
+        return generateCustomAnnotation(mapView: mapView, annotation: annotation, imageUrl: annotation.exhibition?.imageUrl ?? "", showRightIcon: showRightIcon)
     }
     
-    static func generateCustomAnnotation(mapView:MKMapView,annotation:MKAnnotation, imageUrl:String)->MKAnnotationView?{
+    //Create Custom style of AnnotationView
+    static func generateCustomAnnotation(mapView:MKMapView,annotation:MKAnnotation, imageUrl:String, showRightIcon:Bool = false)->MKAnnotationView?{
         
         let annotationIdentifier = "AnnotationIdentifier"
         var annotationView:MKAnnotationView?
@@ -23,18 +25,30 @@ class MapViewHelper{
             annotationView?.annotation = annotation
         }else{
             annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: annotationIdentifier)
-            annotationView?.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
+
+            
         }
-        
+        //if the annotation view is used in Home Page, this should show a arrow to indicate that the page navigation can happen when the annotation view is selected.
+        if showRightIcon{
+            let button = UIButton(type: .detailDisclosure)
+            button.setImage(UIImage(named: "right arrow"), for: .normal)
+            annotationView?.rightCalloutAccessoryView = button
+        }else{
+            annotationView?.rightCalloutAccessoryView = nil
+        }
+ 
         if let annotationView = annotationView{
             annotationView.canShowCallout = true
-            if let image = UIImage(named: imageUrl){
-                annotationView.image = image.resizeImage(newWidth: 40)?.circleMasked
-            }else{
-                ImageLoader.shared.loadImage(imageUrl, onComplete: {(imageUrl,image) in
-                    annotationView.image = image?.resizeImage(newWidth: 40)?.circleMasked
-                })
-            }
+            ImageLoader.simpleLoad(imageUrl, onComplete: {(imageUrl,image) in
+                annotationView.image = image?.resizeImage(newWidth: 40)?.circleMasked
+            })
+//            if let image = UIImage(named: imageUrl){
+//                annotationView.image = image.resizeImage(newWidth: 40)?.circleMasked
+//            }else{
+//                ImageLoader.shared.loadImage(imageUrl, onComplete: {(imageUrl,image) in
+//                    annotationView.image = image?.resizeImage(newWidth: 40)?.circleMasked
+//                })
+//            }
             
         }
         return annotationView

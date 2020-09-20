@@ -8,6 +8,7 @@
 
 import Foundation
 
+//Used to call the method when an exhibition is selected in the exhibition list view
 protocol ExhibitionSelectedProtocol:AnyObject {
     func didSelectExhibition(exhibition:Exhibition)
 }

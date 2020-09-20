@@ -23,8 +23,6 @@ enum RequestHost:Host{
         switch self {
         case .trefle:
             return "trefle.io"
-        default:
-            return ""
         }
     }
     
@@ -32,16 +30,12 @@ enum RequestHost:Host{
         switch self {
         case .trefle:
             return HTTPS
-        default:
-            return HTTPS
         }
     }
     
     func getScheme() -> String {
         switch self {
         case .trefle:
-            return "https"
-        default:
             return "https"
         }
     }
@@ -55,8 +49,6 @@ enum PlantRequestAPI:RestfulAPI{
         switch self {
         case .searchPlant:
             return "searchPlant"
-        default:
-            return ""
         }
     }
     
@@ -64,8 +56,7 @@ enum PlantRequestAPI:RestfulAPI{
         switch self {
         case .searchPlant:
             return "/api/v1/plants/search"
-        default:
-            return ""
+
         }
     }
     
@@ -73,16 +64,12 @@ enum PlantRequestAPI:RestfulAPI{
         switch self {
         case .searchPlant:
             return RequestType.GET
-        default:
-            return RequestType.GET
         }
     }
     
     func getRequestHost() -> RequestHost {
         switch self {
         case .searchPlant:
-            return RequestHost.trefle
-        default:
             return RequestHost.trefle
         }
     }
@@ -115,5 +102,5 @@ protocol RequestModel {
 protocol HTTPRequestAction {
     func beforeExecution(helper:RequestHelper)
     func executionFailed(helper:RequestHelper, message:String, error:Error)
-    func afterExecution(helper:RequestHelper, response:Data)
+    func afterExecution(helper:RequestHelper,url:URLComponents, response:Data)
 }

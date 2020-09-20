@@ -10,8 +10,10 @@ import Foundation
 
 struct SearchPlantRequest:RequestModel {
     let searchText:String
-    init(searchText:String) {
+    var page:Int
+    init(searchText:String, page:Int) {
         self.searchText = searchText
+        self.page = page
     }
     func getPathParameter() -> [String] {
         return []
@@ -22,7 +24,7 @@ struct SearchPlantRequest:RequestModel {
     }
     
     func getQueryParameter() -> [String : String] {
-        return ["token":"i9h6hy6ZYVZmTWuowG8g5a3ZWK3ffQ9LoRI6RhLiZCU","q":searchText]
+        return ["token":"i9h6hy6ZYVZmTWuowG8g5a3ZWK3ffQ9LoRI6RhLiZCU","q":searchText,"page":"\(page)"]
     }
     
     func getBody() -> [String] {

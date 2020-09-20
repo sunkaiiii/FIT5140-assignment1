@@ -20,7 +20,6 @@ class PlantDetailViewController: UIViewController, EditPlantProtocol {
     var plant:Plant?
     weak var exhibitionController:ExhibitionDatabaseProtocol?
     weak var plantChangeListener:PlantListChangeListener?
-    var isPlantEdited = false
     override func viewDidLoad() {
         super.viewDidLoad()
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -39,13 +38,7 @@ class PlantDetailViewController: UIViewController, EditPlantProtocol {
         self.plantScientificName.text = plant.scientificName
         self.plantYearDiscovered.text = "\(plant.yearDiscovered)"
         self.plantFamily.text = plant.family
-        if let url = plant.imageUrl{
-            ImageLoader.shared.loadImage(url, onComplete:{(url, image) in
-                if let image = image {
-                    self.plantImage.image = image
-                }
-            })
-        }
+        ImageLoader.simpleLoad(plant.imageUrl, imageView: plantImage)
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -71,7 +64,6 @@ class PlantDetailViewController: UIViewController, EditPlantProtocol {
         }
         self.plant = self.exhibitionController?.updatePlant(oldPlant: oldPlant, newPlant: newPlant)
         if let plant = self.plant{
-            isPlantEdited = true
             fillDataIntoView(plant: plant)
             plantChangeListener?.onPlantListChanged()
             return true

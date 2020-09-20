@@ -36,6 +36,7 @@
 		B146F2F52510730900A3E332 /* EditPlantProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B146F2F42510730900A3E332 /* EditPlantProtocol.swift */; };
 		B146F2F725108F1C00A3E332 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B146F2F625108F1C00A3E332 /* ImagePicker.swift */; };
 		B146F2F92510EE0600A3E332 /* MapViewHelpter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B146F2F82510EE0600A3E332 /* MapViewHelpter.swift */; };
+		B168009425173E540092FFAF /* HomePageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B168009325173E540092FFAF /* HomePageTableViewCell.swift */; };
 		B1892A1524F7ABD800B55215 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1892A1424F7ABD800B55215 /* AppDelegate.swift */; };
 		B1892A1724F7ABD800B55215 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1892A1624F7ABD800B55215 /* SceneDelegate.swift */; };
 		B1892A1C24F7ABD800B55215 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B1892A1A24F7ABD800B55215 /* Main.storyboard */; };
@@ -87,6 +88,7 @@
 		B146F2F42510730900A3E332 /* EditPlantProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPlantProtocol.swift; sourceTree = "<group>"; };
 		B146F2F625108F1C00A3E332 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		B146F2F82510EE0600A3E332 /* MapViewHelpter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewHelpter.swift; sourceTree = "<group>"; };
+		B168009325173E540092FFAF /* HomePageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePageTableViewCell.swift; sourceTree = "<group>"; };
 		B1892A1124F7ABD800B55215 /* FIT5140-assignment1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "FIT5140-assignment1.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B1892A1424F7ABD800B55215 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B1892A1624F7ABD800B55215 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -276,6 +278,7 @@
 				B101DC6A25124C3600322303 /* ExhibitionSelectedProtocol.swift */,
 				B1C44C9525164FC7008EE21D /* EditExhibitionProtocol.swift */,
 				B1C44C982516533B008EE21D /* UIExhibition.swift */,
+				B168009325173E540092FFAF /* HomePageTableViewCell.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -361,6 +364,7 @@
 				B191CA9D2513652F00418D32 /* ToastHelper.swift in Sources */,
 				B1892A2B24F7ACDA00B55215 /* RestfulAPI.swift in Sources */,
 				B1C44C9625164FC7008EE21D /* EditExhibitionProtocol.swift in Sources */,
+				B168009425173E540092FFAF /* HomePageTableViewCell.swift in Sources */,
 				B1AB5609250E5FA3000833D7 /* AddExhibitionProtocol.swift in Sources */,
 				B100769624F8C9A3002C4ACC /* NetworkRequestTask.swift in Sources */,
 				B1437B0425070DFD00E9BC0E /* ExhibitionDetailViewController.swift in Sources */,

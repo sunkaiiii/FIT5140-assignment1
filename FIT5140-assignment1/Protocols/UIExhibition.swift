@@ -8,7 +8,7 @@
 
 import Foundation
 
-
+//Protocol to represent the UI elements of Plant
 protocol UIExhibition {
     var desc: String? {get}
     var imageUrl: String? {get}

@@ -8,6 +8,7 @@
 
 import Foundation
 
+//Protocol to represent the UI elements of Plant
 protocol UIPlant {
     var name:String? { get  }
     var yearDiscovered:Int32 {get}

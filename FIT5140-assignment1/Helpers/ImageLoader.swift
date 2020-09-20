@@ -9,26 +9,34 @@
 import UIKit
 import Foundation
 
+
+
+//Load a image with cache and local storage
 final class ImageLoader: NSObject {
 
     
-    private let loaderDelegate = ImageLoaderDelegate()
+    static let loaderDelegate = ImageLoaderDelegate()
     
-    static let shared:ImageLoader = ImageLoader()
     
     private override init() {
         
     }
+
+    static func load(_ imageUrl:String?)->ImageLoaderProcess{
+        return ImageLoaderProcess(imageUrl: imageUrl,delegate: loaderDelegate)
+    }
     
-
-
-    func loadImage(_ imageUrl:String, onComplete: @escaping(String, UIImage?)->Void){
-        loaderDelegate.loadImage(imageUrl, onComplete: onComplete)
+    static func simpleLoad(_ imageUrl:String?, imageView:UIImageView){
+        return ImageLoaderProcess(imageUrl: imageUrl, delegate: loaderDelegate).placeHolder(UIImage(named: "Loading")!).onEmptyHolder(UIImage(named: "PlaceHolder")!).into(imageView)
+    }
+    
+    static func simpleLoad(_ imageUrl:String?, onComplete: @escaping(String, UIImage?)->Void){
+        return ImageLoaderProcess(imageUrl: imageUrl, delegate: loaderDelegate).load(onComplete: onComplete)
     }
     
 
     //To encapsulate and hide the interface of the implemented interfaces, using another delegate class.
-    private class ImageLoaderDelegate:NSObject,URLSessionTaskDelegate, URLSessionDownloadDelegate{
+    class ImageLoaderDelegate:NSObject,URLSessionTaskDelegate, URLSessionDownloadDelegate{
         private var taskMap = [URLSessionDownloadTask:ImageDownloadTask]()
         private var imageCache = NSCache<AnyObject, AnyObject>()
         private var session:URLSession?
@@ -89,13 +97,14 @@ final class ImageLoader: NSObject {
                         storeImage(image: image, forKey: renamedUrl, wtihStorageType: .fileSystem)
                     }
                     DispatchQueue.main.async {
-                        imageTask.onComplete(renamedUrl, UIImage(data: data))
+                        imageTask.onComplete(renamedUrl, image)
                     }
                 }
             }catch let error{
                 print(error.localizedDescription)
             }
         }
+        
         
         private func storeImage(image:UIImage, forKey key:String, wtihStorageType storageType: StorageType){
             if let pngRepresentation = image.pngData(){
@@ -146,6 +155,103 @@ final class ImageLoader: NSObject {
         init(_ url:String, onComplete: @escaping (String,UIImage?)->Void) {
             self.url = url
             self.onComplete = onComplete
+        }
+    }
+    
+    final class ImageLoaderProcess{
+        var imageUrl:String?
+        weak var placeHolder:UIView?
+        weak var placeHolderImage:UIImage?
+        weak var onErrorHolder:UIView?
+        weak var onEmptyHolder:UIView?
+        weak var onEmptyImage:UIImage?
+        
+        weak var loaderDelegate:ImageLoaderDelegate?
+        private var placeHolderType:PlaceHolderType = .none
+        private var emptyHolderType:PlaceHolderType = .none
+        private enum PlaceHolderType{
+            case image
+            case view
+            case none
+        }
+
+        init(imageUrl:String?, delegate:ImageLoaderDelegate) {
+            self.imageUrl = imageUrl
+            self.loaderDelegate = delegate
+        }
+        
+        func placeHolder(_ placeHolder:UIView)->ImageLoaderProcess{
+            self.placeHolder = placeHolder
+            placeHolderType = .view
+            return self
+        }
+        
+        func placeHolder(_ placeHolder:UIImage)->ImageLoaderProcess{
+            placeHolderImage = placeHolder
+            placeHolderType = .image
+            return self
+        }
+        
+        func onEmptyHolder(_ empty:UIView)->ImageLoaderProcess{
+            onEmptyHolder = empty
+            emptyHolderType = .view
+            return self
+        }
+        
+        func onEmptyHolder(_ empty:UIImage)->ImageLoaderProcess{
+            onEmptyImage = empty
+            emptyHolderType = .image
+            return self
+        }
+        
+        func load(onComplete: @escaping(String, UIImage?)->Void){
+            if let imageUrl = imageUrl{
+                loaderDelegate?.loadImage(imageUrl, onComplete: {(url,image) in
+                    onComplete(url,image)
+                })
+            }
+        }
+        
+        func into(_ imageView:UIImageView){
+            imageView.image = nil
+            switch placeHolderType {
+                case .image:
+                    imageView.image = self.placeHolderImage
+                case .view:
+                    imageView.addSubview(placeHolder!)
+                case .none:
+                    break
+            }
+            guard let imageUrl = imageUrl else{
+                switch self.emptyHolderType {
+                case .image:
+                    imageView.image = self.onEmptyImage
+                case .view:
+                    imageView.addSubview(self.onEmptyHolder!)
+                case .none:
+                    break
+                }
+                return
+            }
+            loaderDelegate?.loadImage(imageUrl, onComplete: {(url,image) in
+                if let image = image{
+                    for view in imageView.subviews{
+                        if view == self.placeHolder{
+                            view.removeFromSuperview()
+                        }
+                    }
+                    imageView.image = image
+                }else{
+                    switch self.emptyHolderType {
+                    case .image:
+                        imageView.image = self.onEmptyImage
+                    case .view:
+                        imageView.addSubview(self.onEmptyHolder!)
+                    case .none:
+                        break
+                    }
+                }
+            })
         }
     }
 }

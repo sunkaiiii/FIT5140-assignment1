@@ -20,6 +20,8 @@ class EditExhibitionViewController: UIViewController, ImagePickerDelegate,MKMapV
     @IBOutlet weak var searchBlurView: UIVisualEffectView!
     @IBOutlet weak var searchResultLabel: UILabel!
     @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var geofenceSwitch: UISwitch!
+    @IBOutlet weak var exhibitionSubtitle: UITextField!
     
     var exhibitionLocationAnnotation:ExhibitsLocationAnnotation?
     var selectedImageUrl:String?
@@ -31,17 +33,21 @@ class EditExhibitionViewController: UIViewController, ImagePickerDelegate,MKMapV
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        //init widgets
         self.blurView.layer.cornerRadius = 12
         self.searchBlurView.layer.cornerRadius = 12
         self.selectedImageUrl = exhibitionLocationAnnotation?.exhibition?.imageUrl
         self.mapView.delegate = self
         self.exhibitionName.text = exhibitionLocationAnnotation?.exhibition?.name
         self.exhibitionDescription.text = exhibitionLocationAnnotation?.exhibition?.desc
+        self.exhibitionSubtitle.text = exhibitionLocationAnnotation?.exhibition?.subtitle
         searchLocationDelegateImpl = SearchLocationDelegateImpl(searchResultView: searchBlurView, searchResultLabel: searchResultLabel)
         self.locationTextField.delegate = searchLocationDelegateImpl
         self.exhibitionName.delegate = self
         self.exhibitionDescription.delegate = self
+        self.exhibitionSubtitle.delegate = self
         self.searchResultLabel.isUserInteractionEnabled = true
+        self.geofenceSwitch.isOn = exhibitionLocationAnnotation?.exhibition?.isGeoFenced ?? false
         
         //References on https://stackoverflow.com/questions/33658521/how-to-make-a-uilabel-clickable
         self.searchResultLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(EditExhibitionViewController.onSearchResultClicked)))
@@ -56,13 +62,8 @@ class EditExhibitionViewController: UIViewController, ImagePickerDelegate,MKMapV
                 }
             })
         }
-        if let imageUrl = selectedImageUrl{
-            ImageLoader.shared.loadImage(imageUrl, onComplete: {(url,image) in
-                if let image = image{
-                    self.exhibitionImage.image = image.circleMasked?.addShadow()
-                }
-            })
-        }
+        ImageLoader.simpleLoad(selectedImageUrl, imageView: exhibitionImage)
+        exhibitionImage.image = exhibitionImage.image?.circleMasked?.addShadow()
         self.imagePicker = ImagePicker(presentationController: self, delegate: self)
     }
     
@@ -73,6 +74,7 @@ class EditExhibitionViewController: UIViewController, ImagePickerDelegate,MKMapV
     }
     
     func didSelect(imageUrl: String, image: UIImage?) {
+        //after selecta image, this should refresh the annotation and imageview
         if let image = image{
             self.selectedImageUrl = imageUrl
             self.exhibitionImage.image = image.circleMasked?.addShadow()
@@ -117,12 +119,12 @@ class EditExhibitionViewController: UIViewController, ImagePickerDelegate,MKMapV
         guard let text = exhibitionDescription.text, let imageUrl = selectedImageUrl,
               let latitude = exhibitionLocationAnnotation?.coordinate.latitude,
               let longitude = exhibitionLocationAnnotation?.coordinate.longitude,
-              let name = exhibitionName.text, let subtite = exhibitionLocationAnnotation?.subtitle, let isGeofenced = exhibitionLocationAnnotation?.exhibition?.isGeoFenced,
+              let name = exhibitionName.text, let subtite = exhibitionSubtitle.text,
               let plants = exhibitionLocationAnnotation?.exhibition?.exhibitionPlants else {
             showAltert(title: "You need to fill all the fields", message: "Please try again")
             return
         }
-        let exhibitionSource = UIExhibitionImpl(desc: text, imageUrl: imageUrl, latitude: latitude, longitude: longitude, name: name, subtitle: subtite, isGeoFenced: isGeofenced, exhibitionPlants: plants)
+        let exhibitionSource = UIExhibitionImpl(desc: text, imageUrl: imageUrl, latitude: latitude, longitude: longitude, name: name, subtitle: subtite, isGeoFenced: geofenceSwitch.isOn, exhibitionPlants: plants)
         if let result = editExhibitionDelegate?.editExhibition(source: exhibitionSource), result == true{
             self.navigationController?.popViewController(animated: true)
         }else{
@@ -155,6 +157,10 @@ class EditExhibitionViewController: UIViewController, ImagePickerDelegate,MKMapV
         if exhibitionLocationAnnotation == nil{
             showAltert(title: "Exhibition location is empty", message: "Please select a location")
             return false
+        }
+        
+        if exhibitionSubtitle.text?.count == 0{
+            showAltert(title: "Exhibition Subtitle cannot be empty", message: "please try again")
         }
         return true
     }

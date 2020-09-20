@@ -11,15 +11,16 @@ import MapKit
 
 class AddExhibitionViewController: UIViewController, UISearchBarDelegate,UITableViewDataSource, UITableViewDelegate,AddPlantProtocol, ImagePickerDelegate,MKMapViewDelegate,CLLocationManagerDelegate {
 
+    @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var exhibitionName: UITextField!
     @IBOutlet weak var exhibitionDescription: UITextField!
     @IBOutlet weak var locationSearchBar: UISearchBar!
     @IBOutlet weak var exhibitionMapSelectionButton: UIButton!
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var selectImage: UIButton!
-    @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var plantTableView: UITableView!
     @IBOutlet weak var useCurrentLocationButton: UIButton!
+    @IBOutlet weak var geofenceSwitch: UISwitch!
     var locationManager = CLLocationManager()
     var currentLocation:CLLocationCoordinate2D?
     
@@ -68,6 +69,8 @@ class AddExhibitionViewController: UIViewController, UISearchBarDelegate,UITable
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         if let searchText = locationSearchBar.text{
             searchBar.resignFirstResponder()
+            
+            //show the result list, hide the mapview
             searchBar.isUserInteractionEnabled = false
             mapView.removeAnnotations(mapView.annotations)
             mapView.isHidden = true
@@ -81,12 +84,12 @@ class AddExhibitionViewController: UIViewController, UISearchBarDelegate,UITable
                 }
                 searchBar.isUserInteractionEnabled = true
                 self.locations = placemarks
-                self.tableView.reloadData()
-
+                self.tableView.reloadSections([0], with: .automatic)
             })
         }
     }
     
+    //If the user type the location, hide the use the current location button
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         useCurrentLocationButton.isHidden = searchBar.text?.count ?? 0 > 0
     }
@@ -150,6 +153,7 @@ class AddExhibitionViewController: UIViewController, UISearchBarDelegate,UITable
         imagePicker?.present(from: sender as! UIView)
     }
     
+    //When the user has select a new image, change the annotation if the mapview already has a one
     func didSelect(imageUrl: String, image: UIImage?) {
         guard let image = image else {
             return
@@ -162,6 +166,7 @@ class AddExhibitionViewController: UIViewController, UISearchBarDelegate,UITable
             mapView.selectAnnotationAndMoveToFocus(annotation)
         }
     }
+    
     @IBAction func addExhibition(_ sender: Any) {
         if !checkValid(){
             var message:String = ""
@@ -175,7 +180,7 @@ class AddExhibitionViewController: UIViewController, UISearchBarDelegate,UITable
             return
         }
         
-        if let exhibition = addExhibitionDelegate?.addExhibition(name: exhibitionName.text!, subtitle: exhibitionDescription.text!, desc: exhibitionDescription.text!, latitude: selectedExhibition!.coordinate.latitude, longitude: selectedExhibition!.coordinate.longitude,imageUrl:imageUrl){
+        if let exhibition = addExhibitionDelegate?.addExhibition(name: exhibitionName.text!, subtitle: exhibitionDescription.text!, desc: exhibitionDescription.text!, latitude: selectedExhibition!.coordinate.latitude, longitude: selectedExhibition!.coordinate.longitude,imageUrl:imageUrl,isGeofenced: geofenceSwitch.isOn){
             self.plantTableViewDelegate?.plants.forEach({(uiPlant) in
                 if uiPlant.isFromDatabase ?? false, let existedPlant = uiPlant as? Plant{
                     let _ = self.addExhibitionDelegate?.addPlantToExhibition(plant: existedPlant, exhibition: exhibition)
@@ -186,10 +191,11 @@ class AddExhibitionViewController: UIViewController, UISearchBarDelegate,UITable
                     }
                 }
             })
+            //if all processes are correct, pop the controller
             self.addExhibitionDelegate?.afterAdd(needRefreshData: true)
             self.navigationController?.popViewController(animated: true)
         }else{
-            showAltert(title: "Add exhibition error", message: "Please try again")
+            showAltert(title: "Add exhibition error", message: "")
         }
     }
     
@@ -218,7 +224,9 @@ class AddExhibitionViewController: UIViewController, UISearchBarDelegate,UITable
         }
     }
     
+    
     func addPlant(plant: UIPlant) -> Bool {
+        //check if the plant has already added in the list
         if plantTableViewDelegate?.plants.contains(where: {(p)->Bool in
             return plant.name == p.name && plant.scientificName == p.scientificName
         }) ?? false {
@@ -242,13 +250,16 @@ class PlantTableViewDelegate:NSObject,UITableViewDataSource,UITableViewDelegate{
     var plants:[UIPlant] = []
     let SUMMARY_CELL = "summeriseCell"
     let PLANT_INFO_CELL = "plantInfoCell"
+    
+    let SUMMARY_SECTION = 0
+    let PLANT_SECTION = 1
     func numberOfSections(in tableView: UITableView) -> Int {
         return 2
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 0{
+        if section == SUMMARY_SECTION{
             return 1
-        }else if section == 1{
+        }else if section == PLANT_SECTION{
             return plants.count
         }
         else{
@@ -270,5 +281,19 @@ class PlantTableViewDelegate:NSObject,UITableViewDataSource,UITableViewDelegate{
             cell = nil
         }
         return cell!
+    }
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        if indexPath.section == PLANT_SECTION{
+            return true
+        }
+        return false
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete && indexPath.section == PLANT_SECTION{
+            plants.remove(at: indexPath.row)
+            tableView.reloadSections([SUMMARY_SECTION,PLANT_SECTION], with: .automatic)
+        }
     }
 }

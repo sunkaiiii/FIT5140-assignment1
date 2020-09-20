@@ -25,15 +25,22 @@ class SearchPlantTableViewCell: UITableViewCell {
 
     func fillDataIntoView(plant:UIPlant){
         plantName.text = plant.name
-        plantScientificName.text = plant.name
-        plantImage.image = nil
-        if let imageUrl = plant.imageUrl{
-            ImageLoader.shared.loadImage(imageUrl, onComplete: {(imageUrl,image) in
-                if let image = image{
-                    self.plantImage.image = image
-                }
-            })
+        if plantName.text?.count == 0{
+            plantName.text = plant.scientificName
         }
+        plantScientificName.text = plant.scientificName
+        plantImage.image = nil
+        ImageLoader.simpleLoad(plant.imageUrl, imageView: plantImage)
+        
+//        if let imageUrl = plant.imageUrl{
+//            ImageLoader.shared.loadImage(imageUrl, onComplete: {(imageUrl,image) in
+//                if let image = image{
+//                    self.plantImage.image = image
+//                }
+//            })
+//        }else{
+//            self.plantImage.image = UIImage(named: "PlaceHolder")
+//        }
 
     }
 }

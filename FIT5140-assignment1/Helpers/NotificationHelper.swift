@@ -20,6 +20,7 @@ class NotificationHelper{
         }
     }
     
+    //Send notification if the user into the geofence area
     static func showNotification(controller:UIViewController?,information:String, regionName:String){
         if UIApplication.shared.applicationState == .active{
             controller?.showToast(message: "\(information) \(regionName)")

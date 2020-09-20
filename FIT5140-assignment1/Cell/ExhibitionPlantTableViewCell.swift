@@ -27,13 +27,7 @@ class ExhibitionPlantTableViewCell: UITableViewCell {
     func showPlantDetail(_ plant:Plant){
         self.plantName.text = plant.name
         self.plantScienceNameAndYear.text = "\(plant.scientificName ?? "") (\(plant.yearDiscovered))"
-        if let imageUrl = plant.imageUrl{
-            ImageLoader.shared.loadImage(imageUrl, onComplete: {(imageUrl,image) in
-                if let image = image{
-                    self.plantImage.image = image.circleMasked
-                }
-            })
-        }
+        ImageLoader.simpleLoad(plant.imageUrl, imageView: plantImage)
     }
 
 }

@@ -31,10 +31,11 @@ class HomeViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.mapView.delegate = self
+        //init switch
         self.backgroundLocating.isOn = UserDefaults.standard.bool(forKey: BACKGROUND_LOCATING_KEY)
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         self.exhibitionController = appDelegate.databaseController
@@ -51,13 +52,18 @@ class HomeViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     }
     
     func initExhibitions(){
+        //Create map annotation
         if exhibitionsAnnotations.count > 0 {
             mapView.removeAnnotations(exhibitionsAnnotations)
         }
         exhibitionsAnnotations = convertExhibitionsToAnnotations(exhibitons: exhibitions)
         mapView.addAnnotations(exhibitionsAnnotations)
+        
+        //init geofence
         initGeofences(annotations: exhibitionsAnnotations)
         tableView.reloadSections([SECTION_EXHIBITION_LIST], with: .automatic)
+        
+        //init the selected row
         if exhibitionsAnnotations.count > 0 && firstShow{
             self.selectIndex = 0
             firstShow = false
@@ -86,6 +92,7 @@ class HomeViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         if status == .authorizedAlways{
             NotificationHelper.requestNotificationPermission()
         }
+        //apply geofence to every annotation with the geofence on
         for annotation in annotations{
             if let oldGeofence = annotation.geofence {
                 locationManager.stopMonitoring(for: oldGeofence)
@@ -95,7 +102,7 @@ class HomeViewController: UIViewController,UITableViewDelegate, UITableViewDataS
             if !(annotation.exhibition?.isGeoFenced ?? false){
                 continue
             }
-            let geofence = CLCircularRegion(center: annotation.coordinate, radius: 500, identifier: "\(annotation.title ?? "gofence") \(annotation.coordinate.latitude)")
+            let geofence = CLCircularRegion(center: annotation.coordinate, radius: 200, identifier: "\(annotation.title ?? "gofence")")
             geofence.notifyOnEntry = true
             geofence.notifyOnEntry = true
             locationManager.startMonitoring(for: geofence)
@@ -128,11 +135,11 @@ class HomeViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         if(indexPath.section == SECTION_ALL_EXHIBITION){
             return tableView.dequeueReusableCell(withIdentifier: "showAllCell", for: indexPath)
         }
-        let cell = tableView.dequeueReusableCell(withIdentifier: "exhibitCell", for: indexPath)
-        let exhibit = exhibitionsAnnotations[indexPath.row]
-        cell.textLabel?.text = exhibit.title
-        cell.detailTextLabel?.text = "Lat:\(exhibit.coordinate.latitude) Long:\(exhibit.coordinate.longitude)\n\(exhibit.desc ?? "")"
-        cell.detailTextLabel?.numberOfLines = 3
+        let cell = tableView.dequeueReusableCell(withIdentifier: "exhibitCell", for: indexPath) as! HomePageTableViewCell
+        let exhibit = exhibitionsAnnotations[indexPath.row].exhibition
+        if let ex = exhibit{
+            cell.initExhibitionCell(exhibition: ex)
+        }
         return cell
     }
 
@@ -143,6 +150,7 @@ class HomeViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         return false
     }
     
+    //delete annotation would delete the geofence
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete && indexPath.section == SECTION_EXHIBITION_LIST{
             let deleteIndex = indexPath.row
@@ -186,7 +194,7 @@ class HomeViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         if let annotation = annotation as? ExhibitsLocationAnnotation{
-            return MapViewHelper.generateCustomAnnotationView(mapView: mapView, annotation: annotation)
+            return MapViewHelper.generateCustomAnnotationView(mapView: mapView, annotation: annotation, showRightIcon: true)
         }
         return nil
     }
@@ -221,8 +229,8 @@ class HomeViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     }
 
     
-    func addExhibition(name: String, subtitle: String, desc: String, latitude: Double, longitude: Double,imageUrl:String?) -> Exhibition? {
-        let exhibition = exhibitionController?.addExhibition(name: name, subtitle: subtitle, desc: desc, latitude: latitude, longitude: longitude, imageUrl: imageUrl,isGeoFenced: true)
+    func addExhibition(name: String, subtitle: String, desc: String, latitude: Double, longitude: Double,imageUrl:String?, isGeofenced:Bool) -> Exhibition? {
+        let exhibition = exhibitionController?.addExhibition(name: name, subtitle: subtitle, desc: desc, latitude: latitude, longitude: longitude, imageUrl: imageUrl,isGeoFenced: isGeofenced)
         return exhibition
     }
     

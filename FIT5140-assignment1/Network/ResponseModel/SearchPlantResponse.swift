@@ -10,9 +10,10 @@ import Foundation
 
 class SearchPlantResponse: Codable {
     let data: [PlantResponse]
-
-    init(data: [PlantResponse]) {
+    let links: Links
+    init(data: [PlantResponse], links:Links) {
         self.data = data
+        self.links = links
     }
 }
 
@@ -62,6 +63,23 @@ class PlantResponse: Codable,UIPlant {
         self.imageUrl = plant.imageUrl
     }
 }
+
+class Links: Codable {
+    let linksSelf, first, next, last: String?
+
+    enum CodingKeys: String, CodingKey {
+        case linksSelf = "self"
+        case first, next, last
+    }
+
+    init(linksSelf: String, first: String, next: String, last: String) {
+        self.linksSelf = linksSelf
+        self.first = first
+        self.next = next
+        self.last = last
+    }
+}
+
 
 extension Plant{
     func toPlantResponseModel()->PlantResponse{

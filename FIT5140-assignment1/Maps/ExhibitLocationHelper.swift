@@ -37,6 +37,7 @@ extension MKMapView{
     }
 }
 
+//Coordinate -> Placemark
 func convertCoordinateToCurrentLocation(location:CLLocation,completionHandler: @escaping (CLPlacemark?) ->Void){
     let geocoder = CLGeocoder()
     geocoder.reverseGeocodeLocation(location, completionHandler: {(placemarks, error) in
@@ -49,6 +50,7 @@ func convertCoordinateToCurrentLocation(location:CLLocation,completionHandler: @
     })
 }
 
+//Address -> Placemark
 func converAddressStringToCoordinate(addressString:String, completionHandler:@escaping ([CLPlacemark], NSError?)->Void){
     let geocoder = CLGeocoder()
     geocoder.geocodeAddressString(addressString, in: nil, preferredLocale: nil, completionHandler: {(placemarks, error) in

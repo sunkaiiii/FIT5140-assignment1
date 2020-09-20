@@ -26,17 +26,18 @@ class EditPlantViewController: UIViewController,ImagePickerDelegate {
         super.viewDidLoad()
 
         imagePicker = ImagePicker(presentationController: self, delegate: self)
+        plantName.delegate = self
+        plantScientificName.delegate = self
+        plantFamily.delegate = self
+        plantYearDiscovered.delegate = self
+        
         if let plant = self.plant {
             plantName.text = plant.name
             plantScientificName.text = plant.scientificName
             plantFamily.text = plant.family
             plantYearDiscovered.text = "\(plant.yearDiscovered)"
             imageUrl = plant.imageUrl
-            if let imageUrl = plant.imageUrl{
-                ImageLoader.shared.loadImage(imageUrl, onComplete: {(url,image) in
-                    self.plantImage.image = image
-                })
-            }
+            ImageLoader.simpleLoad(imageUrl, imageView: plantImage)
         }
     }
     
@@ -57,7 +58,25 @@ class EditPlantViewController: UIViewController,ImagePickerDelegate {
     }
     
     private func checkValid()->Bool{
-        guard let name = plantName.text,let scientificName = plantScientificName.text, let family = plantFamily.text, let yearDiscovered = Int32(plantYearDiscovered.text ?? "-1"), let imageUrl = imageUrl, name.count>0, scientificName.count>0, family.count>0, imageUrl.count>0, yearDiscovered > 1230 else {
+        if plantName.text?.count == 0{
+            showAltert(title: "The plant name cannot be empty", message: nil)
+            return false
+        }
+        if plantScientificName.text?.count == 0{
+            showAltert(title: "The plant scientific name cannot be empty", message: nil)
+            return false
+        }
+        
+        if plantFamily.text?.count == 0{
+            showAltert(title: "The plant family cannot be empty", message: nil)
+            return false
+        }
+        let yearDiscover = Int32(plantYearDiscovered.text ?? "-1") ?? -1
+        if yearDiscover < 0{
+            showAltert(title: "The plant discovered year cannot be negative", message: nil)
+            return false
+        }else if yearDiscover > Calendar.current.component(.year, from: Date()){
+            showAltert(title: "The plant discovered year cannot be over this year", message: nil)
             return false
         }
         return true
@@ -70,14 +89,6 @@ class EditPlantViewController: UIViewController,ImagePickerDelegate {
         self.imageUrl = imageUrl
         self.plantImage.image = image
     }
-    /*
-    // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

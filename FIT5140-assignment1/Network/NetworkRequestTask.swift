@@ -18,7 +18,8 @@ class NetworkRequestTask: NSObject {
     }
     
     func fetchDataFromSever(){
-        guard let url = buildRequestUrl() else{
+        let urlAndComponents = buildRequestUrl()
+        guard let url = urlAndComponents.0 else{
             return
         }
         requestAction.beforeExecution(helper: requestHelper)
@@ -31,11 +32,11 @@ class NetworkRequestTask: NSObject {
 //                        self.requestAction.executionFailed(helper: requestHelper, message: "InvalidResponse", error: )
                         return
                     }
-                    self.requestAction.afterExecution(helper: self.requestHelper, response: data)
+                    self.requestAction.afterExecution(helper: self.requestHelper,url: urlAndComponents.1, response: data)
+                    break
                 case .failure(let error):
                     self.requestAction.executionFailed(helper: self.requestHelper, message: "Error happened", error: error)
-                default:
-                    return
+                    break
                 }
             }
             }).resume()
@@ -49,7 +50,7 @@ class NetworkRequestTask: NSObject {
 //        }.resume()
     }
     
-    private func buildRequestUrl()->URL?{
+    private func buildRequestUrl()->(URL?, URLComponents){
         let model = requestHelper.requestModel
         let api = requestHelper.restfulAPI
         let host = api.getRequestHost()
@@ -68,7 +69,7 @@ class NetworkRequestTask: NSObject {
         }
         urlComponents.queryItems = queryItems
         print(urlComponents.url?.absoluteString ?? "")
-        return urlComponents.url!
+        return (urlComponents.url, urlComponents)
     }
 }
 

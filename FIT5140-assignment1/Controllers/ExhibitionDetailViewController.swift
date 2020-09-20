@@ -40,6 +40,8 @@ class ExhibitionDetailViewController: UIViewController, UITableViewDelegate, UIT
         plants = annotation.exhibition?.exhibitionPlants.map({(plant)->Plant in
             return plant as! Plant
         })
+        
+        //Give the list a default sequence depended on the name of the plant
         plants?.sort(by: {(p1,p2)->Bool in
             p1.name?.lowercased() ?? "" < p2.name?.lowercased() ?? ""
         })
@@ -48,11 +50,8 @@ class ExhibitionDetailViewController: UIViewController, UITableViewDelegate, UIT
         self.mapView.addAnnotation(annotation)
         selectAnnotationAndMoveToZoom(mapView:mapView, annotation: annotation)
         self.title = annotation.title
-        if let imageUrl = annotation.exhibition?.imageUrl{
-            ImageLoader.shared.loadImage(imageUrl, onComplete: {(imageUrl, image) in
-                self.exhibitionImage.image = image?.circleMasked?.addShadow()
-            })
-        }
+        ImageLoader.simpleLoad(annotation.exhibition?.imageUrl, imageView: exhibitionImage)
+        exhibitionImage.image = exhibitionImage.image?.circleMasked?.addShadow()
         tableView.reloadSections([EXHIBITION_INFORMATION], with: .automatic)
     }
     
@@ -126,6 +125,7 @@ class ExhibitionDetailViewController: UIViewController, UITableViewDelegate, UIT
         return false
     }
     
+    //Reload the plant list when the user has changed the data of plants
     func onPlantListChanged() {
         tableView.reloadSections([EXHIBITION_PLANT], with: .automatic)
     }
